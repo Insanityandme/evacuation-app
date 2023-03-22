@@ -6,8 +6,6 @@ node_modules
 .env.local
 .env.*.local
 
-electron/
-
 # Log files
 *.log
 
@@ -36,3 +34,16 @@ fastlane/test_output
 android/signing/*
 !android/signing/.gitkeep
 !android/signing/keystore.properties.example
+
+/.ionic
+/.sass-cache
+/.sourcemaps
+/.versions
+/.vscode/*
+!/.vscode/extensions.json
+/coverage
+/dist
+/node_modules
+/platforms
+/plugins
+/www

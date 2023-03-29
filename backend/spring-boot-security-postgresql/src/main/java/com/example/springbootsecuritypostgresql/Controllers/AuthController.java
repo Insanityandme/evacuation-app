@@ -10,6 +10,8 @@ import com.example.springbootsecuritypostgresql.payload.response.JwtResponse;
 import com.example.springbootsecuritypostgresql.payload.response.MessageResponse;
 import com.example.springbootsecuritypostgresql.repository.RoleRepository;
 import com.example.springbootsecuritypostgresql.repository.UserRepository;
+import com.example.springbootsecuritypostgresql.security.jwt.JwtUtils;
+import com.example.springbootsecuritypostgresql.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +38,7 @@ public class AuthController {
    @Autowired
     PasswordEncoder encoder;
    @Autowired
-    JwtUtils jwtUtils;
+   JwtUtils jwtUtils;
     @Autowired
     private RoleRepository roleRepository;
 
@@ -77,7 +79,7 @@ public class AuthController {
        Set<String> strRoles = signUpRequest.getRole();
        Set<Role> roles = new HashSet<>();
 
-       if (strRoles === null){
+       if (strRoles == null){
            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                    .orElseThrow(() -> new RuntimeException("Error: Role is not found!"));
            roles.add(userRole);

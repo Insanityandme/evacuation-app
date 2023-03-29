@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springbootsecuritypostgresql.models.User;
 import com.example.springbootsecuritypostgresql.repository.UserRepository;
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;

@@ -24,6 +24,7 @@ import com.example.springbootsecuritypostgresql.security.services.UserDetailsSer
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 

@@ -2,6 +2,7 @@ package com.bezkoder.spring.security.postgresql.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,11 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bezkoder.spring.security.postgresql.models.ERole;
 import com.bezkoder.spring.security.postgresql.models.Role;
@@ -125,5 +122,23 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+
+	@GetMapping("/getAllUsers")
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@GetMapping("/getUserByUserName/{UserName}")
+	public ResponseEntity<?> getUserById(@PathVariable("UserName") String userName) {
+		User user = userRepository.findByUsername(userName)
+			.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		return ResponseEntity.ok(new MessageResponse("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail()));
+	}
+
+	@PutMapping("/changeUserNameById/{UserId}")
+	public Optional<User> updateUserName(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
+		return this.userRepository.findById(userId)
+				.map(oldTodo -> this.userRepository.save(updatedUser));
 	}
 }

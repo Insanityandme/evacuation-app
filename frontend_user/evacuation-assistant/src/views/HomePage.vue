@@ -10,7 +10,6 @@
         <ion-input type="password" value="password"></ion-input>
       </ion-item>
       <ion-button router-link="/tabs/" color="success" expand="block">Sign in</ion-button>
-      <ion-button router-link="/register" color="secondary" expand="block">Create account</ion-button>
       <ion-button color="danger" expand="block">Forgot your password?</ion-button>
     </ion-list>
   </ion-page>

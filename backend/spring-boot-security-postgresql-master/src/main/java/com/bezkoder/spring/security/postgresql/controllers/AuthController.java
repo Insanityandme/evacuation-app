@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import ch.qos.logback.classic.spi.EventArgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,16 +57,16 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
+		return ResponseEntity.ok(new JwtResponse(jwt,
+												 userDetails.getId(),
+												 userDetails.getUsername(),
+												 userDetails.getEmail(),
 												 roles));
 	}
 
@@ -84,7 +85,7 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
+		User user = new User(signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
@@ -124,20 +125,32 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 
+	@GetMapping("/getUserById/{userId}")
+	public Optional<User> getUserById(@PathVariable("userId") Long userId){
+		Optional<User> user = userRepository.findById(userId);
+
+		return user;
+	}
+
+	@DeleteMapping("/deleteById/{userId}")
+	public void deleteUserById(@PathVariable("userId") Long userId){
+		this.userRepository.deleteById(userId);
+	}
+
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
 
 	@GetMapping("/getUserByUserName/{UserName}")
-	public ResponseEntity<?> getUserById(@PathVariable("UserName") String userName) {
+	public ResponseEntity<?> getUserByUserName(@PathVariable("UserName") String userName) {
 		User user = userRepository.findByUsername(userName)
 			.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 		return ResponseEntity.ok(new MessageResponse("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail()));
 	}
 
 	@PutMapping("/changeUserNameById/{UserId}")
-	public Optional<User> updateUserName(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
+	public Optional<User> changeUserNameById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
 		return this.userRepository.findById(userId)
 				.map(oldTodo -> this.userRepository.save(updatedUser));
 	}

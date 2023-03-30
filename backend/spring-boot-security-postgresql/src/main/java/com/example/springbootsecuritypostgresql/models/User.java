@@ -18,6 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @NotBlank
+    @Size(max = 20)
+    private String username;
     @NotBlank
     @Size(max = 50)
     @Email

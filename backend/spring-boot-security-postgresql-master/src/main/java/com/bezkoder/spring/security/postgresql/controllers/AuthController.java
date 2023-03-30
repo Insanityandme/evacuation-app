@@ -149,9 +149,16 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail()));
 	}
 
-	@PutMapping("/changeUserNameById/{UserId}")
-	public Optional<User> changeUserNameById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
+	@PutMapping("/changeUserNameById/{UserId}/{NewUserName}")
+	public Optional<User> changeUserNameById(@PathVariable("UserId") Long userId, @PathVariable("NewUserName") String newUserName, @RequestBody User updatedUser) {
+		User oldUserWithNewUserName;
+		if (this.userRepository.findById(userId).isPresent()) {
+			oldUserWithNewUserName = this.userRepository.findById(userId).get();
+			oldUserWithNewUserName.setUsername(newUserName);
+		} else {
+			oldUserWithNewUserName = null;
+		}
 		return this.userRepository.findById(userId)
-				.map(oldTodo -> this.userRepository.save(updatedUser));
+				.map(currentUser -> this.userRepository.save(oldUserWithNewUserName));
 	}
 }

@@ -2,10 +2,26 @@
   <div id="container">
     <strong>{{ name }}</strong>
     <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-grid>
+      <ion-row>
+        <ion-col>1</ion-col>
+        <ion-col>
+          <ion-button>Default</ion-button>
+        </ion-col>
+        <ion-col>3</ion-col>
+      </ion-row>
+  </ion-grid>
   </div>
 </template>
 
 <script setup lang="ts">
+  /*import { IonCol, IonGrid, IonRow } from '@ionic/vue';
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    components: { IonCol, IonGrid, IonRow },
+  });*/
+
 defineProps({
   name: String,
 });
@@ -35,5 +51,13 @@ defineProps({
 
 #container a {
   text-decoration: none;
+}
+
+
+ion-col {
+  background-color: #135d54;
+  border: solid 1px #fff;
+  color: #fff;
+  text-align: center;
 }
 </style>

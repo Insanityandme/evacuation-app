@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.evac</groupId>
-	<artifactId>spring-boot-security-postgresql</artifactId>
+	<artifactId>backend-evacuation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-security-postgresql</name>
 	<description>Spring Boot, Spring Security, PostgreSQL: JWT Authentication &amp; Authorization example</description>

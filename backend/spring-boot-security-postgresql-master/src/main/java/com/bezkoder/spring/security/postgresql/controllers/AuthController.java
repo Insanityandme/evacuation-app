@@ -1,9 +1,6 @@
 package com.bezkoder.spring.security.postgresql.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -133,13 +130,39 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/deleteById/{userId}")
-	public void deleteUserById(@PathVariable("userId") Long userId){
-		this.userRepository.deleteById(userId);
+	public ResponseEntity<?> deleteUserById(@PathVariable("userId") Long userId){
+		if (this.userRepository.findById(userId).isPresent()) {
+			userRepository.deleteById(userId);
+			return ResponseEntity.ok(new MessageResponse("The user (userId: " + userId + ") was deleted successfully."));
+		}
+		return ResponseEntity
+				.badRequest()
+				.body(new MessageResponse("The user (userId: " + userId + ") does not exist, deletion process aborted."));
 	}
 
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
+		List<User> usersList = userRepository.findAll();
+		if (usersList.size() == 0) {
+			returnMessage("No users found");
+			//User fakeUser = new User("There are no users found","","");
+			//List<User> userResponse = new ArrayList<>();
+			//userResponse.add(fakeUser);
+			//return new ArrayList<User>((Collection) new User("user not found","",""));
+			//return userResponse;
+			/*String output = null;
+			for (User user : usersList) {
+				output = "username: " + user.getUsername() + ", email: " + user.getEmail() + ", role: " + user.getRoles();
+			}
+			/*return ResponseEntity
+					.ok(new MessageResponse("test:- " + usersList.iterator().next().toString()));*/
+		}
 		return userRepository.findAll();
+		//return ResponseEntity.ok(new MessageResponse("No users found"));
+	}
+
+	public ResponseEntity<?> returnMessage(String message) {
+		return ResponseEntity.ok(new MessageResponse(message));
 	}
 
 	@GetMapping("/getUserByUserName/{UserName}")

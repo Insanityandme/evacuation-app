@@ -13,10 +13,10 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/tabs/home'
       },
       {
-        path: 'tab1',
+        path: 'home',
         component: () => import('@/views/HomePage.vue')
       },
       {

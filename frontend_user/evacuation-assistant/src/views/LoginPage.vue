@@ -1,8 +1,10 @@
 <template>
   <ion-page>
-    <LoginForm :sign-in-user="signIn"/>
     <ion-content>
-      <ion-toast position="middle" color="warning" @didDismiss="setOpen(false)" :is-open="isOpen"  message="invalid email or password"
+      <h1 class="ion-margin">Evacuation Assistance Application</h1>
+      <LoginForm :sign-in-user="signIn"/>
+      <ion-toast position="bottom" color="danger" @didDismiss="setOpen(false)" :is-open="isOpen"
+                 message="Invalid Email or Password"
                  :duration="2000"></ion-toast>
     </ion-content>
   </ion-page>
@@ -10,9 +12,12 @@
 
 <script setup lang="ts">
 import {IonPage, IonToast, IonContent, useIonRouter} from '@ionic/vue';
-import {signInUser, User} from '@/data/users';
-import LoginForm from "@/components/LoginForm.vue";
-import {ref} from "vue";
+import {ref} from 'vue';
+
+import {signInUser, User} from '@/data/user';
+import LoginForm from '@/components/LoginForm.vue';
+
+import {create} from '@/services/storage.service'
 
 const ionRouter = useIonRouter();
 
@@ -23,6 +28,10 @@ const setOpen = (state: boolean) => {
 
 const signIn = async (user: User) => {
   const response = await signInUser(user);
+
+  if (response.data.accessToken) {
+    await create('user', JSON.stringify(response.data));
+  }
 
   if (response.status == 200) {
     ionRouter.push("/tabs/");

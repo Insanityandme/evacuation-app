@@ -5,12 +5,13 @@
         <ion-title>Evacuation Assistance</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Welcome!</ion-title>
         </ion-toolbar>
       </ion-header>
+      <ion-button>Logout</ion-button>
 
       <ExploreContainer name="Welcome!" />
     </ion-content>

@@ -1,33 +1,20 @@
 <template>
   <ion-list>
     <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input
-          v-model="v$.username.$model"
-          @blur="v$.username.$touch"
-      ></ion-input>
-      <ion-label position="stacked" color="danger" v-if="v$.username.$error">Name is required</ion-label>
+      <ion-input placeholder="Username" v-model="v$.username.$model" @blur="v$.username.$touch"></ion-input>
+      <ion-label color="danger" v-if="v$.username.$error">Name is required</ion-label>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input
-          v-model="v$.email.$model"
-          type="email"
-      ></ion-input>
-      <ion-label position="stacked" color="danger" v-if="v$.email.$error">Invalid email</ion-label>
+      <ion-input placeholder="Email" v-model="v$.email.$model" type="email"></ion-input>
+      <ion-label color="danger" v-if="v$.email.$error">Invalid email</ion-label>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input
-          v-model="v$.password.$model"
-          type="password"
-      ></ion-input>
-      <ion-label position="stacked" color="danger" v-if="v$.password.$error">Password is required</ion-label>
+      <ion-input placeholder="Password" v-model="v$.password.$model" type="password"></ion-input>
+      <ion-label color="danger" v-if="v$.password.$error">Password is required</ion-label>
     </ion-item>
-    <ion-button color="success" expand="block" @click="submitForm()">Sign in</ion-button>
-    <ion-button color="danger" expand="block">Forgot your password?</ion-button>
   </ion-list>
-
+  <ion-button class="ion-margin-top" color="success" expand="block" @click="submitForm()">Sign in</ion-button>
+  <ion-button class="ion-margin-top" color="danger" expand="block">Forgot your password?</ion-button>
 </template>
 
 <script setup lang="ts">
@@ -60,7 +47,6 @@ const props = defineProps({
 
 const submitForm = async () => {
   const isFormCorrect = await v$.value.$validate();
-  console.log(isFormCorrect)
 
   if (isFormCorrect) {
     props.signInUser({username: state.username, email: state.email, password: state.password});

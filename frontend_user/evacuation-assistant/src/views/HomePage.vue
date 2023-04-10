@@ -1,24 +1,23 @@
 <template>
   <ion-page>
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked" >Email:</ion-label>
-        <ion-input type="email" placeholder="email@domain.com"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Password input</ion-label>
-        <ion-input type="password" value="password"></ion-input>
-      </ion-item>
-      <ion-button router-link="/tabs/" color="success" expand="block">Sign in</ion-button>
-      <ion-button color="danger" expand="block">Forgot your password?</ion-button>
-    </ion-list>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Evacuation Assistance</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">Welcome!</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ExploreContainer name="Welcome!" />
+    </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonButton, IonList, IonItem, IonInput, IonLabel} from "@ionic/vue";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import ExploreContainer from '@/components/ExploreContainer.vue';
 </script>
-
-<style>
-
-</style>

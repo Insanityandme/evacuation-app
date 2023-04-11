@@ -11,7 +11,7 @@
           <ion-title size="large">Welcome!</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-button>Logout</ion-button>
+      <ion-button router-link="/login" router-direction="back" @click="storage.clear()">Logout</ion-button>
 
       <ExploreContainer name="Welcome!" />
     </ion-content>
@@ -19,6 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
+import {StorageService} from '@/services/storage.service';
+
+const storage = new StorageService();
 </script>

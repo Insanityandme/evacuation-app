@@ -1,6 +1,6 @@
 import {CapacitorHttp} from "@capacitor/core";
 
-const resourceUrl = 'http://192.168.10.157:8081/api/auth/';
+const resourceUrl = 'http://localhost:8081/api/auth/';
 
 export interface User {
     username: string,

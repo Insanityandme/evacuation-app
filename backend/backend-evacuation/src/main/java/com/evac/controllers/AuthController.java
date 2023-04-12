@@ -1,11 +1,13 @@
-package com.evac.controllers;
+package com.bezkoder.spring.security.postgresql.controllers;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.evac.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +17,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.evac.models.ERole;
-import com.evac.models.Role;
-import com.evac.models.User;
-import com.evac.payload.request.LoginRequest;
-import com.evac.payload.request.SignupRequest;
-import com.evac.payload.response.JwtResponse;
-import com.evac.payload.response.MessageResponse;
-import com.evac.repository.UserRepository;
-import com.evac.security.jwt.JwtUtils;
-import com.evac.security.services.UserDetailsImpl;
+import com.bezkoder.spring.security.postgresql.models.ERole;
+import com.bezkoder.spring.security.postgresql.models.Role;
+import com.bezkoder.spring.security.postgresql.models.User;
+import com.bezkoder.spring.security.postgresql.payload.request.LoginRequest;
+import com.bezkoder.spring.security.postgresql.payload.request.SignupRequest;
+import com.bezkoder.spring.security.postgresql.payload.response.JwtResponse;
+import com.bezkoder.spring.security.postgresql.payload.response.MessageResponse;
+import com.bezkoder.spring.security.postgresql.repository.RoleRepository;
+import com.bezkoder.spring.security.postgresql.repository.UserRepository;
+import com.bezkoder.spring.security.postgresql.security.jwt.JwtUtils;
+import com.bezkoder.spring.security.postgresql.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -65,6 +68,15 @@ public class AuthController {
 												 userDetails.getEmail(),
 												 roles));
 	}
+	@PostMapping("/addRole")
+	public ResponseEntity<?> addRole(@RequestBody Role role) {
+		try {
+			Role newRole = roleRepository.save(role);
+			return ResponseEntity.ok(newRole);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Could not add role: " + e.getMessage());
+		}
+	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -101,12 +113,16 @@ public class AuthController {
 					roles.add(adminRole);
 
 					break;
-				case "mod":
-					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+				case "deputy":
+					Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 
 					break;
+					case "evac":
+						Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(evacRole);
 				default:
 					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -129,39 +145,13 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/deleteById/{userId}")
-	public ResponseEntity<?> deleteUserById(@PathVariable("userId") Long userId){
-		if (this.userRepository.findById(userId).isPresent()) {
-			userRepository.deleteById(userId);
-			return ResponseEntity.ok(new MessageResponse("The user (userId: " + userId + ") was deleted successfully."));
-		}
-		return ResponseEntity
-				.badRequest()
-				.body(new MessageResponse("The user (userId: " + userId + ") does not exist, deletion process aborted."));
+	public void deleteUserById(@PathVariable("userId") Long userId){
+		this.userRepository.deleteById(userId);
 	}
 
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
-		List<User> usersList = userRepository.findAll();
-		if (usersList.size() == 0) {
-			returnMessage("No users found");
-			//User fakeUser = new User("There are no users found","","");
-			//List<User> userResponse = new ArrayList<>();
-			//userResponse.add(fakeUser);
-			//return new ArrayList<User>((Collection) new User("user not found","",""));
-			//return userResponse;
-			/*String output = null;
-			for (User user : usersList) {
-				output = "username: " + user.getUsername() + ", email: " + user.getEmail() + ", role: " + user.getRoles();
-			}
-			/*return ResponseEntity
-					.ok(new MessageResponse("test:- " + usersList.iterator().next().toString()));*/
-		}
 		return userRepository.findAll();
-		//return ResponseEntity.ok(new MessageResponse("No users found"));
-	}
-
-	public ResponseEntity<?> returnMessage(String message) {
-		return ResponseEntity.ok(new MessageResponse(message));
 	}
 
 	@GetMapping("/getUserByUserName/{UserName}")

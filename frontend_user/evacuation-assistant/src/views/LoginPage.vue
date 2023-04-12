@@ -61,7 +61,7 @@ const signIn = async (user: User) => {
     ionRouter.push("/tabs/home/");
   } else if (response.status == 400 || response.status == 401) {
     // if you get a bad request, make sure the toast component can notify someone again.
-    setOpen(false);
+    setOpen(true);
   }
 }
 

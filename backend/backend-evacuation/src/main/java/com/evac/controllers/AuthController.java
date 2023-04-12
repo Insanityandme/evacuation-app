@@ -1,4 +1,4 @@
-package com.bezkoder.spring.security.postgresql.controllers;
+package com.evac.controllers;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,17 +17,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.bezkoder.spring.security.postgresql.models.ERole;
-import com.bezkoder.spring.security.postgresql.models.Role;
-import com.bezkoder.spring.security.postgresql.models.User;
-import com.bezkoder.spring.security.postgresql.payload.request.LoginRequest;
-import com.bezkoder.spring.security.postgresql.payload.request.SignupRequest;
-import com.bezkoder.spring.security.postgresql.payload.response.JwtResponse;
-import com.bezkoder.spring.security.postgresql.payload.response.MessageResponse;
-import com.bezkoder.spring.security.postgresql.repository.RoleRepository;
-import com.bezkoder.spring.security.postgresql.repository.UserRepository;
-import com.bezkoder.spring.security.postgresql.security.jwt.JwtUtils;
-import com.bezkoder.spring.security.postgresql.security.services.UserDetailsImpl;
+import com.evac.models.ERole;
+import com.evac.models.Role;
+import com.evac.models.User;
+import com.evac.payload.request.LoginRequest;
+import com.evac.payload.request.SignupRequest;
+import com.evac.payload.response.JwtResponse;
+import com.evac.payload.response.MessageResponse;
+import com.evac.repository.RoleRepository;
+import com.evac.repository.UserRepository;
+import com.evac.security.jwt.JwtUtils;
+import com.evac.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

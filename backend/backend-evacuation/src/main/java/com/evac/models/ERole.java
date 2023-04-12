@@ -1,4 +1,4 @@
-package com.bezkoder.spring.security.postgresql.models;
+package com.evac.models;
 
 public enum ERole {
   ROLE_USER,

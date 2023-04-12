@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.evac.models.Delegation;
+import com.evac.repository.DelegationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,6 +43,9 @@ public class AuthController {
 
 	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	DelegationRepository delegationRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -135,6 +140,17 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	@PostMapping ("/delegateById/{userId}")
+	public Optional<User> addDelegate(@PathVariable("userId") Long userId) {
+		Optional<User> user = null;
+		if (userRepository.existsById(userId)) {
+			System.out.println("TEST");
+			user = userRepository.findById(userId);
+			Delegation delegation = new Delegation(user.get().getUsername(), userId);
+			delegationRepository.save(delegation);
+		}
+		return user;
 	}
 
 	@GetMapping("/getUserById/{userId}")

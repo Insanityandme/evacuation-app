@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import com.evac.models.Delegation;
 import com.evac.repository.DelegationRepository;
+import com.evac.models.EvacLeaderPriority;
+import com.evac.repository.EvacLeaderPriorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,6 +45,8 @@ public class AuthController {
 
 	@Autowired
 	RoleRepository roleRepository;
+	@Autowired
+	EvacLeaderPriorityRepository evacLeaderPriorityRepository;
 
 	@Autowired
 	DelegationRepository delegationRepository;
@@ -68,11 +72,12 @@ public class AuthController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse(jwt,
-												 userDetails.getId(),
-												 userDetails.getUsername(),
-												 userDetails.getEmail(),
-												 roles));
+				userDetails.getId(),
+				userDetails.getUsername(),
+				userDetails.getEmail(),
+				roles));
 	}
+
 	@PostMapping("/addRole")
 	public ResponseEntity<?> addRole(@RequestBody Role role) {
 		try {
@@ -99,8 +104,8 @@ public class AuthController {
 
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(),
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+				signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -112,26 +117,26 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
+					case "admin":
+						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(adminRole);
 
-					break;
-				case "deputy":
-					Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(modRole);
+						break;
+					case "deputy":
+						Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(modRole);
 
-					break;
+						break;
 					case "evac":
 						Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(evacRole);
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
+					default:
+						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(userRole);
 				}
 			});
 		}
@@ -141,6 +146,7 @@ public class AuthController {
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+
 	@PostMapping ("/delegateById/{userId}")
 	public Optional<User> addDelegate(@PathVariable("userId") Long userId) {
 		Optional<User> user = null;
@@ -173,7 +179,7 @@ public class AuthController {
 	@GetMapping("/getUserByUserName/{UserName}")
 	public ResponseEntity<?> getUserByUserName(@PathVariable("UserName") String userName) {
 		User user = userRepository.findByUsername(userName)
-			.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 		return ResponseEntity.ok(new MessageResponse("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail()));
 	}
 
@@ -188,5 +194,19 @@ public class AuthController {
 		}
 		return this.userRepository.findById(userId)
 				.map(currentUser -> this.userRepository.save(oldUserWithNewUserName));
+	}
+
+	@PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
+	public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
+		if (!(userRepository.existsById(leaderId))){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("No evacuation leader found with the id provided!"));
+		} else {
+			EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
+			this.evacLeaderPriorityRepository.save(leaderPriority);
+
+			return ResponseEntity.ok("Priority set to evacuation leader!");
+		}
 	}
 }

@@ -31,8 +31,9 @@ const props = defineProps({
 const parsedData = async () => {
   const store = new StorageService();
   const data = await store.read('user');
+  console.log(data);
   const dataJson = JSON.parse(data.value || '{}');
-  console.log(dataJson.roles[0]);
+  console.log(dataJson.email);
   return dataJson;
 }
 

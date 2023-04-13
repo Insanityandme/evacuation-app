@@ -274,6 +274,19 @@ public class AuthController {
 		}
 
 	}
+	@DeleteMapping("deleteDelegationById/{leaderId}")
+	public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId){
+		if (delegationRepository.existsById(leaderId)){
+			delegationRepository.deleteById(leaderId);
+
+			return ResponseEntity
+					.ok("Delegation of floor/zones for leader succesfully deleted");
+		} else {
+			return ResponseEntity
+					.badRequest()
+					.body("No leader with given id delegated");
+		}
+	}
 
 	@DeleteMapping("deleteLeaderAndPriorityById/{leaderId}")
 	public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId){

@@ -6,6 +6,12 @@ const config: CapacitorConfig = {
       enabled: true
     }
   },
+  cordova: {
+    preferences: {
+      bluetooth_restore_state: "true",
+      accessBackgroundLocation: "false"
+    },
+  },
   appId: 'io.ionic.evacuation',
   appName: 'Evacuation Assistant',
   webDir: 'dist',

@@ -33,7 +33,6 @@ const rules = {
   username: {required},
   email: {required, email},
   password: {required},
-
 }
 
 const v$ = useVuelidate(rules, state);

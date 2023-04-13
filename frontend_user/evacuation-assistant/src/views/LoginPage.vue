@@ -36,7 +36,7 @@ const alreadySignedIn = async () => {
   const userData = await store.read('user');
 
   if (userData.value !== null) {
-    console.log("Successfuly used stored token to redirect to home page");
+    console.log("Successfully used stored token to redirect to home page");
     ionRouter.push("/tabs/home/");
   }
 }
@@ -57,6 +57,7 @@ const signIn = async (user: User) => {
   if (response.data.accessToken) {
     console.log("Retreived accesstoken and storing it response data...");
     await store.create('user', response.data);
+    console.log(response.data);
     // rerouting to homepage
     ionRouter.push("/tabs/home/");
   } else if (response.status == 400 || response.status == 401) {

@@ -10,3 +10,7 @@ INSERT INTO floors(name) VALUES ('THIRD FLOOR');
 INSERT INTO zones(name) VALUES ('A');
 INSERT INTO zones(name) VALUES ('B');
 INSERT INTO zones(name) VALUES ('C');
+
+INSERT INTO priority(name) values ('HIGH');
+INSERT INTO priority(name) values ('MEDIUM');
+INSERT INTO priority(name) values ('LOW');

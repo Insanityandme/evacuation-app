@@ -8,10 +8,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.evac.models.Delegation;
-import com.evac.repository.DelegationRepository;
-import com.evac.models.EvacLeaderPriority;
-import com.evac.repository.EvacLeaderPriorityRepository;
+import com.evac.models.*;
+import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,15 +19,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.evac.models.ERole;
-import com.evac.models.Role;
-import com.evac.models.User;
 import com.evac.payload.request.LoginRequest;
 import com.evac.payload.request.SignupRequest;
 import com.evac.payload.response.JwtResponse;
 import com.evac.payload.response.MessageResponse;
-import com.evac.repository.RoleRepository;
-import com.evac.repository.UserRepository;
 import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
 
@@ -45,6 +38,9 @@ public class AuthController {
 
 	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	PriorityRepository priorityRepository;
 	@Autowired
 	EvacLeaderPriorityRepository evacLeaderPriorityRepository;
 
@@ -214,10 +210,25 @@ public class AuthController {
 					.badRequest()
 					.body(new MessageResponse("No evacuation leader found with the id provided!"));
 		} else {
-			EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
-			this.evacLeaderPriorityRepository.save(leaderPriority);
 
-			return ResponseEntity.ok("Priority set to evacuation leader!");
+			if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))){
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse(("No valid priority!")));
+			}
+
+			else{
+
+				EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
+				this.evacLeaderPriorityRepository.save(leaderPriority);
+
+				return ResponseEntity.ok("Priority set to evacuation leader!");
+			}
 		}
+	}
+
+	@GetMapping("/getAllPriorities")
+	public List<Priority> getAllPriorities(){
+		return priorityRepository.findAll();
 	}
 }

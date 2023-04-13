@@ -1,9 +1,6 @@
 package com.evac.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -45,6 +42,11 @@ public class AuthController {
 	EvacLeaderPriorityRepository evacLeaderPriorityRepository;
 
 	@Autowired
+	FloorRepository floorRepository;
+
+	@Autowired
+	ZoneRepository zoneRepository;
+	@Autowired
 	DelegationRepository delegationRepository;
 
 	@Autowired
@@ -52,6 +54,7 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -144,13 +147,22 @@ public class AuthController {
 	}
 
 	@PostMapping ("/delegateById/{userId}")
-	public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId) {
+	public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
+										 @RequestBody Map<String, Long> payload) {
+		Long floorid = payload.get("floorid");
+		Long zoneid = payload.get("zoneid");
 		Optional<User> user = null;
+
 		if (userRepository.existsById(userId)) {
-			System.out.println("TEST");
 			if (!delegationRepository.existsById(userId)) {
+
+				Floor floor = floorRepository.getById(floorid);
+				String floorName = floor.getName();
+				Zone zone = zoneRepository.getById(zoneid);
+				String zoneName = zone.getName();
 				user = userRepository.findById(userId);
-				Delegation delegation = new Delegation(user.get().getUsername(), userId);
+				Delegation delegation = new Delegation(
+						user.get().getUsername(), userId, floorName, zoneName);
 				delegationRepository.save(delegation);
 				return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
 						+ " with id: " + userId + " added to delegation database");
@@ -166,12 +178,14 @@ public class AuthController {
 		}
 	}
 
+
 	@GetMapping("/getUserById/{userId}")
 	public Optional<User> getUserById(@PathVariable("userId") Long userId){
 		Optional<User> user = userRepository.findById(userId);
 
 		return user;
 	}
+
 
 	@DeleteMapping("/deleteById/{userId}")
 	public ResponseEntity<?> deleteUserById(@PathVariable("userId") Long userId){

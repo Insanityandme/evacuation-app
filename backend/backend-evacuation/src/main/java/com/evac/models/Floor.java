@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 public class Floor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank
     @Column(length = 20)
@@ -18,7 +18,7 @@ public class Floor {
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Floor {
         this.name = name;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

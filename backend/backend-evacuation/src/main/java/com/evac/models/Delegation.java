@@ -30,6 +30,13 @@ public class Delegation {
 
 
     }
+    public Delegation(String username, Long id, String floorName, String zoneName) {
+        this.username = username;
+        this.id = id;
+        this.floorName = floorName;
+        this.zoneName = zoneName;
+
+    }
 
     public Delegation() {
 

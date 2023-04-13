@@ -214,6 +214,7 @@ public class AuthController {
 				.map(currentUser -> this.userRepository.save(oldUserWithNewUserName));
 	}
 
+	//This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
 	@PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
 	public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
 		if (!(userRepository.existsById(leaderId))){
@@ -258,5 +259,26 @@ public class AuthController {
 					.body("No priority with the given id!");
 		}
 
+	}
+
+	@DeleteMapping("deleteLeaderAndPriorityById/{leaderId}")
+	public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId){
+		if (evacLeaderPriorityRepository.existsById(leaderId)){
+			evacLeaderPriorityRepository.deleteById(leaderId);
+
+			return ResponseEntity
+					.ok("Leader with his/her priority successfully deleted!");
+		}
+
+		else {
+			return ResponseEntity
+					.badRequest()
+					.body("No leader with given id!");
+		}
+	}
+
+	@GetMapping("getAllLeadersAndPriorities")
+	public List<EvacLeaderPriority> getAllLeadersAndPriorities(){
+		return evacLeaderPriorityRepository.findAll();
 	}
 }

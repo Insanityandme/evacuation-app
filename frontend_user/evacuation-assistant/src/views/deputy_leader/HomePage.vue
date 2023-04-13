@@ -8,10 +8,11 @@
     <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Welcome!</ion-title>
+          <ion-title size="large" email="wow">Welcome!</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-button router-link="/login" router-direction="back" @click="storage.clear()">Logout</ion-button>
+      <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+      <ion-title>Wow such title! {{ email }}</ion-title>
 
       <ExploreContainer name="Welcome!" />
     </ion-content>
@@ -23,5 +24,18 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from 
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import {StorageService} from '@/services/storage.service';
 
-const storage = new StorageService();
+const props = defineProps({
+  email: String
+})
+
+const parsedData = async () => {
+  const store = new StorageService();
+  const data = await store.read('user');
+  console.log(data);
+  const dataJson = JSON.parse(data.value || '{}');
+  console.log(dataJson.email);
+  return dataJson;
+}
+
+parsedData();
 </script>

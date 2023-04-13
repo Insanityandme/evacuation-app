@@ -56,8 +56,10 @@ const signIn = async (user: User) => {
   // if we exist in the backend DB, create a object storing our information
   if (response.data.accessToken) {
     console.log("Retreived accesstoken and storing it response data...");
-    await store.create('user', response.data);
-    console.log(response.data);
+
+    // very important data is turned into a JSON string and then able to JSON.parse it later on
+    await store.create('user', JSON.stringify(response.data));
+
     // rerouting to homepage
     ionRouter.push("/tabs/home/");
   } else if (response.status == 400 || response.status == 401) {

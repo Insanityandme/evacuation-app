@@ -54,6 +54,8 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+	@Autowired
+	DeputyRepository deputyRepository;
 
 
 	@PostMapping("/signin")
@@ -126,7 +128,8 @@ public class AuthController {
 						Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(modRole);
-
+						Deputy deputy = new Deputy(user.getUsername());
+						deputyRepository.save(deputy);
 						break;
 					case "evac":
 						Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
@@ -143,7 +146,26 @@ public class AuthController {
 		user.setRoles(roles);
 		userRepository.save(user);
 
+
 		return ResponseEntity.ok("User registered successfully!");
+	}
+	@PutMapping("/changeActive/{username}")
+	public ResponseEntity<?> changeActive(@PathVariable("username") String username){
+		List<Deputy> deputylist = deputyRepository.findAll();
+		for(Deputy deputy: deputylist) {
+			if(deputy.isActive()){
+				return ResponseEntity
+						.badRequest()
+						.body("Active deputy already assigned");
+			}
+		}
+
+		Optional <Deputy> deputy = deputyRepository.findByUsername(username);
+		Deputy newDeputy = deputy.get();
+		newDeputy.setActive(true);
+		deputyRepository.findByUsername(username)
+				.map(updatedDeputy -> this.deputyRepository.save(newDeputy));
+		return ResponseEntity.ok("deputyleader activity status changed: " + deputy.get().isActive());
 	}
 
 	@PostMapping ("/delegateById/{userId}")

@@ -89,13 +89,13 @@ public class AuthController {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body("Error: Username is already taken!");
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+					.body("Error: Email is already in use!");
 		}
 
 		// Create new user's account
@@ -140,7 +140,7 @@ public class AuthController {
 		user.setRoles(roles);
 		userRepository.save(user);
 
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok("User registered successfully!");
 	}
 
 	@PostMapping ("/delegateById/{userId}")
@@ -157,12 +157,12 @@ public class AuthController {
 			} else {
 				return ResponseEntity
 						.badRequest()
-						.body(new MessageResponse("Evacuation leader already in delegation database"));
+						.body("Evacuation leader already in delegation database");
 			}
 		} else {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("No evacuation leader matching the id"));
+					.body("No evacuation leader matching the id");
 		}
 	}
 
@@ -174,8 +174,19 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/deleteById/{userId}")
-	public void deleteUserById(@PathVariable("userId") Long userId){
-		this.userRepository.deleteById(userId);
+	public ResponseEntity<?> deleteUserById(@PathVariable("userId") Long userId){
+		if (userRepository.existsById(userId)){
+			this.userRepository.deleteById(userId);
+
+			return ResponseEntity
+					.ok("User with id " + userId + " deleted successfully!");
+		}
+
+		else {
+			return ResponseEntity
+					.badRequest()
+					.body("No user with the id provided!");
+		}
 	}
 
 	@GetMapping("/getAllUsers")
@@ -187,7 +198,7 @@ public class AuthController {
 	public ResponseEntity<?> getUserByUserName(@PathVariable("UserName") String userName) {
 		User user = userRepository.findByUsername(userName)
 				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-		return ResponseEntity.ok(new MessageResponse("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail()));
+		return ResponseEntity.ok("The User was found; userName: " + user.getUsername() + ", email: " + user.getEmail());
 	}
 
 	@PutMapping("/changeUserNameById/{UserId}/{NewUserName}")
@@ -208,13 +219,13 @@ public class AuthController {
 		if (!(userRepository.existsById(leaderId))){
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("No evacuation leader found with the id provided!"));
+					.body("No evacuation leader with the id provided!");
 		} else {
 
 			if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))){
 				return ResponseEntity
 						.badRequest()
-						.body(new MessageResponse(("No valid priority!")));
+						.body("Not valid priority!");
 			}
 
 			else{
@@ -230,5 +241,22 @@ public class AuthController {
 	@GetMapping("/getAllPriorities")
 	public List<Priority> getAllPriorities(){
 		return priorityRepository.findAll();
+	}
+
+	@DeleteMapping("deletePriorityById/{leaderId}")
+	public ResponseEntity<?> deletePriorityById(@PathVariable("leaderId") Long leaderId){
+		if (priorityRepository.existsById(leaderId)){
+			priorityRepository.deleteById(leaderId);
+
+			return ResponseEntity
+					.ok("Priority deleted successfully!");
+		}
+
+		else {
+			return ResponseEntity
+					.badRequest()
+					.body("No priority with the given id!");
+		}
+
 	}
 }

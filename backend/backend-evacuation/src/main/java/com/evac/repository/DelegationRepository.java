@@ -15,4 +15,7 @@ public interface DelegationRepository extends JpaRepository<Delegation, Long> {
     Optional<User> findByUsername(String username);
 
     Boolean existsByUsername(String username);
+
+    @Override
+    boolean existsById(Long aLong);
 }

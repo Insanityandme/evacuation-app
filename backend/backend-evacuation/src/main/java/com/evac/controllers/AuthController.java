@@ -148,15 +148,26 @@ public class AuthController {
 	}
 
 	@PostMapping ("/delegateById/{userId}")
-	public Optional<User> addDelegate(@PathVariable("userId") Long userId) {
+	public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId) {
 		Optional<User> user = null;
 		if (userRepository.existsById(userId)) {
 			System.out.println("TEST");
-			user = userRepository.findById(userId);
-			Delegation delegation = new Delegation(user.get().getUsername(), userId);
-			delegationRepository.save(delegation);
+			if (!delegationRepository.existsById(userId)) {
+				user = userRepository.findById(userId);
+				Delegation delegation = new Delegation(user.get().getUsername(), userId);
+				delegationRepository.save(delegation);
+				return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
+						+ " with id: " + userId + " added to delegation database");
+			} else {
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Evacuation leader already in delegation database"));
+			}
+		} else {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("No evacuation leader matching the id"));
 		}
-		return user;
 	}
 
 	@GetMapping("/getUserById/{userId}")

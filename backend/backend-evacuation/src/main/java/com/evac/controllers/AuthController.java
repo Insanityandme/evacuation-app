@@ -149,24 +149,6 @@ public class AuthController {
 
 		return ResponseEntity.ok("User registered successfully!");
 	}
-	@PutMapping("/changeActive/{username}")
-	public ResponseEntity<?> changeActive(@PathVariable("username") String username){
-		List<Deputy> deputylist = deputyRepository.findAll();
-		for(Deputy deputy: deputylist) {
-			if(deputy.isActive()){
-				return ResponseEntity
-						.badRequest()
-						.body("Active deputy already assigned");
-			}
-		}
-
-		Optional <Deputy> deputy = deputyRepository.findByUsername(username);
-		Deputy newDeputy = deputy.get();
-		newDeputy.setActive(true);
-		deputyRepository.findByUsername(username)
-				.map(updatedDeputy -> this.deputyRepository.save(newDeputy));
-		return ResponseEntity.ok("deputyleader activity status changed: " + deputy.get().isActive());
-	}
 
 
 	@GetMapping("/getUserById/{userId}")

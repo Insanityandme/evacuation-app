@@ -135,6 +135,7 @@ public class AuthController {
 						Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(evacRole);
+						break;
 					default:
 						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));

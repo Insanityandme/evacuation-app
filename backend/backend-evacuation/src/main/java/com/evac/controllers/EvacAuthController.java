@@ -52,6 +52,7 @@ public class EvacAuthController {
         Long zoneid = payload.get("zoneid");
         Optional<User> user = null;
 
+
         if (userRepository.existsById(userId) ) {
             if (!delegationRepository.existsById(userId)) {
 
@@ -60,11 +61,21 @@ public class EvacAuthController {
                 Zone zone = zoneRepository.getById(zoneid);
                 String zoneName = zone.getName();
                 user = userRepository.findById(userId);
-                Delegation delegation = new Delegation(
-                        user.get().getUsername(), userId, floorName, zoneName);
-                delegationRepository.save(delegation);
-                return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
-                        + " with id: " + userId + " added to delegation database");
+                for (Role role : user.get().getRoles()) {
+                    System.out.println(role.getName());
+                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                        Delegation delegation = new Delegation(
+                                user.get().getUsername(), userId, floorName, zoneName);
+                        delegationRepository.save(delegation);
+                        return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
+                                + " with id: " + userId + " added to delegation database");
+                    }
+
+
+                }
+                return ResponseEntity
+                        .badRequest()
+                        .body("Invalid role");
             } else {
                 return ResponseEntity
                         .badRequest()
@@ -91,7 +102,10 @@ public class EvacAuthController {
     }
     //This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
     @PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
+
     public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
+        Optional<User> user = null;
+
         if (!(userRepository.existsById(leaderId))){
             return ResponseEntity
                     .badRequest()
@@ -101,15 +115,23 @@ public class EvacAuthController {
             if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))){
                 return ResponseEntity
                         .badRequest()
-                        .body("Not valid priority!");
+                        .body("Invalid priority!");
             }
 
             else{
+                user = userRepository.findById(leaderId);
+                for (Role role : user.get().getRoles()) {
+                    System.out.println(role.getName());
+                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                        EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
+                        this.evacLeaderPriorityRepository.save(leaderPriority);
+                        return ResponseEntity.ok("Priority set to evacuation leader!");
+                    }
+                }
+                return ResponseEntity
+                        .badRequest()
+                        .body("Invalid role");
 
-                EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
-                this.evacLeaderPriorityRepository.save(leaderPriority);
-
-                return ResponseEntity.ok("Priority set to evacuation leader!");
             }
         }
     }

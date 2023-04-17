@@ -2,7 +2,7 @@ package com.evac.controllers;
 
 import com.evac.models.Handicap;
 import com.evac.models.UserHandicap;
-import com.evac.models.UserHandicapRepository;
+import com.evac.repository.UserHandicapRepository;
 import com.evac.repository.HandicapRepository;
 import com.evac.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

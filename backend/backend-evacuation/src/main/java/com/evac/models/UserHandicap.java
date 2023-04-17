@@ -1,7 +1,5 @@
 package com.evac.models;
 
-import com.evac.repository.UserHandicapRepositoryKey;
-
 import javax.persistence.*;
 
 @Entity @IdClass(UserHandicapRepositoryKey.class)

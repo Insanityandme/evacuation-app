@@ -1,4 +1,4 @@
-package com.evac.repository;
+package com.evac.models;
 
 import java.io.Serializable;
 

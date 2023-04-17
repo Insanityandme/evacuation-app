@@ -89,6 +89,11 @@ public class AuthController {
 		}
 	}
 
+	@GetMapping("/getAllRoles")
+	public List<Role> getAllRoles(){
+		return roleRepository.findAll();
+	}
+
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {

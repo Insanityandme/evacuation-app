@@ -20,8 +20,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Tab1Page.vue')
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: 'UsersManager',
+        component: () => import('@/views/UsersManagerPage.vue'),
+      },
+      {
+        path: 'UsersManager/edit/:id',
+        component: () => import('@/views/EditUserPage.vue')
+      },
+      {
+        path: 'UsersManager/add',
+        component: () => import('@/views/AddUserPage.vue')
       },
       {
         path: 'tab3',

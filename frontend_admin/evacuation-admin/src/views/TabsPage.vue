@@ -8,7 +8,7 @@
           <ion-label>Admin</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
+        <ion-tab-button tab="tab2" href="/tabs/UsersManager">
           <ion-icon aria-hidden="true" :icon="ellipse" />
           <ion-label>Users Manager</ion-label>
         </ion-tab-button>

@@ -24,7 +24,7 @@
                             <ion-button fill="clear" class="ion-float-right" slot="end">
                                 <ion-icon :icon="trash" slot="end"></ion-icon>
                             </ion-button>
-                            <ion-button fill="clear" class="ion-float-right">
+                            <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/0">
                                 <ion-icon :icon="pencil" slot="end"></ion-icon>
                             </ion-button>
                         </div>
@@ -61,7 +61,7 @@
         </ion-accordion>
         <ion-accordion value="second" toggle-icon-slot="end">
             <ion-item slot="header" color="light">
-                <ion-label>Jane Smith</ion-label>
+                <ion-label>Jane Doe</ion-label>
                 <ion-chip color="tertiary"><!--slot="start"-->
                     <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                     <ion-label><b>1</b></ion-label>
@@ -78,10 +78,10 @@
             <div id="usersList" slot="content">
                 <ion-list :inset="true">
                     <ion-item>
-                        <ion-label><ion-icon :icon="person" slot="start"/> Jane Smith</ion-label>
+                        <ion-label><ion-icon :icon="person" slot="start"/> Jane Doe</ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
-                                <ion-button fill="clear" class="ion-float-right" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
+                                <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
                                     <ion-icon :icon="pencil"/>
                                 </ion-button>
                                 <ion-button fill="clear" class="ion-float-right">
@@ -91,7 +91,7 @@
                         </div>
                     </ion-item>
                     <ion-item>
-                        <ion-label><ion-icon :icon="mail" slot="start"/> jane.smith@gmail.com</ion-label>
+                        <ion-label><ion-icon :icon="mail" slot="start"/> jane.doe@gmail.com</ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label><ion-icon :icon="call" slot="start"/> 0700000000</ion-label>

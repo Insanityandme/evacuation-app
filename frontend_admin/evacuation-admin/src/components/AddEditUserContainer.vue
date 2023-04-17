@@ -41,17 +41,6 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
     components: { IonSelectOption },
-    setup() {
-        const customPopoverOptions = {
-            header: 'Hair Color',
-            subHeader: 'Select your hair color',
-            message: 'Only select your dominant hair color'
-        };
-
-        return {
-            customPopoverOptions
-        }
-    },
     methods: {
 
     }
@@ -60,9 +49,15 @@ export default defineComponent({
 </script>
 
 <script setup>
+import {add} from "ionicons/icons";
+
 defineProps({
-    add: Boolean,
+    add: String,
 });
+
+if (add === "true") {
+    console.log("true")
+}
 </script>
 
 <style>

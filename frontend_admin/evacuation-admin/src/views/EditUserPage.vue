@@ -10,7 +10,7 @@
         </ion-header>
         <ion-content :fullscreen="true">
 
-            <AddEditUserContainer add='add'></AddEditUserContainer>
+            <AddEditUserContainer add='true'></AddEditUserContainer>
 
         </ion-content>
     </ion-page>

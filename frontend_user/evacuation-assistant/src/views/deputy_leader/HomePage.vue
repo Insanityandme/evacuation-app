@@ -12,36 +12,29 @@
         </ion-toolbar>
       </ion-header>
       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-
+      <ion-button @click="startScan()">Press me to start scanning</ion-button>
       <ExploreContainer name="Welcome!"/>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import {StorageService} from '@/services/storage.service';
-import {ble} from '@/services/bluetooth.scanner';
-import {isPlatform} from '@ionic/vue';
+import {scan} from "@/services/bluetooth.scanner";
 
 const store = new StorageService();
 
+const startScan = async () => {
+  await scan();
+}
+
+/*
 const parsedData = async () => {
   const data = await store.read('user');
-  console.log(data);
-  const dataJson = JSON.parse(data.value || '{}');
-  console.log(dataJson.email);
-  return dataJson;
+  return JSON.parse(data.value || '{}');
 }
 
-parsedData();
-
-if (isPlatform('desktop')) {
-  console.log("I'm on a desktop now");
-}
-else if (isPlatform('android') || isPlatform('ios')) {
-  ble();
-}
-
+ */
 </script>

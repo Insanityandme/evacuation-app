@@ -29,3 +29,13 @@ export const getAllUsers = async () => {
 
     return CapacitorHttp.get(options)
 }
+
+export const signUpUser = async (user: User) => {
+    const options = {
+        url: `${resourceUrl}/signup`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(user)
+    }
+
+    return CapacitorHttp.post(options);
+}

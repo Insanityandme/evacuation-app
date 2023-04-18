@@ -89,6 +89,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/api/auth/**").permitAll()
         .antMatchers("/api/test/**").permitAll()
+            .antMatchers("/api/evacAuth/**").permitAll()
+            .antMatchers("/api/deputyAuth/**").permitAll()
+            .antMatchers("/api/userAuth/**").permitAll()
+            .antMatchers("/api/notifyAuth/**").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

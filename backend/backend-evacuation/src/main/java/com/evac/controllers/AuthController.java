@@ -89,6 +89,11 @@ public class AuthController {
 		}
 	}
 
+	@GetMapping("/getAllRoles")
+	public List<Role> getAllRoles(){
+		return roleRepository.findAll();
+	}
+
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -135,6 +140,7 @@ public class AuthController {
 						Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(evacRole);
+						break;
 					default:
 						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -148,56 +154,6 @@ public class AuthController {
 
 
 		return ResponseEntity.ok("User registered successfully!");
-	}
-	@PutMapping("/changeActive/{username}")
-	public ResponseEntity<?> changeActive(@PathVariable("username") String username){
-		List<Deputy> deputylist = deputyRepository.findAll();
-		for(Deputy deputy: deputylist) {
-			if(deputy.isActive()){
-				return ResponseEntity
-						.badRequest()
-						.body("Active deputy already assigned");
-			}
-		}
-
-		Optional <Deputy> deputy = deputyRepository.findByUsername(username);
-		Deputy newDeputy = deputy.get();
-		newDeputy.setActive(true);
-		deputyRepository.findByUsername(username)
-				.map(updatedDeputy -> this.deputyRepository.save(newDeputy));
-		return ResponseEntity.ok("deputyleader activity status changed: " + deputy.get().isActive());
-	}
-
-	@PostMapping ("/delegateById/{userId}")
-	public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
-										 @RequestBody Map<String, Long> payload) {
-		Long floorid = payload.get("floorid");
-		Long zoneid = payload.get("zoneid");
-		Optional<User> user = null;
-
-		if (userRepository.existsById(userId)) {
-			if (!delegationRepository.existsById(userId)) {
-
-				Floor floor = floorRepository.getById(floorid);
-				String floorName = floor.getName();
-				Zone zone = zoneRepository.getById(zoneid);
-				String zoneName = zone.getName();
-				user = userRepository.findById(userId);
-				Delegation delegation = new Delegation(
-						user.get().getUsername(), userId, floorName, zoneName);
-				delegationRepository.save(delegation);
-				return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
-						+ " with id: " + userId + " added to delegation database");
-			} else {
-				return ResponseEntity
-						.badRequest()
-						.body("Evacuation leader already in delegation database");
-			}
-		} else {
-			return ResponseEntity
-					.badRequest()
-					.body("No evacuation leader matching the id");
-		}
 	}
 
 
@@ -250,84 +206,4 @@ public class AuthController {
 				.map(currentUser -> this.userRepository.save(oldUserWithNewUserName));
 	}
 
-	//This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
-	@PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
-	public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
-		if (!(userRepository.existsById(leaderId))){
-			return ResponseEntity
-					.badRequest()
-					.body("No evacuation leader with the id provided!");
-		} else {
-
-			if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))){
-				return ResponseEntity
-						.badRequest()
-						.body("Not valid priority!");
-			}
-
-			else{
-
-				EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
-				this.evacLeaderPriorityRepository.save(leaderPriority);
-
-				return ResponseEntity.ok("Priority set to evacuation leader!");
-			}
-		}
-	}
-
-	@GetMapping("/getAllPriorities")
-	public List<Priority> getAllPriorities(){
-		return priorityRepository.findAll();
-	}
-
-	@DeleteMapping("deletePriorityById/{leaderId}")
-	public ResponseEntity<?> deletePriorityById(@PathVariable("leaderId") Long leaderId){
-		if (priorityRepository.existsById(leaderId)){
-			priorityRepository.deleteById(leaderId);
-
-			return ResponseEntity
-					.ok("Priority deleted successfully!");
-		}
-
-		else {
-			return ResponseEntity
-					.badRequest()
-					.body("No priority with the given id!");
-		}
-
-	}
-	@DeleteMapping("deleteDelegationById/{leaderId}")
-	public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId){
-		if (delegationRepository.existsById(leaderId)){
-			delegationRepository.deleteById(leaderId);
-
-			return ResponseEntity
-					.ok("Delegation of floor/zones for leader succesfully deleted");
-		} else {
-			return ResponseEntity
-					.badRequest()
-					.body("No leader with given id delegated");
-		}
-	}
-
-	@DeleteMapping("deleteLeaderAndPriorityById/{leaderId}")
-	public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId){
-		if (evacLeaderPriorityRepository.existsById(leaderId)){
-			evacLeaderPriorityRepository.deleteById(leaderId);
-
-			return ResponseEntity
-					.ok("Leader with his/her priority successfully deleted!");
-		}
-
-		else {
-			return ResponseEntity
-					.badRequest()
-					.body("No leader with given id!");
-		}
-	}
-
-	@GetMapping("getAllLeadersAndPriorities")
-	public List<EvacLeaderPriority> getAllLeadersAndPriorities(){
-		return evacLeaderPriorityRepository.findAll();
-	}
 }

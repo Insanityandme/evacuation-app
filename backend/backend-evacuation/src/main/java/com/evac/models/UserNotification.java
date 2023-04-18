@@ -18,11 +18,12 @@ public class UserNotification {
         this.name = name;
     }
 
-    @Id
+
     @NotNull
     private Long userId; //Name of the variable must be the same as the column name in the table
 
 
+    @Id
     @NotBlank
     @Column(length = 20)
     private String name;

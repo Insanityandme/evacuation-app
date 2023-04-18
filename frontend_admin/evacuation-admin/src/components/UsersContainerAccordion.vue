@@ -1,5 +1,5 @@
 <template>
-    <ion-accordion-group :multiple="true">
+    <ion-accordion-group :multiple="true" v-for="user in users" :key="user.id">
         <ion-accordion value="first" toggle-icon-slot="end">
             <ion-item slot="header" color="light">
                 <ion-label>John Smith</ion-label>
@@ -61,7 +61,7 @@
         </ion-accordion>
         <ion-accordion value="second" toggle-icon-slot="end">
             <ion-item slot="header" color="light">
-                <ion-label>Jane Doe</ion-label>
+                <ion-label>{{ user.username }}</ion-label>
                 <ion-chip color="tertiary"><!--slot="start"-->
                     <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                     <ion-label><b>1</b></ion-label>
@@ -78,7 +78,7 @@
             <div id="usersList" slot="content">
                 <ion-list :inset="true">
                     <ion-item>
-                        <ion-label><ion-icon :icon="person" slot="start"/> Jane Doe</ion-label>
+                        <ion-label><ion-icon :icon="person" slot="start"/> {{ user.username }}</ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
                                 <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
@@ -91,10 +91,10 @@
                         </div>
                     </ion-item>
                     <ion-item>
-                        <ion-label><ion-icon :icon="mail" slot="start"/> jane.doe@gmail.com</ion-label>
+                        <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label><ion-icon :icon="call" slot="start"/> 0700000000</ion-label>
+                        <ion-label><ion-icon :icon="call" slot="start"/> {{ user.password }}</ion-label>
                     </ion-item>
                     <ion-item class="ion-align-items-center">
                         <ion-chip color="tertiary"><!--slot="start"-->
@@ -144,6 +144,19 @@ import {
     mail
 } from "ionicons/icons";
 
+
+import {getAllUsers} from "@/data/user";
+
+import {ref} from "vue";
+const users = ref([]);
+
+const fetchAllUsers = async() => {
+    // POST request to our backend API
+    const response = await getAllUsers();
+    console.log(response.data[0].username);
+    users.value = response.data;
+}
+fetchAllUsers();
 </script>
 
 

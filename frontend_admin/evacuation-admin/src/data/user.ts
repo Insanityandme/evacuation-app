@@ -5,7 +5,10 @@ const resourceUrl = 'http://localhost:8081/api/auth';
 export interface User {
     username: string,
     email: string,
-    password: string
+    password: string,
+    roles: [
+        name: string
+    ]
 }
 
 export const signInUser = async (user: User) => {
@@ -16,4 +19,13 @@ export const signInUser = async (user: User) => {
     }
 
     return CapacitorHttp.post(options);
+}
+
+export const getAllUsers = async () => {
+    const options = {
+        url: `${resourceUrl}/getAllUsers`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
 }

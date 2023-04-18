@@ -39,16 +39,27 @@ public class NotifyController {
 
     @PostMapping ("/addMsgToUser/{userId}")
     public ResponseEntity<?> addMsgToUser(@PathVariable("userId") Long userId,
-                                          @RequestBody String name) {
-        Optional<Notification> notification = notificationRepository.findById(userId);
-        Notification notification2 = notification.get();
-        String message = notification2.getMessage();
-        name = notification2.getName();
+                                          @RequestBody Map <String, String> payload) {
+        String name = payload.get("name");
+        if (userRepository.existsById(userId)) {
+            if(notificationRepository.existsByName(name)){
+                Optional<Notification> notification = notificationRepository.findByName(name);
+                Notification notification2 = notification.get();
+                String message = notification2.getMessage();
+                name = notification2.getName();
 
-        UserNotification userNotification = new UserNotification(userId, name, message);
-        userNotificationRepository.save(userNotification);
-        return ResponseEntity
-                .ok("message added to user with id: " + userId);
+                UserNotification userNotification = new UserNotification(userId, name, message);
+                userNotificationRepository.save(userNotification);
+                return ResponseEntity
+                        .ok("message added to user with id: " + userId);
+            } else {
+                return ResponseEntity.badRequest().body("no message with this name");
+            }
+        }
+        else {
+            return ResponseEntity.badRequest().body("no user found");
+
+        }
     }
 
 }

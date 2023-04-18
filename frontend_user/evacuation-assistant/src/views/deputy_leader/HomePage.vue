@@ -23,11 +23,14 @@ import {IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import {StorageService} from '@/services/storage.service';
 import {scan} from "@/services/bluetooth.scanner";
+import {ref} from "vue";
 
 const store = new StorageService();
 
+const devices = ref([]);
+
 const startScan = async () => {
-  await scan();
+  const scannedDevices =  await scan();
 }
 
 /*

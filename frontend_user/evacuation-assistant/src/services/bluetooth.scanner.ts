@@ -1,13 +1,16 @@
-import {BleClient} from "@capacitor-community/bluetooth-le";
+import {BleClient, ScanResult} from "@capacitor-community/bluetooth-le";
 
 const SMART_BEACON_SERVICE = '0000d00d-0000-1000-8000-00805f9b34fb';
-export async function scan(): Promise<void> {
+export const scan = async () => {
+    const devices: ScanResult[] = [];
+
     try {
         await BleClient.initialize();
 
         await BleClient.requestLEScan({
             services: [],
         }, (result) => {
+            devices.push(result);
             console.log(result);
         });
 
@@ -19,6 +22,8 @@ export async function scan(): Promise<void> {
     } catch (error) {
         console.log(error);
     }
+
+    return devices;
 }
 
 

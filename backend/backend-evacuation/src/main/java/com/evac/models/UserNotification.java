@@ -5,10 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table( name = "user_notifications",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"userId", "name", "message"})
-        })
+@Table( name = "user_notifications")
 
 
 public class UserNotification {
@@ -49,5 +46,13 @@ public class UserNotification {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

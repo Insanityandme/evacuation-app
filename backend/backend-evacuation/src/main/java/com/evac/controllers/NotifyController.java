@@ -1,8 +1,6 @@
 package com.evac.controllers;
 
-import com.evac.models.Notification;
-import com.evac.models.UserNotification;
-import com.evac.models.Zone;
+import com.evac.models.*;
 import com.evac.repository.NotificationRepository;
 import com.evac.repository.UserNotificationRepository;
 import com.evac.repository.UserRepository;
@@ -11,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -60,6 +59,16 @@ public class NotifyController {
             return ResponseEntity.badRequest().body("no user found");
 
         }
+    }
+
+    @GetMapping("/getAllNotifications")
+    public List<Notification> getAllNotifcations(){
+        return notificationRepository.findAll();
+    }
+
+    @GetMapping("/getUserMessages")
+    public List<UserNotification> getUserNotifications(){
+        return userNotificationRepository.findAll();
     }
 
 }

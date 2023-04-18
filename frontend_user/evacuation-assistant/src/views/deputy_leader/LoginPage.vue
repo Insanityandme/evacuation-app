@@ -12,11 +12,11 @@
 
 <script setup lang="ts">
 import {IonPage, IonToast, IonContent} from '@ionic/vue';
+import {useIonRouter} from '@ionic/vue';
 import {ref} from 'vue';
 import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User} from '@/data/user';
-import {useIonRouter} from '@ionic/vue';
 // boolean value for the toast component in vuejs
 const isOpen = ref(false);
 

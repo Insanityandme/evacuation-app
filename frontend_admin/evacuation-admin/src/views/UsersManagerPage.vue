@@ -17,46 +17,38 @@
             <ion-modal ref="modal" trigger="open-modal">
                 <ion-content>
                     <ion-toolbar>
-                        <ion-title>Modal</ion-title>
+                        <ion-title>Filter</ion-title>
                         <ion-buttons slot="end">
                             <ion-button color="light" @click="dismiss()">Close</ion-button>
                         </ion-buttons>
                     </ion-toolbar>
                     <ion-list>
                         <ion-item>
-                            <ion-avatar slot="start">
-                                <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
-                            </ion-avatar>
+                            <ion-icon :icon="person" slot="start"/>
                             <ion-label>
-                                <h2>Connor Smith</h2>
-                                <p>Sales Rep</p>
+                                <h2>Fullname</h2>
+                                <p>Filter after Fullname</p>
                             </ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-avatar slot="start">
-                                <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
-                            </ion-avatar>
+                            <ion-icon :icon="layersOutline" slot="start" color="primary"/>
                             <ion-label>
-                                <h2>Daniel Smith</h2>
-                                <p>Product Designer</p>
+                                <h2>Floor</h2>
+                                <p>Filter after Floor level</p>
                             </ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-avatar slot="start">
-                                <ion-img src="https://i.pravatar.cc/300?u=d"></ion-img>
-                            </ion-avatar>
+                            <ion-icon :icon="mapOutline" slot="start" color="warning"/>
                             <ion-label>
-                                <h2>Greg Smith</h2>
-                                <p>Director of Operations</p>
+                                <h2>Zone</h2>
+                                <p>Filter after Zone</p>
                             </ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-avatar slot="start">
-                                <ion-img src="https://i.pravatar.cc/300?u=e"></ion-img>
-                            </ion-avatar>
+                            <ion-icon :icon="alertOutline" slot="start" color="danger"/>
                             <ion-label>
-                                <h2>Zoey Smith</h2>
-                                <p>CEO</p>
+                                <h2>Priority</h2>
+                                <p>Filter after Priority</p>
                             </ion-label>
                         </ion-item>
                     </ion-list>
@@ -71,7 +63,7 @@
 <script setup lang="ts">
 import { IonPage, IonHeader } from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
-import {add, filterOutline} from "ionicons/icons";
+import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
 </script>
 
 <script lang="ts">
@@ -100,8 +92,6 @@ export default defineComponent({
         IonTitle,
         IonItem,
         IonList,
-        IonAvatar,
-        IonImg,
         IonLabel
     },
     methods: {

@@ -1,45 +1,33 @@
-import {BleClient, ScanResult} from "@capacitor-community/bluetooth-le";
+import {ref} from "vue";
 
-const SMART_BEACON_SERVICE = '0000d00d-0000-1000-8000-00805f9b34fb';
-export const scan = async () => {
-    const devices: ScanResult[] = [];
+export default function useMyAsyncComposable(promise: any, initialState: any) {
+    const state = ref(initialState);
+    const isReady = ref(false);
+    const isLoading = ref(false);
+    const error = ref(undefined);
 
-    try {
-        await BleClient.initialize();
+    async function execute() {
+        error.value = undefined;
+        isReady.value = false;
+        isLoading.value = true;
 
-        await BleClient.requestLEScan({
-            services: [],
-        }, (result) => {
-            devices.push(result);
-            console.log(result);
-        });
+        try {
+            state.value = await promise;
+            isReady.value = true;
+        } catch (e) {
+            console.log(e);
+        }
 
-        setTimeout(async () => {
-            await BleClient.stopLEScan();
-            console.log('stopped scanning');
-        }, 5000);
-
-    } catch (error) {
-        console.log(error);
+        isLoading.value = false;
     }
 
-    return devices;
+    execute();
+
+    return {state, isReady, isLoading};
 }
 
 
 /*
-export const startScan = () => {
-    BLE.startScan([],).subscribe(device => {
-        console.log(JSON.stringify(device));
-    });
-
-    setTimeout(() => {
-        BLE.stopScan().then(() => {
-            console.log('Scan stopped');
-        })
-    }, 5000);
-}
-
 function calculateDistance(txPower: number, rssi: number, n: number): number {
     return Math.pow(10, (txPower - rssi) / (10 * n));
 }

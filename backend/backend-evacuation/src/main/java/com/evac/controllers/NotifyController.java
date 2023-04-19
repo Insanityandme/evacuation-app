@@ -1,9 +1,11 @@
 package com.evac.controllers;
 
 import com.evac.models.*;
+import com.evac.payload.request.MessageRequest;
 import com.evac.repository.NotificationRepository;
 import com.evac.repository.UserNotificationRepository;
 import com.evac.repository.UserRepository;
+import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +20,7 @@ import java.util.Optional;
 @RequestMapping("/api/notifyAuth")
 public class NotifyController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -39,9 +40,8 @@ public class NotifyController {
 
     @PostMapping ("/addMsgToUser/{userId}")
     public ResponseEntity<?> addMsgToUser(@PathVariable("userId") Long userId,
-                                          @RequestBody Map <String, String> payload) { //See if you can fix another way instead of using Map
-        String name = payload.get("name");
-
+                                          @RequestBody MessageRequest messageRequest) { //See if you can fix another way instead of using Map
+        String name = messageRequest.getName();
         if (userRepository.existsById(userId)) {
             if(notificationRepository.existsByName(name)){
                 Optional<Notification> optNotification = notificationRepository.findByName(name);

@@ -37,19 +37,6 @@ public class AuthController {
 	RoleRepository roleRepository;
 
 	@Autowired
-	PriorityRepository priorityRepository;
-	@Autowired
-	EvacLeaderPriorityRepository evacLeaderPriorityRepository;
-
-	@Autowired
-	FloorRepository floorRepository;
-
-	@Autowired
-	ZoneRepository zoneRepository;
-	@Autowired
-	DelegationRepository delegationRepository;
-
-	@Autowired
 	PasswordEncoder encoder;
 
 	@Autowired
@@ -133,7 +120,11 @@ public class AuthController {
 						Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(modRole);
-						//Ellie: Add Comment
+						/*
+						 the two lines below adds a row to the table deputies with
+						 a username from the user registered, and a boolean isActive
+						 It is added here because only deputyleaders should be in this table.
+						 */
 						Deputy deputy = new Deputy(user.getUsername());
 						deputyRepository.save(deputy);
 						break;

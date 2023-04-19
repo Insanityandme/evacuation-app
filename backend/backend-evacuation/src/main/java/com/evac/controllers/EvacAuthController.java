@@ -11,18 +11,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.evac.security.jwt.JwtUtils;
-
+/**
+ * this class is responsible for managing the requests sent by users
+ * for managing delegations of floor/zones and setting priorities to evacuation-leaders.
+ *
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/evacAuth")
 public class EvacAuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    UserRepository userRepository;
 
     @Autowired
     PriorityRepository priorityRepository;
@@ -37,14 +37,19 @@ public class EvacAuthController {
     @Autowired
     DelegationRepository delegationRepository;
 
-    @Autowired
-    JwtUtils jwtUtils;
-    @Autowired
-    DeputyRepository deputyRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
+    /**
+     * this mapping is responsible for handling a request to put a row consisting of
+     * id, username, floorname, zonename into the delegations table.
+     *
+     * @param userId of the user to be put in the table. Also used to find
+     *               the user in userRepository so that the name can be taken
+     *               from the user and also put in the table.
+     * @param payload a from which the floorid/zoneid can be taken.
+     * @return an ok response if the row was added to the table
+     * a badrequest response if the role with the userid is not evacleader,
+     * if the evacleader with the id is already in the table, or if
+     * there is no evacleader matching the id.
+     */
     @PostMapping ("/delegateById/{userId}")
     public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
                                          @RequestBody Map<String, Long> payload) {
@@ -88,6 +93,16 @@ public class EvacAuthController {
                     .body("No evacuation leader matching the id");
         }
     }
+
+    /**
+     * this mapping is responsible for handling a request to delete a row from the
+     * delegations table with the ID given in the request.
+     * The method checks if there is a delegation with the given id, and if there is
+     * it deletes the row.
+     * @param leaderId the id of a user in the table
+     * @return ok response if there is a user in the table with given id.
+     * badRequest if there is not a user with the given id.
+     */
     @DeleteMapping("deleteDelegationById/{leaderId}")
     public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId){
         if (delegationRepository.existsById(leaderId)){

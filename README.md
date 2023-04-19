@@ -34,9 +34,22 @@ Keep in mind, the most important detail:
 
 This line must be equal to *create*, otherwise the table *roles* will not be populated with predefined data that exist inside the `backend/backend-evacuation/src/main/resources/import.sql`file.
 
-The *import.sql* file has the following three lines in it, in case it is ignored in the future by mistake:
+The *import.sql* file has the following INSERT INTO in it, in case it is ignored in the future by mistake:
 ```
 INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+INSERT INTO roles(name) VALUES('ROLE_DEPUTYLEADER');
+INSERT INTO roles(name) VALUES('ROLE_EVACLEADER');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+
+INSERT INTO floors(name) VALUES ('FIRST FLOOR');
+INSERT INTO floors(name) VALUES ('SECOND FLOOR');
+INSERT INTO floors(name) VALUES ('THIRD FLOOR');
+
+INSERT INTO zones(name) VALUES ('A');
+INSERT INTO zones(name) VALUES ('B');
+INSERT INTO zones(name) VALUES ('C');
+
+INSERT INTO priority(name) values ('HIGH');
+INSERT INTO priority(name) values ('MEDIUM');
+INSERT INTO priority(name) values ('LOW');
 ```

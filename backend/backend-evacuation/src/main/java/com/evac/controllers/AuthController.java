@@ -45,6 +45,7 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
     @Autowired
     DeputyRepository deputyRepository;
 

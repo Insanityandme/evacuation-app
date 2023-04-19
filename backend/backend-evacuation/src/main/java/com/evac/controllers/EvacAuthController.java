@@ -11,10 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.evac.security.jwt.JwtUtils;
+
 /**
  * this class is responsible for managing the requests sent by users
  * for managing delegations of floor/zones and setting priorities to evacuation-leaders.
- *
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -41,23 +41,23 @@ public class EvacAuthController {
      * this mapping is responsible for handling a request to put a row consisting of
      * id, username, floorname, zonename into the delegations table.
      *
-     * @param userId of the user to be put in the table. Also used to find
-     *               the user in userRepository so that the name can be taken
-     *               from the user and also put in the table.
+     * @param userId  of the user to be put in the table. Also used to find
+     *                the user in userRepository so that the name can be taken
+     *                from the user and also put in the table.
      * @param payload a from which the floorid/zoneid can be taken.
      * @return an ok response if the row was added to the table
      * a badrequest response if the role with the userid is not evacleader,
      * if the evacleader with the id is already in the table, or if
      * there is no evacleader matching the id.
      */
-    @PostMapping ("/delegateById/{userId}")
+    @PostMapping("/delegateById/{userId}")
     public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
                                          @RequestBody Map<String, Long> payload) {
         Long floorid = payload.get("floorid");
         Long zoneid = payload.get("zoneid");
         Optional<User> user = null;
 
-        if (userRepository.existsById(userId) ) {
+        if (userRepository.existsById(userId)) {
             if (!delegationRepository.existsById(userId)) {
 
                 Floor floor = floorRepository.getById(floorid);
@@ -99,13 +99,14 @@ public class EvacAuthController {
      * delegations table with the ID given in the request.
      * The method checks if there is a delegation with the given id, and if there is
      * it deletes the row.
+     *
      * @param leaderId the id of a user in the table
      * @return ok response if there is a user in the table with given id.
      * badRequest if there is not a user with the given id.
      */
     @DeleteMapping("deleteDelegationById/{leaderId}")
-    public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId){
-        if (delegationRepository.existsById(leaderId)){
+    public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId) {
+        if (delegationRepository.existsById(leaderId)) {
             delegationRepository.deleteById(leaderId);
 
             return ResponseEntity.ok("Delegation of floor/zones for leader succesfully deleted");
@@ -115,25 +116,24 @@ public class EvacAuthController {
                     .body("No leader with given id delegated");
         }
     }
+
     //This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
     @PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
 
-    public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
+    public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority) {
         Optional<User> user = null; // See if not initializing this variable also works. If so, try to apply samme way with other similar variables.
 
-        if (!(userRepository.existsById(leaderId))){
+        if (!(userRepository.existsById(leaderId))) {
             return ResponseEntity
                     .badRequest()
                     .body("No evacuation leader with the id provided!");
         } else {
 
-            if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))){
+            if (!(priorityRepository.existsById(evacLeaderPriority.getpriority()))) {
                 return ResponseEntity
                         .badRequest()
                         .body("Invalid priority!");
-            }
-
-            else{
+            } else {
                 user = userRepository.findById(leaderId);
                 for (Role role : user.get().getRoles()) {
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
@@ -151,35 +151,33 @@ public class EvacAuthController {
             }
         }
     }
+
     @GetMapping("/getAllPriorities")
-    public List<Priority> getAllPriorities(){
+    public List<Priority> getAllPriorities() {
         return priorityRepository.findAll();
     }
 
     @DeleteMapping("deletePriorityById/{leaderId}")
-    public ResponseEntity<?> deletePriorityById(@PathVariable("leaderId") Long leaderId){
-        if (priorityRepository.existsById(leaderId)){
+    public ResponseEntity<?> deletePriorityById(@PathVariable("leaderId") Long leaderId) {
+        if (priorityRepository.existsById(leaderId)) {
             priorityRepository.deleteById(leaderId);
 
             return ResponseEntity.ok("Priority deleted successfully!");
-        }
-
-        else {
+        } else {
             return ResponseEntity
                     .badRequest()
                     .body("No priority with the given id!");
         }
 
     }
+
     @DeleteMapping("deleteLeaderAndPriorityById/{leaderId}")
-    public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId){
-        if (evacLeaderPriorityRepository.existsById(leaderId)){
+    public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId) {
+        if (evacLeaderPriorityRepository.existsById(leaderId)) {
             evacLeaderPriorityRepository.deleteById(leaderId);
 
             return ResponseEntity.ok("Leader with his/her priority successfully deleted!");
-        }
-
-        else {
+        } else {
             return ResponseEntity
                     .badRequest()
                     .body("No leader with given id!");
@@ -187,7 +185,7 @@ public class EvacAuthController {
     }
 
     @GetMapping("getAllLeadersAndPriorities")
-    public List<EvacLeaderPriority> getAllLeadersAndPriorities(){
+    public List<EvacLeaderPriority> getAllLeadersAndPriorities() {
         return evacLeaderPriorityRepository.findAll();
     }
 }

@@ -2,7 +2,12 @@ package com.evac.models;
 
 import javax.persistence.*;
 
-@Entity @IdClass(UserHandicapRepositoryKey.class)
+/**
+ * This class is an entity that creates a table in the database to link a user with a handicap.
+ * It uses two columns as primary key (@IdClass).
+ */
+@Entity
+@IdClass(UserHandicapRepositoryKey.class)
 @Table(name = "user_handicap")
 
 public class UserHandicap {
@@ -15,9 +20,10 @@ public class UserHandicap {
     @Column(name = "handicap_id")
     private Long handicapId;
 
-    public UserHandicap(){}
+    public UserHandicap() {
+    }
 
-    public UserHandicap(Long userId, Long handicapId){
+    public UserHandicap(Long userId, Long handicapId) {
         this.userId = userId;
         this.handicapId = handicapId;
     }

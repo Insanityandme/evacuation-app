@@ -81,7 +81,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 //
 //		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 //	}
-	
+
+    //Don't forget to check with deprecated methods (e.g. authorizeRequests), to futureproof this project.
 	@Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()

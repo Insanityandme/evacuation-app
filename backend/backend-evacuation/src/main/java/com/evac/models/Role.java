@@ -21,9 +21,7 @@ public class Role {
 	@JsonIgnore
 	private Set<User> users = new HashSet<>();
 
-	public Role() {
-
-	}
+	public Role() {}
 
 	public Role(ERole name) {
 		this.name = name;

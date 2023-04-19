@@ -14,9 +14,7 @@ public class Floor {
     @Column(length = 20)
     private String name;
 
-    public Floor() {
-
-    }
+    public Floor() {}
 
     public Long getId() {
         return id;

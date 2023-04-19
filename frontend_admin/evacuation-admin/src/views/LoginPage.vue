@@ -23,6 +23,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User} from '@/data/user';
 import {useIonRouter} from '@ionic/vue';
+
 // boolean value for the toast component in vuejs
 const isOpen = ref(false);
 // function to change the boolean value of isOpen

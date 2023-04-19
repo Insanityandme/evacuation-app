@@ -19,7 +19,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-
 	@NotBlank
 	@Size(max = 20)
 	private String username;
@@ -38,7 +37,6 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-
 
 	public User() {
 	}

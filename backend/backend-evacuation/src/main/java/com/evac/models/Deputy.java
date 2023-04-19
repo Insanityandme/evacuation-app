@@ -9,25 +9,20 @@ import javax.validation.constraints.Size;
 @Table(name = "deputies")
 public class Deputy {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @NotBlank
     @Size(max = 20)
     private String username;
 
-    private boolean isActive;
+    private boolean isActive = false;
 
-    public Deputy() {
-
-    }
+    public Deputy() {}
 
     public Deputy(String username) {
         this.username = username;
-        isActive = false;
     }
 
     public String getUsername() {
@@ -42,7 +37,7 @@ public class Deputy {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive() {
         if(!isActive){
             isActive = true;
         } else {

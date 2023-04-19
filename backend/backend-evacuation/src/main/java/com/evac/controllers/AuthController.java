@@ -133,6 +133,7 @@ public class AuthController {
 						Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(modRole);
+						//Ellie: Add Comment
 						Deputy deputy = new Deputy(user.getUsername());
 						deputyRepository.save(deputy);
 						break;
@@ -170,8 +171,7 @@ public class AuthController {
 		if (userRepository.existsById(userId)){
 			this.userRepository.deleteById(userId);
 
-			return ResponseEntity
-					.ok("User with id " + userId + " deleted successfully!");
+			return ResponseEntity.ok("User with id " + userId + " deleted successfully!");
 		}
 
 		else {

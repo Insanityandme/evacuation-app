@@ -27,20 +27,16 @@ public class Delegation {
     public Delegation(String username, Long id) {
         this.username = username;
         this.id = id;
-
-
     }
+
     public Delegation(String username, Long id, String floorName, String zoneName) {
         this.username = username;
         this.id = id;
         this.floorName = floorName;
         this.zoneName = zoneName;
-
     }
 
-    public Delegation() {
-
-    }
+    public Delegation() {}
 
     public String getZoneName() {
         return zoneName;

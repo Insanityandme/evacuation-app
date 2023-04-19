@@ -52,27 +52,28 @@ public class EvacAuthController {
         Long zoneid = payload.get("zoneid");
         Optional<User> user = null;
 
-
         if (userRepository.existsById(userId) ) {
             if (!delegationRepository.existsById(userId)) {
 
                 Floor floor = floorRepository.getById(floorid);
                 String floorName = floor.getName();
+
                 Zone zone = zoneRepository.getById(zoneid);
                 String zoneName = zone.getName();
+
                 user = userRepository.findById(userId);
+
                 for (Role role : user.get().getRoles()) {
-                    System.out.println(role.getName());
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
                         Delegation delegation = new Delegation(
                                 user.get().getUsername(), userId, floorName, zoneName);
                         delegationRepository.save(delegation);
+
                         return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
                                 + " with id: " + userId + " added to delegation database");
                     }
-
-
                 }
+
                 return ResponseEntity
                         .badRequest()
                         .body("Invalid role");
@@ -92,8 +93,7 @@ public class EvacAuthController {
         if (delegationRepository.existsById(leaderId)){
             delegationRepository.deleteById(leaderId);
 
-            return ResponseEntity
-                    .ok("Delegation of floor/zones for leader succesfully deleted");
+            return ResponseEntity.ok("Delegation of floor/zones for leader succesfully deleted");
         } else {
             return ResponseEntity
                     .badRequest()
@@ -104,7 +104,7 @@ public class EvacAuthController {
     @PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
 
     public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority){
-        Optional<User> user = null;
+        Optional<User> user = null; // See if not initializing this variable also works. If so, try to apply samme way with other similar variables.
 
         if (!(userRepository.existsById(leaderId))){
             return ResponseEntity
@@ -121,13 +121,14 @@ public class EvacAuthController {
             else{
                 user = userRepository.findById(leaderId);
                 for (Role role : user.get().getRoles()) {
-                    System.out.println(role.getName());
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
                         EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
                         this.evacLeaderPriorityRepository.save(leaderPriority);
+
                         return ResponseEntity.ok("Priority set to evacuation leader!");
                     }
                 }
+
                 return ResponseEntity
                         .badRequest()
                         .body("Invalid role");
@@ -145,8 +146,7 @@ public class EvacAuthController {
         if (priorityRepository.existsById(leaderId)){
             priorityRepository.deleteById(leaderId);
 
-            return ResponseEntity
-                    .ok("Priority deleted successfully!");
+            return ResponseEntity.ok("Priority deleted successfully!");
         }
 
         else {
@@ -161,8 +161,7 @@ public class EvacAuthController {
         if (evacLeaderPriorityRepository.existsById(leaderId)){
             evacLeaderPriorityRepository.deleteById(leaderId);
 
-            return ResponseEntity
-                    .ok("Leader with his/her priority successfully deleted!");
+            return ResponseEntity.ok("Leader with his/her priority successfully deleted!");
         }
 
         else {

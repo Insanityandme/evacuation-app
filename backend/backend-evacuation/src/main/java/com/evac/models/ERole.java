@@ -7,5 +7,4 @@ public enum ERole {
   ROLE_EVACLEADER,
   ROLE_ADMIN
 
-
 }

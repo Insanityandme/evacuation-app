@@ -15,9 +15,7 @@ public class UserHandicap {
     @Column(name = "handicap_id")
     private Long handicapId;
 
-    public UserHandicap(){
-
-    }
+    public UserHandicap(){}
 
     public UserHandicap(Long userId, Long handicapId){
         this.userId = userId;

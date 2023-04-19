@@ -7,5 +7,4 @@ public class UserHandicapRepositoryKey implements Serializable {
     private Long userId;
     private Long handicapId;
 
-
 }

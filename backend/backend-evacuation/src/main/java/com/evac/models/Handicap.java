@@ -21,9 +21,7 @@ public class Handicap {
     private String name;
 
 
-    public Handicap(){
-
-    }
+    public Handicap(){}
 
     public Handicap(String name){
         this.name = name;

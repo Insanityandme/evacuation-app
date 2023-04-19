@@ -17,13 +17,16 @@ import java.util.List;
 @RequestMapping("/api/userAuth")
 public class UserController {
 
+    //Oversee if [all] these variables should be set to private!
     @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
     HandicapRepository handicapRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserHandicapRepository userHandicapRepository;
 
@@ -34,8 +37,7 @@ public class UserController {
 
         handicapRepository.save(handicap);
 
-        return ResponseEntity
-                .ok("Handicap added successfully");
+        return ResponseEntity.ok("Handicap added successfully");
 
     }
 
@@ -50,8 +52,8 @@ public class UserController {
             if (handicapRepository.existsById(userHandicap.getHandicapId())){
                 UserHandicap newUserHandicap = new UserHandicap(userId, userHandicap.getHandicapId());
                 userHandicapRepository.save(newUserHandicap);
-                return ResponseEntity
-                        .ok("Handicap added to user successfully!");
+
+                return ResponseEntity.ok("Handicap added to user successfully!");
             }
 
             else{

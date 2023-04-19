@@ -10,9 +10,7 @@ import javax.validation.constraints.NotBlank;
         })
 public class Notification {
 
-    public Notification() {
-
-    }
+    public Notification() {}
 
     public Notification(String name, String message) {
         this.name = name;
@@ -30,8 +28,6 @@ public class Notification {
     @NotBlank
     @Column(length = 100)
     private String message;
-
-
 
 
     public Long getId() {

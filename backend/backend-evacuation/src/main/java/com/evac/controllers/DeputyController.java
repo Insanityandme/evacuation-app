@@ -23,7 +23,7 @@ import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
 
 /**
- * this class is responsible for managing the requests sent by users
+ * this class is a RestController is responsible for managing the HTTP requests sent by users
  * to the server wanting to change the active-status on a deputyleader.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)

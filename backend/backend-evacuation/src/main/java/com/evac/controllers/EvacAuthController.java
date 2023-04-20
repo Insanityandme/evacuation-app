@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.evac.security.jwt.JwtUtils;
 
 /**
- * this class is responsible for managing the requests sent by users
+ * this class is a RestController responsible for managing the HTTP requests sent by users
  * for managing delegations of floor/zones and setting priorities to evacuation-leaders.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -117,7 +117,24 @@ public class EvacAuthController {
         }
     }
 
+<<<<<<< Updated upstream
     //This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
+=======
+    /**
+     * this mapping sets a priority chosen in the requestbody to a leader with an
+     * id specified in the pathvariable, if an evacuationleader exists with the given id,
+     * and a priority exists with the given priority.
+     * @param leaderId the id of a evacuationleader in user table, to be added to
+     *                 evacleader_priority table.
+     *
+     * @param evacLeaderPriority the id of a priority in the priority table,
+     *                           to be assigned to the evacleader_priority table.
+     * @return ok response if row added to evacleader_priority.
+     * badRequest if no evacuation leader with id provided,
+     * the id for priority is invalid, or the role of the user with given id
+     * is not evacuation leader.
+     */
+>>>>>>> Stashed changes
     @PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
 
     public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority) {

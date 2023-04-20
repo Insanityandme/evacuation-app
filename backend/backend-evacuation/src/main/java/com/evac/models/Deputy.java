@@ -5,6 +5,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * this class is an entity that creates a table in the database
+ * storing usernames of deputy leaders and a boolean isActive.
+ */
 @Entity
 @Table(name = "deputies")
 public class Deputy {

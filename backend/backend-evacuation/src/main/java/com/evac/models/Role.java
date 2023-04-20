@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class is an entity that creates a table in the database for all the roles available
+ * This class is an entity that creates a table
+ * in the database for all the roles available
  */
 @Entity
 @Table(name = "roles")

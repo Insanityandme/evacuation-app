@@ -5,7 +5,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * This class is an entity that creates a table in the database with all the handicaps
+ * This class is an entity that creates a table in the database
+ * with all the handicaps
  */
 @Entity
 @Table(name = "handicap",

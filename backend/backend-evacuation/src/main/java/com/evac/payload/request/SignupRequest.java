@@ -3,7 +3,12 @@ package com.evac.payload.request;
 import java.util.Set;
 
 import javax.validation.constraints.*;
- 
+/**
+ * this is a class used for storing information
+ * in a @RequestBody in AuthController. It has
+ * getters which are used to extract information from
+ * the @RequestBody.
+ */
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)

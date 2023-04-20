@@ -4,6 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * this class is an entity that creates a table in the database to link
+ * a users id, username with a floor and zone.
+ */
 @Entity
 @Table( name = "delegations",
 uniqueConstraints = {

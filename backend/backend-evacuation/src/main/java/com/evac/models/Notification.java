@@ -3,6 +3,13 @@ package com.evac.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * This class is an entity that creates a table in the
+ * database for storing notifications.
+ * Notifications have a generated id,
+ * a name for easier management/use of database
+ * and a message.
+ */
 @Entity
 @Table( name = "notifications",
         uniqueConstraints = {

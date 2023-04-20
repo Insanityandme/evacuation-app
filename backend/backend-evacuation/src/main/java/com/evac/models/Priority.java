@@ -4,7 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 /**
- * This class is an entity that creates a table in the database for all the priority levels
+ * This class is an entity that creates a table
+ * in the database for all the priority levels
  */
 @Entity
 @Table(name = "Priority",

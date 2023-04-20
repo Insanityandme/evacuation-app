@@ -4,7 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * This class is an entity that creates a table in the database for evacuation leaders and their priority levels
+ * This class is an entity that creates a table in the database
+ * for evacuation leaders and their priority levels
  */
 @Entity
 @Table(name = "evacleader_priority",

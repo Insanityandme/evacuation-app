@@ -3,7 +3,7 @@ package com.evac.models;
 import javax.persistence.*;
 
 /**
- * This class is an entity that creates a table in the database to link a user with a handicap.
+ * This class is an entity tha  t creates a table in the database to link a user with a handicap.
  * It uses two columns as primary key (@IdClass).
  */
 @Entity

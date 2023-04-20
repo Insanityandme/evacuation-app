@@ -117,9 +117,9 @@ public class EvacAuthController {
         }
     }
 
-<<<<<<< Updated upstream
-    //This mapping updates the priority of a leader as well in case you put a leaderId that already exist on the table
-=======
+
+
+
     /**
      * this mapping sets a priority chosen in the requestbody to a leader with an
      * id specified in the pathvariable, if an evacuationleader exists with the given id,
@@ -133,8 +133,8 @@ public class EvacAuthController {
      * badRequest if no evacuation leader with id provided,
      * the id for priority is invalid, or the role of the user with given id
      * is not evacuation leader.
-     */
->>>>>>> Stashed changes
+     **/
+
     @PostMapping("/setPriorityToEvacuationLeader/{leaderId}")
 
     public ResponseEntity<?> setPriority(@PathVariable Long leaderId, @RequestBody EvacLeaderPriority evacLeaderPriority) {
@@ -169,15 +169,25 @@ public class EvacAuthController {
         }
     }
 
+    /**
+     * this mapping is used to return all the rows in the priority table
+     * @return all saved priorities in priorityrepository
+     */
+
     @GetMapping("/getAllPriorities")
     public List<Priority> getAllPriorities() {
         return priorityRepository.findAll();
     }
 
-    @DeleteMapping("deletePriorityById/{leaderId}")
-    public ResponseEntity<?> deletePriorityById(@PathVariable("leaderId") Long leaderId) {
-        if (priorityRepository.existsById(leaderId)) {
-            priorityRepository.deleteById(leaderId);
+    /**
+     * deletes a row from priorities table with a given priorityId
+     * @param priorityId id of the row to be deleted
+     * @return ResponseEntity: ok if deleted succesfully, badrequest if no row with given id.
+     */
+    @DeleteMapping("deletePriorityById/{priorityId}")
+    public ResponseEntity<?> deletePriorityById(@PathVariable("priorityId") Long priorityId) {
+        if (priorityRepository.existsById(priorityId)) {
+            priorityRepository.deleteById(priorityId);
 
             return ResponseEntity.ok("Priority deleted successfully!");
         } else {
@@ -188,6 +198,13 @@ public class EvacAuthController {
 
     }
 
+    /**
+     * this mapping is used to remove a row from evacleader_priority
+     * with a given leaderId
+     * @param leaderId the id of the leader on a row to be removed
+     * @return ResponseEntity.ok response if removed succesfully
+     * ResponseEntity.badRequest if no leader with given id.
+     */
     @DeleteMapping("deleteLeaderAndPriorityById/{leaderId}")
     public ResponseEntity<?> deleteLeaderAndPriorityById(@PathVariable("leaderId") Long leaderId) {
         if (evacLeaderPriorityRepository.existsById(leaderId)) {
@@ -200,6 +217,13 @@ public class EvacAuthController {
                     .body("No leader with given id!");
         }
     }
+
+    /**
+     * this mapping is used to return a list of all rows in the
+     * evacleader_priotity table, showing all evacuationleaders
+     * with priorities set, and which priority is set.
+     * @return List of all rows of evacleader_priority table
+     */
 
     @GetMapping("getAllLeadersAndPriorities")
     public List<EvacLeaderPriority> getAllLeadersAndPriorities() {

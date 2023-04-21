@@ -90,21 +90,26 @@
                             </ion-buttons>
                         </div>
                     </ion-item>
+
                     <ion-item>
                         <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
                     </ion-item>
+
                     <ion-item>
                         <ion-label><ion-icon :icon="call" slot="start"/> {{ user.password }}</ion-label>
                     </ion-item>
+
                     <ion-item class="ion-align-items-center">
                         <ion-chip color="tertiary"><!--slot="start"-->
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                             <ion-label><b>Floor: 1</b></ion-label>
                         </ion-chip>
+
                         <ion-chip color="tertiary"><!--style="margin: auto"-->
                             <ion-icon :icon="mapOutline" color="warning"></ion-icon>
                             <ion-label><b>Zone: B</b></ion-label>
                         </ion-chip>
+
                         <ion-chip color="tertiary"><!--slot="end"-->
                             <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                             <ion-label><b>Priority: High</b></ion-label>

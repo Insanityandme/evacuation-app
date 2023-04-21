@@ -4,6 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * this class is an entity linking a userId with a
+ * message and a name(of the message).
+ */
 @Entity
 @Table( name = "user_notifications")
 

@@ -8,6 +8,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * this class is an entity that creates a table in the database
+ * storing user information.
+ * It also creates a many-to-many table user_roles linking
+ * a user with a role from the roles table.
+ */
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
@@ -18,7 +24,6 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 
 	@NotBlank
 	@Size(max = 20)
@@ -32,13 +37,15 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
-
+	/**
+	 * creates a many-to-many relationship between a user_id from
+	 * users table, and role_id from roles table.
+	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-
 
 	public User() {
 	}

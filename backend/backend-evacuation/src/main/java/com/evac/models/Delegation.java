@@ -4,6 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * this class is an entity that creates a table in the database to link
+ * a users id, username with a floor and zone.
+ */
 @Entity
 @Table( name = "delegations",
 uniqueConstraints = {
@@ -27,20 +31,16 @@ public class Delegation {
     public Delegation(String username, Long id) {
         this.username = username;
         this.id = id;
-
-
     }
+
     public Delegation(String username, Long id, String floorName, String zoneName) {
         this.username = username;
         this.id = id;
         this.floorName = floorName;
         this.zoneName = zoneName;
-
     }
 
-    public Delegation() {
-
-    }
+    public Delegation() {}
 
     public String getZoneName() {
         return zoneName;

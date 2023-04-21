@@ -2,15 +2,18 @@ package com.evac.models;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * This class is an entity that creates a table in the database
+ * with all the handicaps
+ */
 @Entity
-@Table( name = "handicap",
-uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(name = "handicap",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "id"),
+                @UniqueConstraint(columnNames = "name")
+        })
 public class Handicap {
 
     @Id
@@ -21,11 +24,10 @@ public class Handicap {
     private String name;
 
 
-    public Handicap(){
-
+    public Handicap() {
     }
 
-    public Handicap(String name){
+    public Handicap(String name) {
         this.name = name;
     }
 

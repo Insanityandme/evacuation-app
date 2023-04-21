@@ -29,6 +29,7 @@ import {IonButton, IonList, IonItem, IonInput, IonLabel} from '@ionic/vue';
 import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {required, email} from '@vuelidate/validators';
+
 const state = reactive({
     username: '',
     email: '',

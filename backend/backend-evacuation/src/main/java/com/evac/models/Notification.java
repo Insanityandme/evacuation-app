@@ -3,6 +3,13 @@ package com.evac.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * This class is an entity that creates a table in the
+ * database for storing notifications.
+ * Notifications have a generated id,
+ * a name for easier management/use of database
+ * and a message.
+ */
 @Entity
 @Table( name = "notifications",
         uniqueConstraints = {
@@ -10,9 +17,7 @@ import javax.validation.constraints.NotBlank;
         })
 public class Notification {
 
-    public Notification() {
-
-    }
+    public Notification() {}
 
     public Notification(String name, String message) {
         this.name = name;
@@ -30,8 +35,6 @@ public class Notification {
     @NotBlank
     @Column(length = 100)
     private String message;
-
-
 
 
     public Long getId() {

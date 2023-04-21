@@ -157,9 +157,8 @@ const fetchAllUsers = async() => {
     users.value = response.data;
 }
 fetchAllUsers();
+
 </script>
-
-
 
 <style scoped>
 #container strong {

@@ -1,5 +1,11 @@
 import {Preferences} from '@capacitor/preferences';
 
+/**
+ * This class is responsible for methods
+ * to store and retrieve user data.
+ * We are using the Preferences plugin in Capacitor
+ * for this to work for both iOS and Android.
+ */
 export class StorageService {
     async create(key: string, value: any) {
         await Preferences.set({key, value});

@@ -23,6 +23,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User, getAllUsers} from '@/data/user';
 import {useIonRouter} from '@ionic/vue';
+
 // boolean value for the toast component in vuejs
 const isOpen = ref(false);
 // function to change the boolean value of isOpen
@@ -41,6 +42,7 @@ const alreadySignedIn = async () => {
         ionRouter.push("/tabs/tab1/");
     }
 }
+
 alreadySignedIn();
 /* function to login into the home page of your account,
    checks if you have an accesstoken and if that's

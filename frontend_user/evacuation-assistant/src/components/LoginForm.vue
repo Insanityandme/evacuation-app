@@ -23,12 +23,20 @@ import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {required, email} from '@vuelidate/validators';
 
+/**
+ * Responsible for storing form data,
+ * this data is reactive and will be stored
+ * as soon as you start typing
+ */
 const state = reactive({
   username: '',
   email: '',
   password: ''
 })
 
+/**
+ * Rules for validation
+ */
 const rules = {
   username: {required},
   email: {required, email},
@@ -36,8 +44,17 @@ const rules = {
 
 }
 
+/**
+ * This variable uses the plugin Vuelidate to
+ * set the rules in relation to our state data.
+ * Through this we can bind the data to our HTML tags
+ */
 const v$ = useVuelidate(rules, state);
 
+/**
+ * Used to pass data from our LoginForm.vue
+ * to LoginPage.vue
+ */
 const props = defineProps({
   signInUser: {
     type: Function,
@@ -45,6 +62,11 @@ const props = defineProps({
   }
 })
 
+/**
+ * When all rules are correct, submit form data
+ * and send it to the LoginPage.vue to check if
+ * the data is in our backend database.
+ */
 const submitForm = async () => {
   const isFormCorrect = await v$.value.$validate();
 

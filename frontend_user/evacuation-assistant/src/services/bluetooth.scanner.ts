@@ -1,5 +1,9 @@
+/**
+ * This file is currently not in use but will be!
+ */
 import {ref} from "vue";
 
+/*
 export default function useMyAsyncComposable(promise: any, initialState: any) {
     const state = ref(initialState);
     const isReady = ref(false);
@@ -25,6 +29,7 @@ export default function useMyAsyncComposable(promise: any, initialState: any) {
 
     return {state, isReady, isLoading};
 }
+ */
 
 
 /*

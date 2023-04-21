@@ -21,7 +21,7 @@ import {IonPage, IonToast, IonContent} from '@ionic/vue';
 import {ref} from 'vue';
 import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
-import {signInUser, User, getAllUsers} from '@/data/user';
+import {signInUser, User} from '@/data/user';
 import {useIonRouter} from '@ionic/vue';
 
 // boolean value for the toast component in vuejs

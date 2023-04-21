@@ -2,10 +2,11 @@ package com.evac.models;
 
 import java.io.Serializable;
 
-//This class should be used just to have two columns as primary key for the user_handicap table
+/**
+ * this class is used to allow UserHandicap table to have two columns as primary key
+ */
 public class UserHandicapRepositoryKey implements Serializable {
     private Long userId;
     private Long handicapId;
-
 
 }

@@ -3,6 +3,10 @@ package com.evac.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * this class is an entity that creates a table in the database
+ * for storing names of floors with a generated id.
+ */
 @Entity
 @Table(name = "floors")
 public class Floor {
@@ -14,9 +18,7 @@ public class Floor {
     @Column(length = 20)
     private String name;
 
-    public Floor() {
-
-    }
+    public Floor() {}
 
     public Long getId() {
         return id;

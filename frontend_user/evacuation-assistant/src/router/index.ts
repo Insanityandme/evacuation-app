@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/deputy_leader/LoginPage.vue')
+    component: () => import('@/views/LoginPage.vue')
   },
 ]
 

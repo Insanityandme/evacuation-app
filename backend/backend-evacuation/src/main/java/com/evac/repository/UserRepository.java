@@ -9,9 +9,12 @@ import com.evac.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  Optional<User> findByUsername(String username);
+  Optional<User> findByUsername(String username);//How exactly does this method work???
 
   Boolean existsByUsername(String username);
 
   Boolean existsByEmail(String email);
+
+  @Override
+  boolean existsById(Long aLong);
 }

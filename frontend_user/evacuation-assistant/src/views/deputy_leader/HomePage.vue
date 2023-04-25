@@ -12,30 +12,54 @@
         </ion-toolbar>
       </ion-header>
       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-      <ion-title>Wow such title! {{ email }}</ion-title>
-
-      <ExploreContainer name="Welcome!" />
+      <ion-button @click="startScan()">Press me to start scanning</ion-button>
+      <ion-list v-for="device in devices" :key="device">
+        <ion-item>Device found: {{ device.name }}</ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
+import {BleClient} from "@capacitor-community/bluetooth-le";
+import {ref, watch} from "vue";
 
-const props = defineProps({
-  email: String
-})
+const store = new StorageService();
+const devices: any = ref([])
 
-const parsedData = async () => {
-  const store = new StorageService();
-  const data = await store.read('user');
-  console.log(data);
-  const dataJson = JSON.parse(data.value || '{}');
-  console.log(dataJson.email);
-  return dataJson;
+const startScan = async () => {
+  resetArray();
+
+  try {
+    await BleClient.initialize();
+
+    await BleClient.requestLEScan({
+      namePrefix: "evac-"
+    }, (result) => {
+      console.log(result);
+      devices.value.push({name: result.localName})
+    });
+
+    setTimeout(async () => {
+      await BleClient.stopLEScan();
+    }, 5000);
+
+  } catch (error) {
+    console.log("wut: " + error);
+  }
 }
 
-parsedData();
+function resetArray() {
+  devices.value = [];
+}
+
+watch(devices, () => {
+  console.log("CLICKED!")
+}, { deep: true })
+
+watch(devices, () => {
+  console.log("RESET!")
+})
 </script>

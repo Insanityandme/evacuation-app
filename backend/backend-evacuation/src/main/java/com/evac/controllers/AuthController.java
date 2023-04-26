@@ -3,8 +3,6 @@ package com.evac.controllers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import com.evac.models.*;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,8 @@ import com.evac.payload.response.JwtResponse;
 import com.evac.payload.response.MessageResponse;
 import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
+
+import javax.validation.Valid;
 
 /**
  * This class is a RestController that will manage HTTP requests from the user to the server

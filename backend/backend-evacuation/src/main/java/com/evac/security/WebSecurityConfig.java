@@ -1,8 +1,13 @@
 package com.evac.security;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.evac.security.jwt.AuthEntryPointJwt;
 import com.evac.security.jwt.AuthTokenFilter;
 import com.evac.security.services.UserDetailsServiceImpl;
+
+import java.io.IOException;
 
 /**
  * this class is a configuration class for Spring Security.
@@ -110,4 +117,21 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     
     return http.build();
   }
+
+
+
+  @Bean
+  public FirebaseMessaging firebaseMessaging() throws IOException{
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(new ClassPathResource("privateKey.json").getInputStream());
+        FirebaseOptions firebaseOptions = FirebaseOptions
+                .builder()
+                .setCredentials(googleCredentials)
+                .build();
+
+        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
+
+        return FirebaseMessaging.getInstance(app);
+  }
+
 }

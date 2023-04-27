@@ -25,8 +25,9 @@ public class Delegation {
     @Column(length = 20)
     private String floorName;
 
-    @Column(length = 1)
+    @Column(length = 5)
     private String zoneName;
+
 
     public Delegation(String username, Long id) {
         this.username = username;

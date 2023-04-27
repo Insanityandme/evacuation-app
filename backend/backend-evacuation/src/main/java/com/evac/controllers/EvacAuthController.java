@@ -55,6 +55,7 @@ public class EvacAuthController {
                                          @RequestBody Map<String, Long> payload) {
         Long floorid = payload.get("floorid");
         Long zoneid = payload.get("zoneid");
+
         Optional<User> user = null;
 
         if (userRepository.existsById(userId)) {

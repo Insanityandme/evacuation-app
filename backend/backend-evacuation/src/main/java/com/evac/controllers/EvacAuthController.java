@@ -3,6 +3,7 @@ package com.evac.controllers;
 import java.util.*;
 
 import com.evac.models.*;
+import com.evac.payload.request.DelegationRequest;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,6 @@ public class EvacAuthController {
      * @param userId  of the user to be put in the table. Also used to find
      *                the user in userRepository so that the name can be taken
      *                from the user and also put in the table.
-     * @param payload a from which the floorid/zoneid can be taken.
      * @return an ok response if the row was added to the table
      * a badrequest response if the role with the userid is not evacleader,
      * if the evacleader with the id is already in the table, or if
@@ -52,31 +52,39 @@ public class EvacAuthController {
      */
     @PostMapping("/delegateById/{userId}")
     public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
-                                         @RequestBody Map<String, Long> payload) {
-        Long floorid = payload.get("floorid");
-        Long zoneid = payload.get("zoneid");
+                                         @RequestBody DelegationRequest delegationRequest) {
 
-        Optional<User> user = null;
+        Optional<User> user;
+        Set<String> strZones = delegationRequest.getZone();
+        System.out.println(strZones);
+        String floorName = delegationRequest.getFloorname();
+        for(String zone : strZones) {
+            if(!(floorRepository.existsByName(floorName) && zoneRepository.existsByName(zone))) {
+                return ResponseEntity.badRequest().body("invalid floor or zone-name");
+            }
+        }
+        user = userRepository.findById(userId);
+        String username = user.get().getUsername();
 
         if (userRepository.existsById(userId)) {
-            if (!delegationRepository.existsById(userId)) {
-
-                Floor floor = floorRepository.getById(floorid);
-                String floorName = floor.getName();
-
-                Zone zone = zoneRepository.getById(zoneid);
-                String zoneName = zone.getName();
-
-                user = userRepository.findById(userId);
+            if (!delegationRepository.existsByUsername(username)) {
 
                 for (Role role : user.get().getRoles()) {
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
-                        Delegation delegation = new Delegation(
-                                user.get().getUsername(), userId, floorName, zoneName);
-                        delegationRepository.save(delegation);
 
-                        return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
-                                + " with id: " + userId + " added to delegation database");
+                        System.out.println("hej");
+                        for (String zone : strZones) {
+                            if (zoneRepository.existsByName(zone)) {
+                                Delegation delegation = new Delegation(
+                                        user.get().getUsername(), floorName, zone);
+                                delegationRepository.save(delegation);
+
+                            }
+
+                        }
+                        return ResponseEntity.ok(user.get().getUsername() + " delegated to floor : " +
+                                floorName + " and zones: " + strZones);
+
                     }
                 }
 
@@ -84,11 +92,13 @@ public class EvacAuthController {
                         .badRequest()
                         .body("Invalid role");
             } else {
+                user = null;
                 return ResponseEntity
                         .badRequest()
                         .body("Evacuation leader already in delegation database");
             }
         } else {
+            user = null;
             return ResponseEntity
                     .badRequest()
                     .body("No evacuation leader matching the id");
@@ -117,9 +127,6 @@ public class EvacAuthController {
                     .body("No leader with given id delegated");
         }
     }
-
-
-
 
     /**
      * this mapping sets a priority chosen in the requestbody to a leader with an

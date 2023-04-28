@@ -15,7 +15,7 @@ public class DelegationRequest {
         return this.zone;
     }
 
-    public void setZone(Set<String> role) {
+    public void setZone(Set<String> zone) {
         this.zone = zone;
     }
 

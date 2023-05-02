@@ -71,7 +71,6 @@ const signIn = async (user: User) => {
     console.log(response.data.roles);
 
     //Navigate to the appropriate home page based on the user's role
-
     if(response.data.roles.includes('ROLE_DEPUTYLEADER')){
       ionRouter.push("/tabs/homedl/");
     } else if (response.data.roles.includes('ROLE_EVACLEADER')){

@@ -17,7 +17,7 @@
         <ion-item>Device found: {{ device.name }}</ion-item>
       </ion-list>
 
-      <ion-list>
+      <ion-grid>
         <ion-item>
           <ion-label>You are logged in as [Username] - [Role]</ion-label>
         </ion-item>
@@ -25,28 +25,7 @@
           <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
         </ion-item>
 
-        //TODO: Se om nedan fungerar
-        <app-countdown-timer class="item-countdown" [end]="details?.expirationDate" [units]="{from: 'minute', to: 'minute'}"></app-countdown-timer>
-
-        <ion-item>
-          <ion-button color="warning">Report blockage</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button color="danger">Report danger</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button color="dark">No longer available</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button color="secondary">Ask for assistance</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button color="success">Evacuation Completed</ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button color="medium">See list of notifications</ion-button>
-        </ion-item>
-      </ion-list>
+      </ion-grid>
 
 
     </ion-content>

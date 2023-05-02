@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import TabsPage from '../views/TabsPage.vue';
 import { StorageService } from "@/services/storage.service";
 
 //const store = new StorageService();
@@ -127,9 +127,30 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from) => {
+/*
+router.beforeEach((to, from, next) => {
   console.log('beforeEach');
 
+   // redirect to login page if not logged in and trying to access a restricted page
+    const { authorize } = to.meta;
+    const currentUser = authenticationService.currentUserValue;
+
+    if (authorize) {
+        if (!currentUser) {
+            // not logged in so redirect to login page with the return url
+            return next({ path: '/login', query: { returnUrl: to.path } });
+        }
+
+        // check if route is restricted by role
+        if (authorize.length && !authorize.includes(currentUser.role)) {
+            // role not authorised so redirect to home page
+            return next({ path: '/' });
+        }
+    }
+
+    next();
+
 })
+*/
 
 export default router

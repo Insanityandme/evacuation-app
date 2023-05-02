@@ -8,7 +8,7 @@
     <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large" email="wow">Welcome!</ion-title>
+          <ion-title size="large" email="wow">Welcome Evac!</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
@@ -16,6 +16,36 @@
       <ion-list v-for="device in devices" :key="device">
         <ion-item>Device found: {{ device.name }}</ion-item>
       </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label>You are logged in as [Username] - [Role]</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-button color="warning">Report blockage</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button color="danger">Report danger</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button color="dark">No longer available</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button color="secondary">Ask for assistance</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button color="success">Evacuation Completed</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button color="medium">See list of notifications</ion-button>
+        </ion-item>
+      </ion-list>
+
+
     </ion-content>
   </ion-page>
 </template>

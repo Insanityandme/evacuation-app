@@ -36,10 +36,16 @@ const ionRouter = useIonRouter();
 const alreadySignedIn = async () => {
   // locally stored user data
   const userData = await store.read('user');
+  const userDataParsed = JSON.parse(userData.value!);
+  console.log(userDataParsed.roles[0]);
+  console.log(userData);
 
-  if (userData.value !== null) {
+  if (userDataParsed.accessToken !== null) {
     console.log("Successfully used stored token to redirect to home page");
     ionRouter.push("/tabs/home/");
+                      //TODO: Styr om beroende på roll här med
+  } else {
+    console.log("User is not signed in yet.");
   }
 }
 
@@ -50,20 +56,37 @@ alreadySignedIn();
    the case create a local storage object
    that will be used to store your "login" information.
  */
+
 const signIn = async (user: User) => {
   // POST request to our backend API
   const response = await signInUser(user);
   console.log(response.data);
 
-  // if we exist in the backend DB, create a object storing our information
+  // if we exist in the backend DB, create an object storing our information
   if (response.data.accessToken) {
     console.log("Retreived accesstoken and storing it response data...");
 
     // very important data is turned into a JSON string and then able to JSON.parse it later on
     await store.create('user', JSON.stringify(response.data));
+    console.log(response.data.roles);
+
+    //Navigate to the appropriate home page based on the user's role
+
+    if(response.data.roles.includes('ROLE_DEPUTYLEADER')){
+      ionRouter.push("/tabs/homedl/");
+    } else if (response.data.roles.includes('ROLE_EVACLEADER')){
+      ionRouter.push("/tabs/homeel/");
+    } else if (response.data.roles.includes('ROLE_USER')){
+      ionRouter.push("/tabs/homeuser/");
+    } else {
+      console.log('Unknown role:', response.data.roles);
+    }
+
 
     // rerouting to homepage
-    ionRouter.push("/tabs/home/");
+    //ionRouter.push("/tabs/home/");
+
+
   } else if (response.status == 400 || response.status == 401) {
     // if you get a bad request, make sure the toast component can notify someone again.
     setOpen(true);

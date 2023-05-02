@@ -13,7 +13,17 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 3 page" />
+      <ion-list>
+        <ion-item>
+          <ion-label>You are logged in as [Username] - [Role]</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
+        </ion-item>
+
+
+      </ion-list>
+
     </ion-content>
   </ion-page>
 </template>

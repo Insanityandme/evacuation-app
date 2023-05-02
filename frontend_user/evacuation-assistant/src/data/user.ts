@@ -1,7 +1,6 @@
 import {CapacitorHttp} from "@capacitor/core";
 
 // url to access our API
-const resourceUrl = 'http://10.2.2.69:8081/api/auth/';
 
 // interface for user data
 export interface User {

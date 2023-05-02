@@ -8,7 +8,7 @@
     <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large" email="wow">Welcome!</ion-title>
+          <ion-title size="large" email="wow">Welcome User!</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
@@ -16,6 +16,19 @@
       <ion-list v-for="device in devices" :key="device">
         <ion-item>Device found: {{ device.name }}</ion-item>
       </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label>You are logged in as [Username] - [Role]</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-button color="warning">Ask for help</ion-button>
+        </ion-item>
+
+      </ion-list>
+
+
     </ion-content>
   </ion-page>
 </template>

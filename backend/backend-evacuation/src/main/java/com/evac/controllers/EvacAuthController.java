@@ -3,6 +3,7 @@ package com.evac.controllers;
 import java.util.*;
 
 import com.evac.models.*;
+import com.evac.payload.request.DelegationDeleteRequest;
 import com.evac.payload.request.DelegationRequest;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,9 @@ public class EvacAuthController {
     /**
      * this mapping is responsible for handling a request to put a row consisting of
      * id, username, floorname, zonename into the delegations table.
-     *
-     * @param userId  of the user to be put in the table. Also used to find
-     *                the user in userRepository so that the name can be taken
-     *                from the user and also put in the table.
+     * @param userId the id of a user which username is to be added to delgation table
+     * @param delegationRequest is a class that contains information(floor, zones)
+     *                          to be added to the delegation table.
      * @return an ok response if the row was added to the table
      * a badrequest response if the role with the userid is not evacleader,
      * if the evacleader with the id is already in the table, or if
@@ -106,20 +106,29 @@ public class EvacAuthController {
     }
 
     /**
-     * this mapping is responsible for handling a request to delete a row from the
-     * delegations table with the ID given in the request.
-     * The method checks if there is a delegation with the given id, and if there is
-     * it deletes the row.
-     *
-     * @param leaderId the id of a user in the table
-     * @return ok response if there is a user in the table with given id.
-     * badRequest if there is not a user with the given id.
+     * this mapping is responsible for handling a request to delete rows from the
+     * delegations table with the username given in the request.
+     * The method checks if there is one or several delegations with the given username
+     * , and if there is it deletes the row or rows.
+     * @param delegationDeleteRequest a class that gets a username from the requestbody,
+     *                                with a getUsername() method that returns a username
+     *                                to be deleted.
+     * @return ok response if there is a user in the table with given username.
+     * badRequest if there is not a user with the given username
      */
-    @DeleteMapping("deleteDelegationById/{leaderId}")
-    public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId) {
-        if (delegationRepository.existsById(leaderId)) {
-            delegationRepository.deleteById(leaderId);
-
+    @DeleteMapping("deleteDelegationByUsername")
+    public ResponseEntity<?> deleteDelegationById(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
+        if (delegationRepository.existsByUsername(delegationDeleteRequest.getUsername())) {
+            List <Delegation> delegationList = delegationRepository.findAll();
+            for (Delegation delegation1 : delegationList) {
+                System.out.println(delegation1.getUsername());
+                System.out.println(delegationDeleteRequest.getUsername());
+                if(delegation1.getUsername().equals(delegationDeleteRequest.getUsername())) {
+                    Long id = delegation1.getId();
+                    System.out.println(id);
+                    delegationRepository.deleteById(id);
+                 }
+            }
             return ResponseEntity.ok("Delegation of floor/zones for leader succesfully deleted");
         } else {
             return ResponseEntity
@@ -236,5 +245,9 @@ public class EvacAuthController {
     @GetMapping("getAllLeadersAndPriorities")
     public List<EvacLeaderPriority> getAllLeadersAndPriorities() {
         return evacLeaderPriorityRepository.findAll();
+    }
+    @GetMapping("getAllDelegations")
+    public List<Delegation> getAllDelegations() {
+        return delegationRepository.findAll();
     }
 }

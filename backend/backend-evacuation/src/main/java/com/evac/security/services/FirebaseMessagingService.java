@@ -1,35 +1,42 @@
 package com.evac.security.services;
 
-import com.evac.models.Note;
+import com.evac.models.NotificationMessage;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FirebaseMessagingService {
 
-    private final FirebaseMessaging firebaseMessaging;
+    private FirebaseMessaging firebaseMessaging;
+
+    public FirebaseMessagingService(){
+
+    }
 
     public FirebaseMessagingService(FirebaseMessaging firebaseMessaging){
         this.firebaseMessaging = firebaseMessaging;
     }
 
 
-    public String sendNotification(Note note, String token) throws FirebaseMessagingException{
+    public String sendNotificationByToken(NotificationMessage notificationMessage) throws FirebaseMessagingException{
 
         Notification notification = Notification
                 .builder()
-                .setTitle(note.getSubject())
-                .setBody(note.getContent())
+                .setTitle(notificationMessage.getTitle())
+                .setBody(notificationMessage.getBody())
                 .build();
 
         Message message = Message
                 .builder()
-                .setToken(token)
+                .setToken(notificationMessage.getRecipientToken())
                 .setNotification(notification)
-                .putAllData(note.getData())
+                .putAllData(notificationMessage.getData())
                 .build();
 
-        return firebaseMessaging.send(message);
+        firebaseMessaging.send(message);
+        return "Success sending notification!";
     }
 }

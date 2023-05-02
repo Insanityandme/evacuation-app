@@ -1,32 +1,21 @@
 package com.evac.security;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import com.evac.security.jwt.AuthEntryPointJwt;
 import com.evac.security.jwt.AuthTokenFilter;
 import com.evac.security.services.UserDetailsServiceImpl;
-
-import java.io.IOException;
 
 /**
  * this class is a configuration class for Spring Security.
@@ -109,6 +98,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/deputyAuth/**").permitAll()
             .antMatchers("/api/userAuth/**").permitAll()
             .antMatchers("/api/notifyAuth/**").permitAll()
+            .antMatchers("/api/notification/**").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());
@@ -120,18 +110,5 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
 
 
-  @Bean
-  public FirebaseMessaging firebaseMessaging() throws IOException{
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource("privateKey.json").getInputStream());
-        FirebaseOptions firebaseOptions = FirebaseOptions
-                .builder()
-                .setCredentials(googleCredentials)
-                .build();
-
-        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
-
-        return FirebaseMessaging.getInstance(app);
-  }
 
 }

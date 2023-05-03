@@ -19,9 +19,6 @@ public class UserController {
 
     //Oversee if [all] these variables should be set to private!
     @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
     HandicapRepository handicapRepository;
 
     @Autowired

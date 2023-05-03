@@ -22,31 +22,30 @@ import com.evac.payload.response.MessageResponse;
 import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
 
+/**
+ * this class is responsible for managing the requests sent by users
+ * to the server wanting to change the active-status on a deputyleader.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/deputyAuth")
 
 public class DeputyController {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
-    EvacLeaderPriorityRepository evacLeaderPriorityRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
     @Autowired
     DeputyRepository deputyRepository;
 
+    /**
+     * this Mapping is responsible for handling a request to change the active-status of
+     * a deputyleader.
+     * It checks if there is another deputyleader who already has active-status: active,
+     * and gives a badRequest response if so.
+     *
+     * @param username of the deputleader who is to have the status changed.
+     * @return an ok or badRequest response.
+     */
     @PutMapping("/changeActive/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);

@@ -39,7 +39,7 @@ const alreadySignedIn = async () => {
     const userData = await store.read('user');
     if (userData.value !== null) {
         console.log("Successfully used stored token to redirect to home page");
-        ionRouter.push("/tabs/tab1/");
+        ionRouter.push("/tabs/UsersManager/");
     }
 }
 alreadySignedIn();
@@ -57,7 +57,7 @@ const signIn = async (user: User) => {
         console.log("Retreived accesstoken and storing it response data...");
         await store.create('user', response.data);
         // rerouting to homepage
-        ionRouter.push("/tabs/tab1/");
+        ionRouter.push("/tabs/UsersManager/");
     } else if (response.status === 400 || response.status === 401) {
         // if you get a bad request, make sure the toast component can notify someone again.
         setOpen(true);

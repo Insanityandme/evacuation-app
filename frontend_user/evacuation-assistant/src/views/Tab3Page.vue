@@ -77,14 +77,14 @@
       <ion-list>
         <ion-item valid-v-for="(item, index) in items">
           <ion-avatar slot="start">
-            <ion-icon aria-hidden="true"  :icon="alertCircleOutline" style="font-size: 35px;" />
+            <ion-icon aria-hidden="true"  :icon="alertCircleOutline" color="warning" style="font-size: 35px;" />
           </ion-avatar>
-          <ion-label>Blocked exit: Floor 2, Zone A.</ion-label>
+          <ion-label >Blocked exit: Floor 2, Zone A.</ion-label>
         </ion-item>
 
         <ion-item valid-v-for="(item, index) in items">
           <ion-avatar slot="start">
-            <ion-icon aria-hidden="true" :icon="flameOutline" style="font-size: 35px;" />
+            <ion-icon aria-hidden="true" :icon="flameOutline" color="danger" style="font-size: 35px;" />
           </ion-avatar>
           <ion-label>Fire: Floor 8, Zone A, B, C.</ion-label>
         </ion-item>
@@ -93,7 +93,7 @@
           <ion-avatar slot="start">
             <ion-icon aria-hidden="true" :icon="skullOutline" style="font-size: 35px;" />
           </ion-avatar>
-          <ion-label>Game Over: Floor 8, Zone A, B, C.</ion-label>
+          <ion-label>Collapsed floor: Floor 8, Zone A, B, C.</ion-label>
         </ion-item>
 
       </ion-list>

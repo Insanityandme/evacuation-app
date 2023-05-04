@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+
+
 import {IonPage, IonToast, IonContent} from '@ionic/vue';
 import {useIonRouter} from '@ionic/vue';
 import {ref} from 'vue';
@@ -37,13 +39,23 @@ const alreadySignedIn = async () => {
   // locally stored user data
   const userData = await store.read('user');
   const userDataParsed = JSON.parse(userData.value!);
-  console.log(userDataParsed.roles[0]);
-  console.log(userData);
+  // console.log(userDataParsed.roles[0]);
+  // console.log(userDataParsed);
 
   if (userDataParsed.accessToken !== null) {
     console.log("Successfully used stored token to redirect to home page");
-    ionRouter.push("/tabs/home/");
-                      //TODO: Styr om beroende på roll här med
+    // ionRouter.push("/tabs/home/");
+    //Navigate to the appropriate home page based on the user's role
+    if (userDataParsed.roles[0] === 'ROLE_DEPUTYLEADER') {
+      ionRouter.push("/tabs/home/deputyleader/");
+    } else if (userDataParsed.roles[0] === 'ROLE_EVACLEADER') {
+      ionRouter.push("/tabs/home/evacleader/");
+    } else if (userDataParsed.roles[0] === 'ROLE_USER') {
+      ionRouter.push("/tabs/home/user/");
+    } else {
+      console.log('Unknown role');
+    }
+    //TODO: Styr om beroende på roll här med
   } else {
     console.log("User is not signed in yet.");
   }
@@ -66,24 +78,33 @@ const signIn = async (user: User) => {
   if (response.data.accessToken) {
     console.log("Retreived accesstoken and storing it response data...");
 
+
+    // Save user data and roles to local storage
+    const userData = {
+      accessToken: response.data.accessToken,
+      roles: response.data.roles
+    };
+
+
     // very important data is turned into a JSON string and then able to JSON.parse it later on
     await store.create('user', JSON.stringify(response.data));
     console.log(response.data.roles);
 
+
     //Navigate to the appropriate home page based on the user's role
-    if(response.data.roles.includes('ROLE_DEPUTYLEADER')){
-      ionRouter.push("/tabs/homedl/");
-    } else if (response.data.roles.includes('ROLE_EVACLEADER')){
-      ionRouter.push("/tabs/homeel/");
-    } else if (response.data.roles.includes('ROLE_USER')){
-      ionRouter.push("/tabs/homeuser/");
+    if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
+      ionRouter.push("/tabs/home/deputyleader/");
+    } else if (response.data.roles.includes('ROLE_EVACLEADER')) {
+      ionRouter.push("/tabs/home/evacleader/");
+    } else if (response.data.roles.includes('ROLE_USER')) {
+      ionRouter.push("/tabs/home/user/");
     } else {
       console.log('Unknown role:', response.data.roles);
     }
 
 
     // rerouting to homepage
-    //ionRouter.push("/tabs/home/");
+    // ionRouter.push("/tabs/home/");
 
 
   } else if (response.status == 400 || response.status == 401) {
@@ -91,6 +112,8 @@ const signIn = async (user: User) => {
     setOpen(true);
   }
 }
+
+
 </script>
 
 <style>

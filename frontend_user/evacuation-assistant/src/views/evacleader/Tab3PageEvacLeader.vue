@@ -55,9 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonInfiniteScroll,
-IonAvatar, IonInfiniteScrollContent, IonIcon, } from '@ionic/vue';
+import {
+    IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonInfiniteScroll,
+    IonAvatar, IonInfiniteScrollContent, IonIcon,
+} from '@ionic/vue';
 import {flameOutline, skullOutline, alertCircleOutline} from 'ionicons/icons';
 import {ref} from "vue";
+
 const ionInfinite = ref();
 </script>

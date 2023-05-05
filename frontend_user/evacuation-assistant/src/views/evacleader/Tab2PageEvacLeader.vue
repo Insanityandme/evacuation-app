@@ -56,6 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
-IonCardTitle, IonCardSubtitle, IonButton, IonLabel, IonItem} from '@ionic/vue';
+import {
+    IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
+    IonCardTitle, IonCardSubtitle, IonButton, IonLabel, IonItem
+} from '@ionic/vue';
 </script>

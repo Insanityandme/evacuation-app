@@ -26,10 +26,10 @@
 import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 import {BleClient} from '@capacitor-community/bluetooth-le';
-import {ref, watch} from 'vue';
-import {measuredDistance, MovingAverageFilter} from "@/data/beacon";
+import {ref} from 'vue';
+import {measuredDistance, MovingAverageFilter} from "@/services/beacon";
 
-const filter = new MovingAverageFilter(5);
+const filter = new MovingAverageFilter(20, 10);
 const store = new StorageService();
 const devices: any = ref([])
 
@@ -51,19 +51,23 @@ const startScan = async () => {
             console.log(result);
 
             if (devices.value.length < 3) {
-                devices.value.push({
-                    name: result.localName,
-                    rssi: result.rssi,
-                    distance: measuredDistance(result.rssi!),
-                    filtered: measuredDistance(filter.getFilteredValue())
-                });
+                if (result.rssi != null) {
+                    devices.value.push({
+                        name: result.localName,
+                        rssi: result.rssi,
+                        distance: measuredDistance(result.rssi),
+                        filtered: measuredDistance(filter.getFilteredValue())
+                    });
+                }
             } else {
                 devices.value.forEach((device: any) => {
                     if (device.name == result.localName) {
-                        filter.addValue(result.rssi!);
-                        device.rssi = result.rssi;
-                        device.distance = measuredDistance(result.rssi!);
-                        device.filtered = measuredDistance(filter.getFilteredValue());
+                        if (result.rssi != null) {
+                            filter.addValue(result.rssi);
+                            device.rssi = result.rssi;
+                            device.distance = measuredDistance(result.rssi);
+                            device.filtered = measuredDistance(filter.getFilteredValue());
+                        }
                     }
                 })
             }

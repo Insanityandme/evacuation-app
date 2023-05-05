@@ -283,6 +283,19 @@ public class EvacAuthController {
                 .body("no evacleader with this username");
     }
 
+    @PutMapping("/turnOffAllActive")
+    public ResponseEntity<?> turnOffAllActive() {
+        List<EvacActive> evacActiveList = evacActiveRepository.findAll();
+        for (EvacActive evacActive : evacActiveList) {
+            String username = evacActive.getUsername();
+            EvacActive newEvacActive = evacActive;
+            newEvacActive.setActiveFalse();
+            evacActiveRepository.findByUsername(username)
+                    .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
+        }
+        return ResponseEntity.ok("all active: true evacuation leaders set to false");
+    }
+
 
 }
 

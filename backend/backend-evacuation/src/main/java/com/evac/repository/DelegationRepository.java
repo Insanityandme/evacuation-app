@@ -18,4 +18,5 @@ public interface DelegationRepository extends JpaRepository<Delegation, Long> {
 
     @Override
     boolean existsById(Long aLong);
+
 }

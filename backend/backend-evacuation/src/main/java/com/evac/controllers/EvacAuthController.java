@@ -3,6 +3,8 @@ package com.evac.controllers;
 import java.util.*;
 
 import com.evac.models.*;
+import com.evac.payload.request.DelegationDeleteRequest;
+import com.evac.payload.request.DelegationRequest;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +42,9 @@ public class EvacAuthController {
     /**
      * this mapping is responsible for handling a request to put a row consisting of
      * id, username, floorname, zonename into the delegations table.
-     *
-     * @param userId  of the user to be put in the table. Also used to find
-     *                the user in userRepository so that the name can be taken
-     *                from the user and also put in the table.
-     * @param payload a from which the floorid/zoneid can be taken.
+     * @param userId the id of a user which username is to be added to delgation table
+     * @param delegationRequest is a class that contains information(floor, zones)
+     *                          to be added to the delegation table.
      * @return an ok response if the row was added to the table
      * a badrequest response if the role with the userid is not evacleader,
      * if the evacleader with the id is already in the table, or if
@@ -52,30 +52,39 @@ public class EvacAuthController {
      */
     @PostMapping("/delegateById/{userId}")
     public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
-                                         @RequestBody Map<String, Long> payload) {
-        Long floorid = payload.get("floorid");
-        Long zoneid = payload.get("zoneid");
-        Optional<User> user = null;
+                                         @RequestBody DelegationRequest delegationRequest) {
+
+        Optional<User> user;
+        Set<String> strZones = delegationRequest.getZone();
+        System.out.println(strZones);
+        String floorName = delegationRequest.getFloorname();
+        for(String zone : strZones) {
+            if(!(floorRepository.existsByName(floorName) && zoneRepository.existsByName(zone))) {
+                return ResponseEntity.badRequest().body("invalid floor or zone-name");
+            }
+        }
+        user = userRepository.findById(userId);
+        String username = user.get().getUsername();
 
         if (userRepository.existsById(userId)) {
-            if (!delegationRepository.existsById(userId)) {
-
-                Floor floor = floorRepository.getById(floorid);
-                String floorName = floor.getName();
-
-                Zone zone = zoneRepository.getById(zoneid);
-                String zoneName = zone.getName();
-
-                user = userRepository.findById(userId);
+            if (!delegationRepository.existsByUsername(username)) {
 
                 for (Role role : user.get().getRoles()) {
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
-                        Delegation delegation = new Delegation(
-                                user.get().getUsername(), userId, floorName, zoneName);
-                        delegationRepository.save(delegation);
 
-                        return ResponseEntity.ok("Evacuation leader: " + user.get().getUsername()
-                                + " with id: " + userId + " added to delegation database");
+                        System.out.println("hej");
+                        for (String zone : strZones) {
+                            if (zoneRepository.existsByName(zone)) {
+                                Delegation delegation = new Delegation(
+                                        user.get().getUsername(), floorName, zone);
+                                delegationRepository.save(delegation);
+
+                            }
+
+                        }
+                        return ResponseEntity.ok(user.get().getUsername() + " delegated to floor : " +
+                                floorName + " and zones: " + strZones);
+
                     }
                 }
 
@@ -83,11 +92,13 @@ public class EvacAuthController {
                         .badRequest()
                         .body("Invalid role");
             } else {
+                user = null;
                 return ResponseEntity
                         .badRequest()
                         .body("Evacuation leader already in delegation database");
             }
         } else {
+            user = null;
             return ResponseEntity
                     .badRequest()
                     .body("No evacuation leader matching the id");
@@ -95,20 +106,29 @@ public class EvacAuthController {
     }
 
     /**
-     * this mapping is responsible for handling a request to delete a row from the
-     * delegations table with the ID given in the request.
-     * The method checks if there is a delegation with the given id, and if there is
-     * it deletes the row.
-     *
-     * @param leaderId the id of a user in the table
-     * @return ok response if there is a user in the table with given id.
-     * badRequest if there is not a user with the given id.
+     * this mapping is responsible for handling a request to delete rows from the
+     * delegations table with the username given in the request.
+     * The method checks if there is one or several delegations with the given username
+     * , and if there is it deletes the row or rows.
+     * @param delegationDeleteRequest a class that gets a username from the requestbody,
+     *                                with a getUsername() method that returns a username
+     *                                to be deleted.
+     * @return ok response if there is a user in the table with given username.
+     * badRequest if there is not a user with the given username
      */
-    @DeleteMapping("deleteDelegationById/{leaderId}")
-    public ResponseEntity<?> deleteDelegationById(@PathVariable("leaderId") Long leaderId) {
-        if (delegationRepository.existsById(leaderId)) {
-            delegationRepository.deleteById(leaderId);
-
+    @DeleteMapping("deleteDelegationByUsername")
+    public ResponseEntity<?> deleteDelegationById(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
+        if (delegationRepository.existsByUsername(delegationDeleteRequest.getUsername())) {
+            List <Delegation> delegationList = delegationRepository.findAll();
+            for (Delegation delegation1 : delegationList) {
+                System.out.println(delegation1.getUsername());
+                System.out.println(delegationDeleteRequest.getUsername());
+                if(delegation1.getUsername().equals(delegationDeleteRequest.getUsername())) {
+                    Long id = delegation1.getId();
+                    System.out.println(id);
+                    delegationRepository.deleteById(id);
+                 }
+            }
             return ResponseEntity.ok("Delegation of floor/zones for leader succesfully deleted");
         } else {
             return ResponseEntity
@@ -116,9 +136,6 @@ public class EvacAuthController {
                     .body("No leader with given id delegated");
         }
     }
-
-
-
 
     /**
      * this mapping sets a priority chosen in the requestbody to a leader with an
@@ -228,5 +245,9 @@ public class EvacAuthController {
     @GetMapping("getAllLeadersAndPriorities")
     public List<EvacLeaderPriority> getAllLeadersAndPriorities() {
         return evacLeaderPriorityRepository.findAll();
+    }
+    @GetMapping("getAllDelegations")
+    public List<Delegation> getAllDelegations() {
+        return delegationRepository.findAll();
     }
 }

@@ -9,13 +9,12 @@ import javax.validation.constraints.Size;
  * a users id, username with a floor and zone.
  */
 @Entity
-@Table( name = "delegations",
-uniqueConstraints = {
-    @UniqueConstraint(columnNames = "id")
-})
+@Table( name = "delegations")
+
 
 public class Delegation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -25,17 +24,17 @@ public class Delegation {
     @Column(length = 20)
     private String floorName;
 
-    @Column(length = 1)
+    @Column(length = 5)
     private String zoneName;
+
 
     public Delegation(String username, Long id) {
         this.username = username;
         this.id = id;
     }
 
-    public Delegation(String username, Long id, String floorName, String zoneName) {
+    public Delegation(String username, String floorName, String zoneName) {
         this.username = username;
-        this.id = id;
         this.floorName = floorName;
         this.zoneName = zoneName;
     }

@@ -2,7 +2,7 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <h1>Communication</h1>
+                <h1>User</h1>
                 <ion-title>Communication</ion-title>
             </ion-toolbar>
         </ion-header>
@@ -54,7 +54,6 @@
         </ion-content>
     </ion-page>
 </template>
-
 <script setup lang="ts">
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
 </script>

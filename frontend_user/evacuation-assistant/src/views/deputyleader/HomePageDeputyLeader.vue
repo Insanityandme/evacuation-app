@@ -19,10 +19,10 @@
 
       <ion-grid>
         <ion-item>
-          <ion-label>You are logged in as [Username] - [Role]</ion-label>
+          <ion-label>You are logged in as {{ userName}} - {{ role }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
+          <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
         </ion-item>
 
       </ion-grid>
@@ -40,6 +40,32 @@ import {ref, watch} from "vue";
 
 const store = new StorageService();
 const devices: any = ref([])
+
+let userName = '';
+let role = '';
+let floor = '';
+let zone = '';     //TODO: Gör om denna till en array för flera zoner
+
+getUserInfo();
+
+async function getUserInfo() {
+  // Call the read method to retrieve the user data
+  const userData = await store.read('user');
+
+  if (userData !== null) {
+    const userDataParsed = JSON.parse(userData.value!);
+     console.log(userData);
+    userName = userDataParsed.name;
+    role = userDataParsed.roles[0];
+    floor = userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
+    zone = userDataParsed.zone;
+    console.log("Sparat användarinfo");
+  }
+  return role
+}
+
+
+
 
 const startScan = async () => {
   resetArray();

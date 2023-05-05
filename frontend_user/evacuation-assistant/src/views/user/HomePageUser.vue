@@ -12,21 +12,19 @@
         </ion-toolbar>
       </ion-header>
       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-      <ion-button @click="startScan()">Press me to start scanning</ion-button>
-      <ion-list v-for="device in devices" :key="device">
-        <ion-item>Device found: {{ device.name }}</ion-item>
-      </ion-list>
 
       <ion-list>
         <ion-item>
-          <ion-label>You are logged in as [Username] - [Role]</ion-label>
+          <ion-label>You are logged in as [Username]</ion-label>
         </ion-item>
-
-        <ion-item>
-          <ion-button color="warning">Ask for help</ion-button>
-        </ion-item>
-
       </ion-list>
+
+
+
+          <ion-button color="warning" @click="startScan()">Ask for help</ion-button>
+          <ion-list v-for="device in devices" :key="device">
+            <ion-item>Device found: {{ device.name }}</ion-item>
+          </ion-list>
 
 
     </ion-content>
@@ -70,7 +68,7 @@ function resetArray() {
 
 watch(devices, () => {
   console.log("CLICKED!")
-}, { deep: true })
+}, {deep: true})
 
 watch(devices, () => {
   console.log("RESET!")

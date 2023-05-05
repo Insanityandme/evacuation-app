@@ -2,6 +2,10 @@ import {createRouter, createWebHistory} from '@ionic/vue-router';
 import {RouteRecordRaw} from 'vue-router';
 import TabsPage from '../views/TabsPage.vue';
 import {StorageService} from "@/services/storage.service";
+import HomePage from "@/views/HomePage.vue";
+import {defineAsyncComponent} from "vue";
+
+
 
 const store = new StorageService();
 let role = "";
@@ -29,72 +33,137 @@ const routes: Array<RouteRecordRaw> = [
         path: '/tabs/',
         component: TabsPage,
         children: [
-            /*
-          {
-            path: 'home',
-            component: () => import('@/views/HomePageDeputyLeader.vue'),
-            //meta: { authorize: role },
-          }, */
-
             {
                 path: 'home/deputyleader',
-                component: () => import('@/views/HomePageDeputyLeader.vue'),
+                component: () => import('@/views/deputyleader/HomePageDeputyLeader.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
+                beforeEnter: async (to, from, next) => {
+                    await getRole();
+                    // Check if the user is authenticated and has the required role
+                    if (role === 'ROLE_DEPUTYLEADER') {
+                        next();
+                    } else {
+                        // Redirect to login page if the user is not authenticated or does not have the required role
+                        next('/login');
+                    }
+                }
             },
             {
                 path: 'home/evacleader',
-                component: () => import('@/views/HomePageEvacLeader.vue'),
+                component: () => import('@/views/evacleader/HomePageEvacLeader.vue'),
                 meta: {role: 'ROLE_EVACLEADER'},
+                beforeEnter: async (to, from, next) => {
+                    await getRole();
+                    // Check if the user is authenticated and has the required role
+                    if (role === 'ROLE_EVACLEADER') {
+                        next();
+                    } else {
+                        // Redirect to login page if the user is not authenticated or does not have the required role
+                        next('/login');
+                    }
+                }
             },
             {
                 path: 'home/user',
-                component: () => import('@/views/HomePageUser.vue'),
+                component: () => import('@/views/user/HomePageUser.vue'),
                 meta: {role: 'ROLE_USER'},
-            },
-
-
-            /*
-                        {
-                            path: 'home',    // path: 'home/:role',
-                            component: () => {
-                                getRole().then((result) =>
-                                {
-                                    console.log(result);
-                                    role = result;
-                                });
-                                console.log("hejsan");
-
-                                switch (role) {
-                                    case 'ROLE_DEPUTYLEADER':
-                                        return import('@/views/HomePageDeputyLeader.vue')
-                                    case 'ROLE_EVACLEADER':
-                                        return import('@/views/HomePageEvacLeader.vue')
-                                    case 'ROLE_USER':
-                                        return import('@/views/HomePageUser.vue')
-                                    default:
-                                        return import('@/views/HomePage.vue')
-                                }
-                            }
-                        },
-                        */
-/*
-            {
-
-                path: '',
-                redirect: () => {
-                    return `/tabs/home/${role}`
+                beforeEnter: async (to, from, next) => {
+                    await getRole();
+                    // Check if the user is authenticated and has the required role
+                    if (role === 'ROLE_USER') {
+                        next();
+                    } else {
+                        // Redirect to login page if the user is not authenticated or does not have the required role
+                        next('/login');
+                    }
                 }
             },
 
- */
+/*
+                        {
+                            path: '/home',
+                            component: HomePage,
+                            props: route => ({ role: route.params.role }),
+                            children: [
+                                {
 
+                                    path: 'user',
+                                    component: defineAsyncComponent(() =>
+                                        import('@/views/user/HomePageUser.vue')
+                                    ),
+                                },
+                                {
+                                    path: 'deputyleader',
+                                    component: defineAsyncComponent(() =>
+                                        import('@/views/deputyleader/HomePageDeputyLeader.vue')
+                                    ),
+                                },
+                                {
+                                    path: 'evacleader',
+                                    component: defineAsyncComponent(() =>
+                                        import('@/views/evacleader/HomePageEvacLeader.vue')
+                                    ),
+                                },
+                            ],
+                        },
+*/
+
+
+
+                        {
+
+                            path: '',
+                            redirect: () => {
+                                return `/tabs/home/${role}`
+                            }
+                        },
+
+
+
+
+
+
+
+            //Deputy Leader
             {
                 path: 'tab2',
-                component: () => import('@/views/Tab2Page.vue')
+                component: () => import('@/views/deputyleader/Tab2PageDeputyLeader.vue'),
+                meta: {role: 'ROLE_DEPUTYLEADER'},
             },
             {
                 path: 'tab3',
-                component: () => import('@/views/Tab3Page.vue')
+                component: () => import('@/views/deputyleader/Tab3PageDeputyLeader.vue'),
+                meta: {role: 'ROLE_DEPUTYLEADER'},
+            },
+            {
+                path: 'tab4',
+                component: () => import('@/views/deputyleader/Tab4PageDeputyLeader.vue'),
+                meta: {role: 'ROLE_DEPUTYLEADER'},
+            },
+
+            //Evacuation Leader
+            {
+                path: 'tab2',
+                component: () => import('@/views/evacleader/Tab2PageEvacLeader.vue'),
+                meta: {role: 'ROLE_EVACLEADER'},
+            },
+            {
+                path: 'tab3',
+                component: () => import('@/views/evacleader/Tab3PageEvacLeader.vue'),
+                meta: {role: 'ROLE_EVACLEADER'},
+            },
+            {
+                path: 'tab4',
+                component: () => import('@/views/evacleader/Tab4PageEvacLeader.vue'),
+                meta: {role: 'ROLE_EVACLEADER'},
+            },
+
+
+            //User  (only Settings-tab)
+            {
+                path: 'tab4',
+                component: () => import('@/views/user/Tab4PageUser.vue'),
+                meta: {role: 'ROLE_USER'},
             }
         ]
     },
@@ -112,33 +181,21 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-    console.log('beforeEach');
-
-
-    /*
-     // redirect to login page if not logged in and trying to access a restricted page
-      const { authorize } = to.meta;
-      const currentUser = authenticationService.currentUserValue;
-
-      if (authorize) {
-          if (!currentUser) {
-              // not logged in so redirect to login page with the return url
-              return next({ path: '/login', query: { returnUrl: to.path } });
-          }
-
-          // check if route is restricted by role
-          if (authorize.length && !authorize.includes(currentUser.role)) {
-              // role not authorised so redirect to home page
-              return next({ path: '/' });
-          }
-      }
-
-     */
-
+/*
+router.beforeEach(async (to, from, next) => {
+    const userData = await store.read('user');
+    if (userData !== null) {
+        const userDataParsed = JSON.parse(userData.value!);
+        const userRole = userDataParsed.roles[0];
+        const routeRole = to.meta.role;
+        if (routeRole && routeRole !== userRole) {
+            return next('/');
+        }
+    }
     next();
+});
+*/
 
-})
 
 
 export default router

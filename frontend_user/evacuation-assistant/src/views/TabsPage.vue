@@ -1,4 +1,3 @@
-<!-- NOT CURRENTLY IN USE -->
 <template>
     <ion-page>
         <ion-tabs>
@@ -50,26 +49,25 @@ async function getRole() {
 
     if (userData !== null) {
         const userDataParsed = JSON.parse(userData.value!);
-        // console.log(userData);
         role = userDataParsed.roles[0];
 
         if (role === 'ROLE_DEPUTYLEADER') {
             navigation.value = 'deputyleader';
             tab.value = {
-                tab1: 'Communication',
-                tab2: ''
+                tab1: 'Home',
+                tab2: 'Communications'
             }
         } else if (role === 'ROLE_EVACLEADER') {
             navigation.value = 'evacleader';
             tab.value = {
-                tab1: 'Kebab',
-                tab2: 'Hejsan'
+                tab1: 'Home',
+                tab2: 'Communication'
             }
         } else if (role === 'ROLE_USER') {
             navigation.value = 'user';
             tab.value = {
                 tab1: 'Home',
-                tab2: 'Hejsan'
+                tab2: 'Test'
             }
         }
 

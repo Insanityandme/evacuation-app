@@ -181,7 +181,7 @@ const routes: Array<RouteRecordRaw> = [
             },
 
 
-            //User  (only Settings-tab)
+            // User
             {
                 path: 'tab2/user',
                 component: () => import('@/views/user/Tab2PageUser.vue'),

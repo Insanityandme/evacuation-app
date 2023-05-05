@@ -12,7 +12,6 @@
                     <h1>Notifications</h1>
                 </ion-toolbar>
             </ion-header>
-
             <div>
                 <ion-list>
                     <ion-item>
@@ -25,7 +24,6 @@
 
                 </ion-list>
             </div>
-
             <ion-card>
                 <ion-card-header>
                     <ion-card-subtitle>Danger</ion-card-subtitle>
@@ -126,7 +124,10 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList} from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList,
+IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, } from '@ionic/vue';
 import {flameOutline, skullOutline, alertCircleOutline} from 'ionicons/icons';
+import {ref} from "vue";
+const ionInfinite = ref();
 
 </script>

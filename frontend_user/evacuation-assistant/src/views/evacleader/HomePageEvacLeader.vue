@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 import {ref} from "vue";
 

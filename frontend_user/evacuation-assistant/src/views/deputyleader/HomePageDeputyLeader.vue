@@ -19,10 +19,7 @@
         <ion-item>
           <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
         </ion-item>
-
       </ion-grid>
-
-
     </ion-content>
   </ion-page>
 </template>

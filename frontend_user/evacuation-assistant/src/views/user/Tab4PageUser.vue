@@ -1,4 +1,3 @@
-<!-- NOT CURRENTLY IN USE -->
 <template>
   <ion-page>
     <ion-header>
@@ -21,10 +20,6 @@
   </ion-page>
 </template>
 
-
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
-
-
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel} from '@ionic/vue';
 </script>

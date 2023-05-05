@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-
-
 import {IonPage, IonToast, IonContent} from '@ionic/vue';
 import {useIonRouter} from '@ionic/vue';
 import {ref} from 'vue';
@@ -55,7 +53,6 @@ const alreadySignedIn = async () => {
     } else {
       console.log('Unknown role');
     }
-    //TODO: Styr om beroende på roll här med
   } else {
     console.log("User is not signed in yet.");
   }
@@ -78,18 +75,9 @@ const signIn = async (user: User) => {
   if (response.data.accessToken) {
     console.log("Retreived accesstoken and storing it response data...");
 
-
-    // Save user data and roles to local storage
-    const userData = {
-      accessToken: response.data.accessToken,
-      roles: response.data.roles
-    };
-
-
     // very important data is turned into a JSON string and then able to JSON.parse it later on
     await store.create('user', JSON.stringify(response.data));
     console.log(response.data.roles);
-
 
     //Navigate to the appropriate home page based on the user's role
     if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
@@ -101,21 +89,12 @@ const signIn = async (user: User) => {
     } else {
       console.log('Unknown role:', response.data.roles);
     }
-
-
-    // rerouting to homepage
-    // ionRouter.push("/tabs/home/");
-
-
   } else if (response.status == 400 || response.status == 401) {
     // if you get a bad request, make sure the toast component can notify someone again.
     setOpen(true);
   }
 }
-
-
 </script>
 
 <style>
-
 </style>

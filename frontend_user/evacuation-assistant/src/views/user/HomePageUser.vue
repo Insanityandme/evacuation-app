@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar, } from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 import {BleClient} from '@capacitor-community/bluetooth-le';
 import {ref} from 'vue';

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet} from '@ionic/vue';
+import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonBadge} from '@ionic/vue';
 import {megaphoneOutline, notificationsOutline, homeOutline, settingsOutline} from 'ionicons/icons';
 import {StorageService} from "@/services/storage.service";
 import {ref} from 'vue';

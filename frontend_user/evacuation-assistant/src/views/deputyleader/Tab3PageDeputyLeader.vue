@@ -3,13 +3,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Notifications DL</ion-title>
+        <ion-title>Notifications</ion-title>
+        <h1>Notifications</h1>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Notifications</ion-title>
+          <h1>Notifications</h1>
         </ion-toolbar>
       </ion-header>
 

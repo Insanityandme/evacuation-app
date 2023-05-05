@@ -3,7 +3,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <h1>Communication DL</h1>
+        <h1>Communication</h1>
           <ion-title>Communication</ion-title>
       </ion-toolbar>
     </ion-header>

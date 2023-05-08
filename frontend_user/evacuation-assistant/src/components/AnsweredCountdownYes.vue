@@ -7,6 +7,10 @@
 
         <ion-card-content>
             You are now active evacuation leader
+               <router-link to="/tabs/home/evacleader">
+                   <ion-button>Go</ion-button>
+               </router-link>
+
         </ion-card-content>
 
     </ion-card>

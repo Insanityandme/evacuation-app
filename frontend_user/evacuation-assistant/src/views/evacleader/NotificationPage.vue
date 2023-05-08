@@ -14,14 +14,12 @@
             <div>
                 <countdown :duration="30000" @answer="handleAnswer" />
             </div>
-            <ExploreContainer name="Tab 1 page" />
         </ion-content>
     </ion-page>
 </template>
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import TimeCountdown from "@/components/TimeCountdown.vue";
 
 export default {

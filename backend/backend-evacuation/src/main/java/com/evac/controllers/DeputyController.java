@@ -1,27 +1,10 @@
 package com.evac.controllers;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
 import com.evac.models.*;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import com.evac.payload.request.LoginRequest;
-import com.evac.payload.request.SignupRequest;
-import com.evac.payload.response.JwtResponse;
-import com.evac.payload.response.MessageResponse;
-import com.evac.security.jwt.JwtUtils;
-import com.evac.security.services.UserDetailsImpl;
-
 /**
  * this class is a RestController is responsible for managing the HTTP requests sent by users
  * to the server wanting to change the active-status on a deputyleader.

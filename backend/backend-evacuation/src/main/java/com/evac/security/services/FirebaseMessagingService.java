@@ -1,11 +1,11 @@
 package com.evac.security.services;
 
 import com.evac.models.NotificationMessage;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.evac.payload.NotificationPayload;
+import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class FirebaseMessagingService {
@@ -23,6 +23,8 @@ public class FirebaseMessagingService {
 
     public String sendNotificationByToken(NotificationMessage notificationMessage) throws FirebaseMessagingException{
 
+        String sound = "alarm";
+
         Notification notification = Notification
                 .builder()
                 .setTitle(notificationMessage.getTitle())
@@ -33,10 +35,35 @@ public class FirebaseMessagingService {
                 .builder()
                 .setToken(notificationMessage.getRecipientToken())
                 .setNotification(notification)
-                .putAllData(notificationMessage.getData())
+                .putData("android_channel_id", "android_default_channel")
                 .build();
 
         firebaseMessaging.send(message);
         return "Success sending notification!";
+    }
+
+    public String sendCustomNotification(NotificationPayload payload) throws FirebaseMessagingException{
+
+        Notification notification = Notification.builder()
+                .setTitle(payload.getNotification().getTitle())
+                .setBody(payload.getNotification().getBody())
+                .build();
+
+        //Create a message builder
+        Message.Builder builder = Message.builder()
+                .setToken(payload.getTo())
+                .setNotification(notification)
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setPriority(AndroidConfig.Priority.NORMAL)
+                        .setNotification(AndroidNotification.builder()
+                                .setSound("alarm_ship.wav")
+                                .setChannelId(payload.getNotification().getAndroid_channel_id())
+                                .build())
+                        .build());
+
+        //Send the message using FirebaseMessaging
+        String response = firebaseMessaging.send(builder.build());
+        return response;
+
     }
 }

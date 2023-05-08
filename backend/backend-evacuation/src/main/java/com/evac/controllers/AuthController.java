@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import com.evac.payload.request.LoginRequest;
 import com.evac.payload.request.SignupRequest;
 import com.evac.payload.response.JwtResponse;
-import com.evac.payload.response.MessageResponse;
 import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
 

@@ -6,8 +6,8 @@ public class NotificationMessage {
     private String  recipientToken;
     private String  title;
     private String  body;
-    private String  image;
-    private Map<String, String> data;
+    private String sound;
+    private String channelId;
 
     public String getRecipientToken() {
         return recipientToken;
@@ -32,20 +32,19 @@ public class NotificationMessage {
     public void setBody(String body) {
         this.body = body;
     }
-
-    public String getImage() {
-        return image;
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getChannelId() {
+        return channelId;
     }
 
-    public Map<String, String> getData() {
-        return data;
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 
-    public void setData(Map<String, String> data) {
-        this.data = data;
+    public String getSound() {
+        return sound;
     }
 }

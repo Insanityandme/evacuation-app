@@ -56,7 +56,6 @@ public class FirebaseMessagingService {
                 .setAndroidConfig(AndroidConfig.builder()
                         .setPriority(AndroidConfig.Priority.NORMAL)
                         .setNotification(AndroidNotification.builder()
-                                .setSound("alarm_ship.wav")
                                 .setChannelId(payload.getNotification().getAndroid_channel_id())
                                 .build())
                         .build());

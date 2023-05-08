@@ -51,7 +51,7 @@ PushNotifications.createChannel({
     importance: 5,
     lights: true,
     name: 'My notification channel',
-    sound: 'alarm_ship',
+    sound: 'custom',
     vibration: true,
     visibility: 1,
     lightColor: '#FF0000'

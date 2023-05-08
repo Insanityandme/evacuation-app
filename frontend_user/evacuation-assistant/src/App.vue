@@ -1,12 +1,13 @@
 <template>
-  <ion-app>
-    <ion-router-outlet />
-  </ion-app>
+    <ion-app>
+        <ion-router-outlet/>
+    </ion-app>
 </template>
 
 <script setup lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import {IonApp, IonRouterOutlet} from '@ionic/vue';
 import {PushNotifications} from "@capacitor/push-notifications";
+import router from "@/router";
 
 const addListeners = async () => {
     await PushNotifications.addListener('registration', token => {
@@ -19,10 +20,15 @@ const addListeners = async () => {
 
     await PushNotifications.addListener('pushNotificationReceived', notification => {
         console.log('Push notification received: ', notification);
+        router.push('/tabs/home/evacleader/note');
     });
 
     await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
         console.log('Push notification action performed', notification.actionId, notification.inputValue);
+
+        if (notification.actionId == "tap") {
+            router.push('/tabs/home/evacleader/note');
+        }
     });
 }
 
@@ -55,9 +61,9 @@ PushNotifications.createChannel({
     vibration: true,
     visibility: 1,
     lightColor: '#FF0000'
-}).then(()=>{
+}).then(() => {
     console.log('push channel created: ');
-}).catch(error =>{
+}).catch(error => {
     console.error('push channel error: ', error);
 });
 

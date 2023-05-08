@@ -12,26 +12,19 @@
                 </ion-toolbar>
             </ion-header>
             <div>
-                <countdown :duration="30000" @answer="handleAnswer" />
+                <time-countdown :duration="5000" @answer="handleAnswer" />
             </div>
         </ion-content>
     </ion-page>
 </template>
 
-<script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+<script setup lang="ts">
+import {IonPage, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
 import TimeCountdown from "@/components/TimeCountdown.vue";
 
-export default {
-    components: {
-        Countdown: TimeCountdown,
-    },
-    methods: {
-        handleAnswer(value: any) {
-            console.log(value);
-        },
-    },
-};
+const handleAnswer = async (value: any) => {
+    console.log(value);
+}
 </script>
 
 <style scoped>

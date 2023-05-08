@@ -4,7 +4,8 @@ const config: CapacitorConfig = {
   plugins: {
     CapacitorHttp: {
       enabled: true
-    }
+    },
+    PushNotifications : ["badge", "sound", "alert"]
   },
   server: {
     "cleartext": true

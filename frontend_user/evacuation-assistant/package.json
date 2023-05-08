@@ -10,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor-community/fcm": "^3.0.2",
     "@capacitor-community/bluetooth-le": "^2.2.3",
     "@capacitor/android": "4.7.1",
     "@capacitor/app": "4.1.1",
@@ -22,6 +23,7 @@
     "@ionic/vue-router": "^6.0.0",
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
+    "@capacitor/push-notifications": "^4.1.2",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
     "ionicons": "^6.0.3",

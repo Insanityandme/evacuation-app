@@ -40,7 +40,7 @@ const alreadySignedIn = async () => {
   // console.log(userDataParsed.roles[0]);
   // console.log(userDataParsed);
 
-  if (userDataParsed.accessToken !== null) {
+  if (userData.value !== null) {
     console.log("Successfully used stored token to redirect to home page");
     // ionRouter.push("/tabs/home/");
     //Navigate to the appropriate home page based on the user's role

@@ -10,12 +10,13 @@ async function getRole() {
     // Call the read method to retrieve the user data
     const userData = await store.read('user');
 
-    if (userData !== null) {
+    if (userData.value !== null) {
         const userDataParsed = JSON.parse(userData.value!);
         // console.log(userData);
         role = userDataParsed.roles[0];
         console.log("setting role data...");
     }
+
     return role
 }
 
@@ -26,6 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/tabs/',
+
         redirect: () => {
             return `/tabs/home/${role}`
         }
@@ -246,7 +248,7 @@ const router = createRouter({
 /*
 router.beforeEach(async (to, from, next) => {
     const userData = await store.read('user');
-    if (userData !== null) {
+    if (userData.value !== null) {
         const userDataParsed = JSON.parse(userData.value!);
         const userRole = userDataParsed.roles[0];
         const routeRole = to.meta.role;
@@ -257,6 +259,5 @@ router.beforeEach(async (to, from, next) => {
     next();
 });
 */
-
 
 export default router

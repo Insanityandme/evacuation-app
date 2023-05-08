@@ -1,12 +1,8 @@
 import {CapacitorHttp} from "@capacitor/core";
 
 // url to access our API
-<<<<<<< Updated upstream
-const resourceUrl = 'http://10.2.2.69:8081/api/auth/';
-=======
-const resourceUrl = 'http://localhost:8081/api/auth/';
+const resourceUrl = 'http://192.168.10.165:8081/api/auth/';
 // const resourceUrl = 'http://10.2.19.50:8081/api/auth/';
->>>>>>> Stashed changes
 
 // interface for user data
 export interface User {

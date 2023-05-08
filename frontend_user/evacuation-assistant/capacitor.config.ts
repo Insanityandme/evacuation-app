@@ -6,6 +6,9 @@ const config: CapacitorConfig = {
       enabled: true
     }
   },
+  server: {
+    "cleartext": true
+  },
   appId: 'io.ionic.evacuation',
   appName: 'Evacuation Assistant',
   webDir: 'dist',

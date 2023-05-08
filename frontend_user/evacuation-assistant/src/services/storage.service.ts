@@ -31,4 +31,6 @@ export class StorageService {
         await Preferences.clear();
         console.log("Clearing local storage...")
     }
+
+
 }

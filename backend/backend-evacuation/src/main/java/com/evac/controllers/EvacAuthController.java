@@ -38,6 +38,8 @@ public class EvacAuthController {
     ZoneRepository zoneRepository;
     @Autowired
     DelegationRepository delegationRepository;
+    @Autowired
+    private EvacActiveRepository evacActiveRepository;
 
     /**
      * this mapping is responsible for handling a request to put a row consisting of
@@ -250,4 +252,80 @@ public class EvacAuthController {
     public List<Delegation> getAllDelegations() {
         return delegationRepository.findAll();
     }
+
+    @PutMapping("/changeActiveTrue/{username}")
+    public ResponseEntity<?> changeActive(@PathVariable("username") String username){
+        Optional <User> user = userRepository.findByUsername(username);
+        List<EvacActive> evacActiveList = evacActiveRepository.findAll();
+
+        for(EvacActive evacActive: evacActiveList) {
+            if(evacActive.getUsername().equals(username)){
+                for (Role role : user.get().getRoles()) {
+                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                        Optional <EvacActive> evacActive2 = evacActiveRepository.findByUsername(username);
+                        EvacActive newEvacActive = evacActive2.get();
+                        newEvacActive.setActiveTrue();
+                        evacActiveRepository.findByUsername(username)
+                                .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
+
+                        return ResponseEntity.ok
+                                ("deputyleader activity status changed: " + evacActive2.get().isActive());
+                    }
+                }
+
+                return ResponseEntity
+                        .badRequest()
+                        .body("Invalid role");
+            }
+        }
+        return ResponseEntity
+                .badRequest()
+                .body("no evacleader with this username");
+    }
+
+    @PutMapping("/changeActiveFalse/{username}")
+    public ResponseEntity<?> changeActiveF(@PathVariable("username") String username){
+        Optional <User> user = userRepository.findByUsername(username);
+        List<EvacActive> evacActiveList = evacActiveRepository.findAll();
+
+        for(EvacActive evacActive: evacActiveList) {
+            if(evacActive.getUsername().equals(username)){
+                for (Role role : user.get().getRoles()) {
+                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                        Optional <EvacActive> evacActive2 = evacActiveRepository.findByUsername(username);
+                        EvacActive newEvacActive = evacActive2.get();
+                        newEvacActive.setActiveFalse();
+                        evacActiveRepository.findByUsername(username)
+                                .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
+
+                        return ResponseEntity.ok
+                                ("deputyleader activity status changed: " + evacActive2.get().isActive());
+                    }
+                }
+
+                return ResponseEntity
+                        .badRequest()
+                        .body("Invalid role");
+            }
+        }
+        return ResponseEntity
+                .badRequest()
+                .body("no evacleader with this username");
+    }
+
+    @PutMapping("/turnOffAllActive")
+    public ResponseEntity<?> turnOffAllActive() {
+        List<EvacActive> evacActiveList = evacActiveRepository.findAll();
+        for (EvacActive evacActive : evacActiveList) {
+            String username = evacActive.getUsername();
+            EvacActive newEvacActive = evacActive;
+            newEvacActive.setActiveFalse();
+            evacActiveRepository.findByUsername(username)
+                    .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
+        }
+        return ResponseEntity.ok("all active: true evacuation leaders set to false");
+    }
+
+
 }
+

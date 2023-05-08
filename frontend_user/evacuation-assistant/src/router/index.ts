@@ -1,54 +1,35 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/deputy_leader/TabsPage.vue'
+import {createRouter, createWebHistory} from '@ionic/vue-router';
+import {RouteRecordRaw} from 'vue-router';
+import TabsPage from '../views/TabsPage.vue';
+import {StorageService} from "@/services/storage.service";
+
+const store = new StorageService();
+let role = "";
+
+async function getRole() {
+    // Call the read method to retrieve the user data
+    const userData = await store.read('user');
+
+    if (userData !== null) {
+        const userDataParsed = JSON.parse(userData.value!);
+        // console.log(userData);
+        role = userDataParsed.roles[0];
+        console.log("setting role data...");
+    }
+    return role
+}
 
 const routes: Array<RouteRecordRaw> = [
-<<<<<<< Updated upstream
-  {
-    path: '/',
-    redirect: '/login/',
-  },
-  {
-    path: '/tabs/',
-    component: TabsPage,
-    children: [
-      {
-        path: '',
-        redirect: '/tabs/home'
-      },
-      {
-        path: 'home',
-        component: () => import('@/views/deputy_leader/HomePage.vue')
-      },
-      {
-        path: 'tab2',
-        component: () => import('@/views/deputy_leader/Tab2Page.vue')
-      },
-      {
-        path: 'tab3',
-        component: () => import('@/views/deputy_leader/Tab3Page.vue')
-      }
-    ]
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/deputy_leader/LoginPage.vue')
-  },
-=======
     {
         path: '/',
         redirect: '/login/',
     },
-    /*
     {
-        path: '/tabs/homex§',
+        path: '/tabs/',
         redirect: () => {
             return `/tabs/home/${role}`
         }
     },
-
-     */
     {
         path: '/login',
         name: 'Login',
@@ -248,12 +229,29 @@ const routes: Array<RouteRecordRaw> = [
             },
         ]
     },
->>>>>>> Stashed changes
 ]
 
+
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 })
+
+
+/*
+router.beforeEach(async (to, from, next) => {
+    const userData = await store.read('user');
+    if (userData !== null) {
+        const userDataParsed = JSON.parse(userData.value!);
+        const userRole = userDataParsed.roles[0];
+        const routeRole = to.meta.role;
+        if (routeRole && routeRole !== userRole) {
+            return next('/');
+        }
+    }
+    next();
+});
+*/
+
 
 export default router

@@ -48,6 +48,8 @@ public class AuthController {
 
     @Autowired
     DeputyRepository deputyRepository;
+    @Autowired
+    private EvacActiveRepository evacActiveRepository;
 
 
     /**
@@ -165,6 +167,9 @@ public class AuthController {
                         Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(evacRole);
+
+                        EvacActive evacActive = new EvacActive(user.getUsername());
+                        evacActiveRepository.save(evacActive);
                         break;
 
                     default:

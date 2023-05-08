@@ -41,7 +41,6 @@ const rules = {
   username: {required},
   email: {required, email},
   password: {required},
-
 }
 
 /**

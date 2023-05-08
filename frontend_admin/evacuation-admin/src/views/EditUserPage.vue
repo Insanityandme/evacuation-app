@@ -35,9 +35,6 @@ export default defineComponent({
 </script>
 
 <script setup>
-/*defineProps({
-    name: String,
-});*/
 import {chevronBack} from "ionicons/icons";
 import AddEditUserContainer from "@/components/AddEditUserContainer.vue";
 </script>

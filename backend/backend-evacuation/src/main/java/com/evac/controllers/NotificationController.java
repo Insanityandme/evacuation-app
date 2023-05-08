@@ -1,6 +1,7 @@
 package com.evac.controllers;
 
 import com.evac.models.NotificationMessage;
+import com.evac.payload.NotificationPayload;
 import com.evac.security.services.FirebaseMessagingService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -10,10 +11,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -31,6 +29,20 @@ public class NotificationController {
         } catch (FirebaseMessagingException e) {
             return ResponseEntity.badRequest().body("Something went wrong..");
         }
+    }
+
+
+    @PostMapping("/sendCustomNotification")
+    public ResponseEntity<?> sendNotification(@RequestBody NotificationPayload payload){
+        String response = null;
+        try {
+            response = firebaseMessagingService.sendCustomNotification(payload);
+        } catch (FirebaseMessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().body(response);
+
+
     }
 
 

@@ -17,7 +17,7 @@
     "@capacitor/haptics": "^5.0.0",
     "@capacitor/keyboard": "^5.0.0",
     "@capacitor/preferences": "^5.0.0",
-    "@capacitor/push-notifications": "^5.0.0",
+    "@capacitor/push-notifications": "^5.0.1",
     "@capacitor/status-bar": "^5.0.0",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",

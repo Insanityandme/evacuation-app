@@ -39,6 +39,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/tabs/',
         component: TabsPage,
         children: [
+
             {
                 path: 'home/deputyleader',
                 component: () => import('@/views/deputyleader/HomePageDeputyLeader.vue'),
@@ -53,6 +54,10 @@ const routes: Array<RouteRecordRaw> = [
                         next('/login');
                     }
                 }
+            },
+            {
+                path: 'home/evacleader/note',
+                component: () => import('@/views/evacleader/NotificationPage.vue')
             },
             {
                 path: 'home/evacleader',

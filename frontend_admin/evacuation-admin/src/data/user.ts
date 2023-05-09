@@ -9,7 +9,19 @@ export interface User {
     password: string,
     role: [
         name: string
-    ]
+    ],
+}
+
+export interface UserPlus {
+    //id: number,
+    username: string,
+    email: string,
+    password: string,
+    role: [
+        name: string
+    ],
+    floor: string,
+    zone: string,
 }
 
 export const signInUser = async (user: User) => {
@@ -32,6 +44,16 @@ export const getAllUsers = async () => {
 }
 
 export const signUpUser = async (user: User) => {
+    const options = {
+        url: `${resourceUrl}/signup`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(user)
+    }
+    console.log(options.data);
+    return CapacitorHttp.post(options);
+}
+
+export const signupAndAssignResponsibilities = async (user: UserPlus) => {
     const options = {
         url: `${resourceUrl}/signup`,
         headers: {"Content-Type": "application/json"},

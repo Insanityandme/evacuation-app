@@ -1,5 +1,12 @@
 <template>
-    <ion-accordion-group :multiple="true" v-for="user in users" :key="user.id">
+    <ion-accordion-group :multiple="true">
+        <ion-accordion value="second" readonly toggle-icon="">
+            <ion-item slot="header" color="success">
+                <ion-label>
+                    <h2><b>Medium Priority</b></h2>
+                </ion-label>
+            </ion-item>
+        </ion-accordion>
         <ion-accordion value="first" toggle-icon-slot="end">
             <ion-item slot="header" color="light">
                 <ion-label>John Smith</ion-label>
@@ -55,11 +62,11 @@
         <ion-accordion value="second" readonly toggle-icon="">
             <ion-item slot="header" color="success">
                 <ion-label>
-                    <h2><b>Group Name for sorting/filtering purposes</b></h2>
+                    <h2><b>High Priority</b></h2>
                 </ion-label>
             </ion-item>
         </ion-accordion>
-        <ion-accordion value="second" toggle-icon-slot="end">
+        <ion-accordion toggle-icon-slot="end" v-for="user in users" :key="user.id">
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
                 <ion-chip color="tertiary"><!--slot="start"-->
@@ -84,7 +91,7 @@
                                 <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
                                     <ion-icon :icon="pencil"/>
                                 </ion-button>
-                                <ion-button fill="clear" class="ion-float-right">
+                                <ion-button fill="clear" class="ion-float-right" @click="presentActionSheet(user.id, user.username)">
                                     <ion-icon :icon="trash"></ion-icon>
                                 </ion-button>
                             </ion-buttons>
@@ -93,10 +100,6 @@
 
                     <ion-item>
                         <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label><ion-icon :icon="call" slot="start"/> {{ user.password }}</ion-label>
                     </ion-item>
 
                     <ion-item class="ion-align-items-center">
@@ -149,8 +152,10 @@ import {
     mail
 } from "ionicons/icons";
 
+import {actionSheetController} from "@ionic/vue";
 
-import {getAllUsers} from "@/data/user";
+
+import {confirmDeletion, getAllUsers} from "@/data/user";
 
 import {ref} from "vue";
 const users = ref([]);
@@ -162,6 +167,58 @@ const fetchAllUsers = async() => {
     users.value = response.data;
 }
 fetchAllUsers();
+const result = ref('');
+const setResult = (ev: CustomEvent) => {
+    result.value = JSON.stringify(ev.detail, null, 2);
+};
+const confirmDeletionButton = async(num:number) => {
+    const response = await confirmDeletion(num);
+    console.log(response.data[0].message);
+    console.log(num);
+}
+
+
+const presentActionSheet = async(num:number, name: string) => {
+    const actionSheet = await actionSheetController.create({
+        header: 'Are you sure you want to delete the user: ' + name,
+        buttons: [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                data: {
+                    action: 'cancel',
+                },
+            },
+            {
+                text: 'Delete',
+                role: 'destructive',
+                data: {
+                    action: 'delete',
+                },
+                handler: () => {
+                    console.log("User chose to delete userid: " + num + " which has username: " + name);
+                    confirmDeletionButton(num);
+                    //fetchAllUsers();
+                },
+            },
+            {
+                text: 'Share',
+                data: {
+                    action: 'share',
+                },
+            },
+        ],
+    });
+
+
+
+    await actionSheet.present();
+
+
+
+
+
+}
 
 </script>
 

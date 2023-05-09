@@ -65,6 +65,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {CapacitorHttp} from "@capacitor/core";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
+import {signUpUser} from "@/data/user";
 //import { HTMLIonSelectElement } from '@ionic/vue';
 
 /*defineProps({
@@ -190,7 +191,7 @@ const submitForm = async () => {
     console.log(selectedOption);
     console.log(selectedOption.value);
     if (isFormCorrect) {
-        props.signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
+        signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
     }
 }
 

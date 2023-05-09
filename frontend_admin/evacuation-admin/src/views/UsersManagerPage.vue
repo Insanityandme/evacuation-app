@@ -97,7 +97,7 @@ export default defineComponent({
     methods: {
         dismiss() {
             const test = document.querySelector('ion-modal');
-            if(test != null) {
+            if(test !== null) {
                 test.dismiss();
             }
         },

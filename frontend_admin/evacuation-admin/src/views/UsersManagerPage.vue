@@ -65,7 +65,7 @@ import { IonPage, IonHeader } from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
 import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
 // eslint-disable-next-line
-
+//import {HTMLIonModalElement} from '@ionic/core';
 //import {setupIonicVue} from '@ionic/vue';
 /*interface ModalCustomEvent extends CustomEvent {
     target: HTMLIonModalElement;
@@ -75,7 +75,7 @@ import component from "*.vue";
 </script>
 
 <script lang="ts">
-import {HTMLIonModalElement} from '@ionic/core';
+//import {HTMLIonModalElement} from '@ionic/core';
 import {
     IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,
 } from '@ionic/vue';
@@ -83,12 +83,12 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
     components: {
-        IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,
+        IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel//, HTMLIonModalElement
     },
     methods: {
         dismiss() {
             const test = document.querySelector('ion-modal');
-            // esdlint-disable-next-line
+            // eslint-disable-next-line
             if(test instanceof HTMLIonModalElement) {
                 test.dismiss();
             }

@@ -3,11 +3,11 @@ import {CapacitorHttp} from "@capacitor/core";
 const resourceUrl = 'http://localhost:8081/api/auth';
 
 export interface User {
-    id: number,
+    //id: number,
     username: string,
     email: string,
     password: string,
-    roles: [
+    role: [
         name: string
     ]
 }

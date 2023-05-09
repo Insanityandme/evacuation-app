@@ -41,6 +41,19 @@
                     <ion-select-option value="c">C</ion-select-option>
                 </ion-select>
             </ion-item>
+            <template>
+                <form @submit.prevent="submitForm">
+                    <ion-item>
+                        <ion-label>Choose a value:</ion-label>
+                        <ion-picker :columns="pickerColumns" @ionPickerDidDismiss="handlePickerDismiss">
+                            <ion-button slot="end">
+                                {{ pickerValue || 'Select' }}
+                            </ion-button>
+                        </ion-picker>
+                    </ion-item>
+                    <ion-button type="submit">Submit</ion-button>
+                </form>
+            </template>
         </ion-list>
         <ion-button expand="block" shape="round" size="large" @click="submitForm()">Save</ion-button>
     </div>
@@ -66,40 +79,12 @@ import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {signUpUser} from "@/data/user";
 //import { HTMLIonSelectElement } from '@ionic/vue';
+import { PickerColumn, PickerOptions } from '@ionic/core';
 
-/*defineProps({
-    add: String,
-
-});*/
 
 if (add === "true") {
     console.log("true")
 }
-
-/*const username = ref('');
-const password = ref<string>('');
-const roleSelection = ref([]);
-const floorSelection = ref<string>('');
-const zoneSelection = ref<string>('');*/
-
-//const userRole = ref<string | null>(null);
-/*const selectElement = ref<HTMLIonSelectElement | null>(null);
-
-onMounted(() => {
-    selectElement.value = document.querySelector<HTMLIonSelectElement>('#my-select');
-});
-
-// Listen for changes to the selected option and update the selectedOption variable
-selectElement.value?.addEventListener('ionChange', () => {
-    userRole.value = selectElement.value.value;
-});*/
-
-
-
-/*userRole.value = ref($refs.selectElement.value);
-$refs.selectElement.addEventListener('ionChange', () => {
-    userRole.value = $refs.selectElement.value;
-})*/
 
 
 const selectedOption = ref(null);
@@ -108,10 +93,6 @@ watch(selectedOption, (newValue, oldValue) => {
     console.log(`Selected option changed from ${oldValue} to ${newValue}`);
 });
 
-/*const onSelectChange =(event: CustomEvent) => {
-    console.log('Selected option changed', event.detail.value);
-    selectedOption.value = event.detail.value;
-}*/
 function onSelectChange(event: CustomEvent) {
     console.log('Selected option changed', event.detail.value/*.detail.value*/);
     selectedOption.value = event.detail.value;
@@ -131,53 +112,21 @@ const rules = {
     role: {required}
 }
 const v$ = useVuelidate(rules, state);
-/*const formData = ref({
-    username: '',
-    email: '',
-    password: '',
-    role: ['']
-});*/
-/*function updateRole(event: CustomEvent) {
-    roleSelection.value = event;
-    console.log("event:")
-    console.log(event.detail.value);
-}*/
 
-/*const resourceUrl = 'http://localhost:8081/api/auth';
-const submitForm = async () => {
-    try {
-        const options = {
-            url: `${resourceUrl}/signup`,
-            headers: {"Content-Type": "application/json"},
-            data: {
-                username: JSON.stringify(formData.value.username),
-                email: JSON.stringify(formData.value.email),
-                password: JSON.stringify(formData.value.password),
-                role: JSON.stringify(formData.value.role)//,
-                //floorSelection: floorSelection.value,
-                //zoneSelection: zoneSelection.value
-            }
-        }
-        const jsonData = JSON.stringify(formData);
-        console.log(formData.value.role);
-        console.log(jsonData);
-        //console.log(roleSelection);
-        //console.log(username)
-        const response = CapacitorHttp.post(options);
-        console.log(options);
-        console.log(response);
-        //console.log(response.data);
-        //return response.data;
-    } catch (error) {
-        console.log(error);
-    }
-}*/
 const props = defineProps({
     signUpUser: {
         type: Function,
         required: true
     }
 })
+
+const pickerValue = ref('');
+const pickerColumns = ref<PickerColumn[]>([
+    { name: 'First Column', options: [{ text: 'Value 1', value: '1' }, { text: 'Value 2', value: '2' }] },
+    { name: 'Second Column', options: [{ text: 'Value A', value: 'A' }, { text: 'Value B', value: 'B' }] },
+    { name: 'Third Column', options: [{ text: 'Value X', value: 'X' }, { text: 'Value Y', value: 'Y' }] }
+]);
+
 
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
@@ -190,9 +139,10 @@ const submitForm = async () => {
     console.log(selectedOption);
     console.log(selectedOption.value);
     if (isFormCorrect) {
-        signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
+        await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
     }
 }
+
 
 
 </script>

@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import {PushNotifications} from "@capacitor/push-notifications";
+import {sync} from "ionicons/icons";
 
 const addListeners = async () => {
     await PushNotifications.addListener('registration', token => {
@@ -44,25 +45,35 @@ const getDeliveredNotifications = async () => {
     const notificationList = await PushNotifications.getDeliveredNotifications();
     console.log('delivered notifications', notificationList);
 }
+const createNotificationChannel = async () => {
 
-PushNotifications.createChannel({
-    description: 'This is a test channel for custom sound for notifications',
-    id: 'fcm_default_channel',
-    importance: 5,
-    lights: true,
-    name: 'My notification channel',
-    sound: 'custom',
-    vibration: true,
-    visibility: 1,
-    lightColor: '#FF0000'
-}).then(()=>{
-    console.log('push channel created: ');
-}).catch(error =>{
-    console.error('push channel error: ', error);
-});
+    PushNotifications.createChannel({
+        description: 'This is a test channel for custom sound for notifications',
+        id: 'custom_channel',
+        importance: 5,
+        lights: true,
+        name: 'Custom Notification Channel',
+        sound: 'custom.mp3',
+        vibration: true,
+        visibility: 1,
+        lightColor: '#FF0000'
+    }).then(()=>{
+        console.log('push channel created: ');
+    }).catch(error =>{
+        console.error('push channel error: ', error);
+    });
+}
+
+const deleteNotificationChannel = async () => {
+    await PushNotifications.deleteChannel({id: "custom_channel"});
+    console.log('notification channel deleted')
+}
 
 addListeners()
 registerNotifications()
 getDeliveredNotifications()
+//deleteNotificationChannel()
+createNotificationChannel()
+
 
 </script>

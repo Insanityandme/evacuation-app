@@ -54,7 +54,7 @@ public class FirebaseMessagingService {
                 .setToken(payload.getTo())
                 .setNotification(notification)
                 .setAndroidConfig(AndroidConfig.builder()
-                        .setPriority(AndroidConfig.Priority.NORMAL)
+                        .setPriority(AndroidConfig.Priority.HIGH)
                         .setNotification(AndroidNotification.builder()
                                 .setChannelId(payload.getNotification().getAndroid_channel_id())
                                 .build())

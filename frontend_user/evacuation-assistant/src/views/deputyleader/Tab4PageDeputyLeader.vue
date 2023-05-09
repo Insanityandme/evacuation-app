@@ -7,13 +7,20 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
+            <ion-header collapse="condense">  </ion-header>
                 <ion-toolbar>
+                  <ion-item>
+                    <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
+                  </ion-item>
+                </ion-toolbar>
+
+          <ion-toolbar>
+
                     <ion-item>
                         <ion-label>Please choose your settings.</ion-label>
                     </ion-item>
                 </ion-toolbar>
-            </ion-header>
+
 
         </ion-content>
     </ion-page>

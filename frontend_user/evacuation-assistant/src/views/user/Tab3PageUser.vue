@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Notifications</ion-title>
+        <ion-title>Evacuation Assistance</ion-title>
         <h1>Notifications</h1>
       </ion-toolbar>
     </ion-header>
@@ -10,16 +10,6 @@
       <ion-header collapse="condense">
       </ion-header>
 
-      <div>
-        <ion-list>
-          <ion-item>
-            <ion-label>You are logged in as [Username] - [Role]</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
-          </ion-item>
-        </ion-list>
-      </div>
       <ion-list>
         <ion-item valid-v-for="(item, index) in items">
           <ion-avatar slot="start">

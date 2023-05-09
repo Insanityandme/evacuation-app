@@ -14,11 +14,9 @@
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-grid>
                 <ion-item>
-                    <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
+                    <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
-                </ion-item>
+
             </ion-grid>
         </ion-content>
     </ion-page>
@@ -28,6 +26,13 @@
 import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 import {ref} from "vue";
+
+/*  //LÄGG TILLBAKA NEDAN, TILL OVAN, EFTER TESTDAG 2 - Flytta floor och zone till evac
+  <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
+ */
 
 const store = new StorageService();
 const devices: any = ref([])

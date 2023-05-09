@@ -13,10 +13,10 @@
             </ion-header>
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-item>
-                <ion-label>You are logged in as Evac - [Role]</ion-label>
+                <ion-label>Logged in as: Anna Bohlen, Evacuation leader</ion-label>
             </ion-item>
             <ion-item>
-                <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
+                <ion-label>Assigned floor: 4 and zone: C</ion-label>
             </ion-item>
         </ion-content>
     </ion-page>

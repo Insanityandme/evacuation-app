@@ -2,21 +2,18 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
+              <ion-title>Evacuation Assistance</ion-title>
                 <h1>Communication</h1>
-                <ion-title>Communication</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
+            <ion-header collapse="condense">  </ion-header>
                 <ion-toolbar>
-                    <ion-item>
-                        <ion-label>You are logged in as [Username] - [Role]</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
-                    </ion-item>
+                  <ion-item>
+                    <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
+                  </ion-item>
                 </ion-toolbar>
-            </ion-header>
+
 
 
             <div id="incoming">

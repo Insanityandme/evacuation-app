@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Evacuation Assistance</ion-title>
-        <h1>Settings USER</h1>
+        <h1>Settings</h1>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">

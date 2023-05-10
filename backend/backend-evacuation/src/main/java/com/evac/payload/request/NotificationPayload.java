@@ -1,9 +1,12 @@
-package com.evac.payload;
+package com.evac.payload.request;
 
+/**
+ * This class is a payload of the notification structure that will go into the http-request.
+ */
 public class NotificationPayload {
 
-    private String to;
-    private Notification notification;
+    private String to; //Token
+    private Notification notification; //Notification (static class)
 
     public NotificationPayload(String to, Notification notification) {
         this.to = to;

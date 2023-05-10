@@ -2,7 +2,6 @@ package com.evac.controllers;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 import com.evac.models.*;
 import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import com.evac.payload.request.LoginRequest;
 import com.evac.payload.request.SignupRequest;
 import com.evac.payload.response.JwtResponse;
 import com.evac.security.jwt.JwtUtils;
 import com.evac.security.services.UserDetailsImpl;
-
 import javax.validation.Valid;
 
 /**
@@ -71,7 +68,8 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+
+        return ResponseEntity.ok( new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),

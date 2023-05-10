@@ -9,7 +9,7 @@ interface Token {
     token: string
 }
 
-export const sendTokenToBackend = async (token: Token) => {
+const sendTokenToBackend = async (token: Token) => {
     const options = {
         url: resourceUrl,
         headers: {"Content-Type": "application/json"},
@@ -22,7 +22,7 @@ export const sendTokenToBackend = async (token: Token) => {
  * Listeners that are need to register a token and log it into logcat, register errors, log received notifications and their
  * performed action
  */
-export const addListeners = async () => {
+const addListeners = async () => {
     await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
         const tokenValue: Token = {token: token.value};
@@ -50,7 +50,7 @@ export const addListeners = async () => {
 /**
  * Check permissions to get push notifications on the device
  */
-export const registerNotifications = async () => {
+const registerNotifications = async () => {
     let permStatus = await PushNotifications.checkPermissions();
 
     if (permStatus.receive === 'prompt') {
@@ -67,7 +67,7 @@ export const registerNotifications = async () => {
 /**
  * Method to get the delivered notifications
  */
-export const getDeliveredNotifications = async () => {
+const getDeliveredNotifications = async () => {
     const notificationList = await PushNotifications.getDeliveredNotifications();
     console.log('delivered notifications', notificationList);
 }
@@ -75,7 +75,7 @@ export const getDeliveredNotifications = async () => {
 /**
  * Method to create a notification channel for android devices
  */
-export const createNotificationChannel = async () => {
+const createNotificationChannel = async () => {
     PushNotifications.createChannel({
         description: 'This is a test channel for custom sound for notifications',
         id: 'custom_channel',
@@ -97,9 +97,16 @@ export const createNotificationChannel = async () => {
  * Method to delete a notification channel if needed. It will only be used in case we need to change a channel's
  * attributes. According to android documentation you have to recreate the android channel in order to set new attributes.
  */
-export const deleteNotificationChannel = async () => {
+const deleteNotificationChannel = async () => {
     await PushNotifications.deleteChannel({id: "custom_channel"});
     console.log('notification channel deleted')
+}
+
+export const enablePushNotifications = async() => {
+    await addListeners()
+    await registerNotifications()
+    await getDeliveredNotifications()
+    await createNotificationChannel()
 }
 
 /**

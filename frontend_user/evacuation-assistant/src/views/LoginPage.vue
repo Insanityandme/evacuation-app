@@ -17,10 +17,7 @@ import {ref} from 'vue';
 import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User} from '@/data/user';
-import {
-    addListeners, registerNotifications,
-    getDeliveredNotifications, createNotificationChannel
-} from "@/data/notifications";
+import {enablePushNotifications} from "@/data/notifications";
 
 // boolean value for the toast component in vuejs
 const isOpen = ref(false);
@@ -86,10 +83,7 @@ const signIn = async (user: User) => {
             ionRouter.push("/tabs/home/evacleader/");
             // To make sure if you are logged in as an evac leader
             // you can get push notifications
-            await addListeners()
-            await registerNotifications()
-            await getDeliveredNotifications()
-            await createNotificationChannel()
+            await enablePushNotifications();
             console.log("Successfully listening to push notifications")
         } else if (response.data.roles.includes('ROLE_USER')) {
             ionRouter.push("/tabs/home/user/");

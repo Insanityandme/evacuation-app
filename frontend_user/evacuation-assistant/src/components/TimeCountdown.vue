@@ -57,7 +57,6 @@ const submitForm = async (value: string) => {
 }
 const answer = async (value: string) => {
     clearInterval(myInterval);
-    await submitForm(value);
 
     if (value === "yes") {
         myvariables.answeredYes = true;
@@ -66,6 +65,8 @@ const answer = async (value: string) => {
         myvariables.answeredNo = true;
         myvariables.progress = 1;
     }
+
+    await submitForm(value);
 }
 
 

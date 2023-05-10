@@ -52,7 +52,6 @@ const getDeliveredNotifications = async () => {
     console.log('delivered notifications', notificationList);
 }
 const createNotificationChannel = async () => {
-
     PushNotifications.createChannel({
         description: 'This is a test channel for custom sound for notifications',
         id: 'custom_channel',

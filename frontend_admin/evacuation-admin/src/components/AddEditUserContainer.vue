@@ -72,7 +72,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {CapacitorHttp} from "@capacitor/core";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {getAllUsers, signupAndAssignResponsibilities, signUpUser, User} from "@/data/user";
+import {getAllUsers, setDelegationByID, signupAndAssignResponsibilities, signUpUser, User} from "@/data/user";
 import {
     IonButton,
     IonList,
@@ -98,7 +98,7 @@ const state = reactive({
     email: '',
     password: '',
     role: '',
-    floor: '',
+    floorname: '',
     zone: ''
 })
 
@@ -107,7 +107,7 @@ const rules = {
     email: {required, email},
     password: {required},
     role: {required},
-    floor: {required},
+    floorname: {required},
     zone: {required}
 }
 const v$ = useVuelidate(rules, state);
@@ -125,7 +125,7 @@ const openPicker = async () => {
                     },
                     {
                         text: 'Evacuation Leader',
-                        value: 'evac-leader',
+                        value: 'evac',
                     },
                     {
                         text: 'Deputy Leader',
@@ -146,43 +146,43 @@ const openPicker = async () => {
                     },
                     {
                         text: '1',
-                        value: '1',
+                        value: 'FIRST FLOOR',
                     },
                     {
                         text: '2',
-                        value: '2',
+                        value: 'SECOND FLOOR',
                     },
                     {
                         text: '3',
-                        value: '3',
+                        value: 'THIRD FLOOR',
                     },
                     {
                         text: '4',
-                        value: '4',
+                        value: 'FOURTH FLOOR',
                     },
                     {
                         text: '5',
-                        value: '5',
+                        value: 'FIFTH FLOOR',
                     },
                     {
                         text: '6',
-                        value: '6',
+                        value: 'SIXTH FLOOR',
                     },
                     {
                         text: '7',
-                        value: '7',
+                        value: 'SEVENTH FLOOR',
                     },
                     {
                         text: '8',
-                        value: '8',
+                        value: 'EIGHTH FLOOR',
                     },
                     {
                         text: '9',
-                        value: '9',
+                        value: 'NINTH FLOOR',
                     },
                     {
                         text: '10',
-                        value: '10',
+                        value: 'TENTH FLOOR',
                     },
                 ],
             },
@@ -195,15 +195,15 @@ const openPicker = async () => {
                     },
                     {
                         text: 'A',
-                        value: 'a',
+                        value: 'A',
                     },
                     {
                         text: 'B',
-                        value: 'b',
+                        value: 'B',
                     },
                     {
                         text: 'C',
-                        value: 'c',
+                        value: 'C',
                     },
                 ],
             },
@@ -220,9 +220,9 @@ const openPicker = async () => {
                     /*window.alert(
                         `You selected a ${value.role.text} pizza with ${value.floor.text} and ${value.zone.text}`
                     );*/
-                    state.role = value.role.text;
-                    state.floor = value.floor.text;
-                    state.zone = value.zone.text;
+                    state.role = value.role.value;
+                    state.floorname = value.floor.value;
+                    state.zone = value.zone.value;
                 },
             },
         ],
@@ -233,23 +233,25 @@ const openPicker = async () => {
     //picker.addEventListener('ionPickerDidDismiss', handleDismiss);
     await picker.present();
 }
-
+//setDelegationByID(9, {floorname: "FIRST-FLOOR", zone: ["A","B"]});
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
     console.log(state.username);
     console.log(state.email);
     console.log(state.password);
     console.log(state.role);
+    console.log(state.floorname);
+    console.log(state.zone);
     console.log(state);
     //console.log(userRole.value);
-    console.log(selectedOption);
+    //console.log(selectedOption);
     console.log(selectedOption.value);
 
 
 
     if (isFormCorrect) {
-        await signupAndAssignResponsibilities({username: state.username, email: state.email, password: state.password, role: [state.role], floor: state.floor, zone: state.zone});
-
+        await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]/*, floor: state.floor, zone: state.zone*/});
+        await fetchUserId(state.username, state.email);
     }
 }
 const users = ref([]);
@@ -259,11 +261,15 @@ const fetchUserId = async(username: string, email: string) => {
     console.log(response.data[0].username);
     users.value = response.data;
     for (const user of response.data) {
-        if (user.username === username) {
-            return user.id;
+        if (user.username === username && user.email === email) {
+            const userId: number = user.id;
+            await setDelegationByID(userId, {floorname: state.floorname, zone: [state.zone]});
+            //return user.id;
         }
     }
 }
+
+
 
 
 </script>

@@ -12,16 +12,34 @@ export interface User {
     ],
 }
 
-export interface UserPlus {
-    //id: number,
+export interface Responsibility {
+    floorname: string,
+    zone: [
+        name: string
+    ],
+}
+
+export interface Delegation {
+    id: number,
+    username: string,
+    floorName: string,
+    zoneName: [
+        name: string
+    ],
+}
+
+export interface UserDelegate {
+    id: number,
     username: string,
     email: string,
     password: string,
     role: [
         name: string
     ],
-    floor: string,
-    zone: string,
+    floorName: string,
+    zoneName: [
+        name: string
+    ],
 }
 
 export const signInUser = async (user: User) => {
@@ -43,6 +61,25 @@ export const getAllUsers = async () => {
     return CapacitorHttp.get(options)
 }
 
+export const getAllDelegations = async () => {
+    const options = {
+        url: `http://localhost:8081/api/evacAuth/getAllDelegations`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
+export const setDelegationByID = async (id: number, responsibilities: Responsibility) => {
+    const options = {
+        url: `http://192.168.1.238:8081/api/evacAuth/delegateById/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(responsibilities)
+    }
+    console.log(options.data);
+    return CapacitorHttp.post(options);
+}
+
 export const signUpUser = async (user: User) => {
     const options = {
         url: `${resourceUrl}/signup`,
@@ -53,7 +90,7 @@ export const signUpUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
-export const signupAndAssignResponsibilities = async (user: UserPlus) => {
+/*export const signupAndAssignResponsibilities = async (user: UserPlus) => {
     const options = {
         url: `${resourceUrl}/signup`,
         headers: {"Content-Type": "application/json"},
@@ -61,7 +98,7 @@ export const signupAndAssignResponsibilities = async (user: UserPlus) => {
     }
     console.log(options.data);
     return CapacitorHttp.post(options);
-}
+}*/
 
 export const confirmDeletion = async (id: number) => {
     const options = {

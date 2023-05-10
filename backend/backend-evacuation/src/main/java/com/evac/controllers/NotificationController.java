@@ -1,27 +1,38 @@
 package com.evac.controllers;
 
 import com.evac.models.NotificationMessage;
-import com.evac.payload.NotificationPayload;
+import com.evac.models.Token;
+import com.evac.payload.request.NotificationPayload;
+import com.evac.payload.request.TokenRequest;
+import com.evac.repository.TokenRepository;
+import com.evac.repository.UserRepository;
 import com.evac.security.services.FirebaseMessagingService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
+//This class is a rest-controller for push notifications via Firebase. It will handle device's tokens as well.
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/notification")
 public class NotificationController {
 
+    @Autowired
+    private TokenRepository tokenRepository;
     FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService(firebaseMessaging());
 
 
+    //This method will probably be removed
     @PostMapping("/sendNotification")
     public ResponseEntity<?> sendNotificationByToken(@RequestBody NotificationMessage notificationMessage){
         try {
@@ -32,6 +43,11 @@ public class NotificationController {
     }
 
 
+    /**
+     * Post-request that will send a custom push notification
+     * @param payload -> Notification structure
+     * @return a ResponseEntity with an ok-response
+     */
     @PostMapping("/sendCustomNotification")
     public ResponseEntity<?> sendNotification(@RequestBody NotificationPayload payload){
         String response = null;
@@ -45,7 +61,37 @@ public class NotificationController {
 
     }
 
+    @PostMapping("/saveToken")
+    public ResponseEntity<?> saveToken(@Valid @RequestBody TokenRequest request){
+        /*
+        if (tokenRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Email is already taken!");
+        }
 
+         */
+
+        if (tokenRepository.existsByToken(request.getToken())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Token is already in use!");
+        }
+
+        // Create new user's account
+        Token token = new Token(request.getToken());
+
+        tokenRepository.save(token);
+
+        return ResponseEntity.ok("Token saved in database!");
+
+    }
+
+
+    /**
+     * This is a bean that handles and verifies the credentials to use Firebase services
+     * @return an instance of the Firebase application
+     */
     @Bean
     public FirebaseMessaging firebaseMessaging()  {
         GoogleCredentials googleCredentials = null;

@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <h1 class="ion-margin">Evacuation Assistance Application</h1>
+      <h1 class="ion-margin">Evacuation Assistance Application cock</h1>
       <LoginForm :sign-in-user="signIn"/>
       <ion-toast position="bottom" color="danger" @didDismiss="setOpen(false)" :is-open="isOpen"
                  message="Invalid Email or Password"
@@ -35,6 +35,7 @@ const ionRouter = useIonRouter();
 // to check if a user is already signed in
 const alreadySignedIn = async () => {
   // locally stored user data
+
   const userData = await store.read('user');
   const userDataParsed = JSON.parse(userData.value!);
   // console.log(userDataParsed.roles[0]);

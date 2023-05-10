@@ -8,11 +8,22 @@
 import {IonApp, IonRouterOutlet} from '@ionic/vue';
 import {PushNotifications} from "@capacitor/push-notifications";
 import router from "@/router";
-import {sync} from "ionicons/icons";
+import {CapacitorHttp} from "@capacitor/core";
 
+interface Token {
+    token: string
+}
+
+/**
+ * Listeners that are need to register a token and log it into logcat, register errors, log received notifications and their
+ * performed action
+ */
 const addListeners = async () => {
     await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
+        const tokenValue: Token = {token: token.value};
+        sendTokenToBackend(tokenValue);
+        console.log('Successfully sent token!!!')
     });
 
     await PushNotifications.addListener('registrationError', err => {
@@ -33,6 +44,19 @@ const addListeners = async () => {
     });
 }
 
+const sendTokenToBackend = async (token : Token) => {
+    const options = {
+        url : 'http://10.20.32.80:8081/api/notification/saveToken',
+        headers : {"Content-Type" : "application/json"},
+        data : JSON.stringify(token)
+    }
+
+    return CapacitorHttp.post(options);
+}
+
+/**
+ * Check permissions to get push notifications on the device
+ */
 const registerNotifications = async () => {
     let permStatus = await PushNotifications.checkPermissions();
 
@@ -47,10 +71,17 @@ const registerNotifications = async () => {
     await PushNotifications.register();
 }
 
+/**
+ * Method to get the delivered notifications
+ */
 const getDeliveredNotifications = async () => {
     const notificationList = await PushNotifications.getDeliveredNotifications();
     console.log('delivered notifications', notificationList);
 }
+
+/**
+ * Method to create a notification channel for android devices
+ */
 const createNotificationChannel = async () => {
     PushNotifications.createChannel({
         description: 'This is a test channel for custom sound for notifications',
@@ -69,15 +100,22 @@ const createNotificationChannel = async () => {
     });
 }
 
+/**
+ * Method to delete a notification channel if needed. It will only be used in case we need to change a channel's
+ * attributes. According to android documentation you have to recreate the android channel in order to set new attributes.
+ */
+
+/*
 const deleteNotificationChannel = async () => {
     await PushNotifications.deleteChannel({id: "custom_channel"});
     console.log('notification channel deleted')
 }
 
+ */
 addListeners()
 registerNotifications()
 getDeliveredNotifications()
-//deleteNotificationChannel()
+//deleteNotificationChannel() //if needed
 createNotificationChannel()
 
 

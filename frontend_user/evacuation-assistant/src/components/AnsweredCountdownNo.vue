@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import {IonButton} from "@ionic/vue";
 
 export default {
     name: "answeredCountdownNo.vue",

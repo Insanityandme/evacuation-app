@@ -5,7 +5,6 @@ import com.evac.models.Token;
 import com.evac.payload.request.NotificationPayload;
 import com.evac.payload.request.TokenRequest;
 import com.evac.repository.TokenRepository;
-import com.evac.repository.UserRepository;
 import com.evac.security.services.FirebaseMessagingService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -30,18 +28,6 @@ public class NotificationController {
     @Autowired
     private TokenRepository tokenRepository;
     FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService(firebaseMessaging());
-
-
-    //This method will probably be removed
-    @PostMapping("/sendNotification")
-    public ResponseEntity<?> sendNotificationByToken(@RequestBody NotificationMessage notificationMessage){
-        try {
-            return ResponseEntity.ok(firebaseMessagingService.sendNotificationByToken(notificationMessage));
-        } catch (FirebaseMessagingException e) {
-            return ResponseEntity.badRequest().body("Something went wrong..");
-        }
-    }
-
 
     /**
      * Post-request that will send a custom push notification
@@ -61,6 +47,12 @@ public class NotificationController {
 
     }
 
+    /**
+     * This method is called from the frontend (App.vue) so it gets the registration token and
+     * stores it in the database.
+     * @param request -> TokenRequest object that will have a token and an email.
+     * @return -> a responseEntity with an ok-response
+     */
     @PostMapping("/saveToken")
     public ResponseEntity<?> saveToken(@Valid @RequestBody TokenRequest request){
         /*
@@ -78,7 +70,6 @@ public class NotificationController {
                     .body("Error: Token is already in use!");
         }
 
-        // Create new user's account
         Token token = new Token(request.getToken());
 
         tokenRepository.save(token);

@@ -22,7 +22,7 @@ const addListeners = async () => {
     await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
         const tokenValue: Token = {token: token.value};
-        sendTokenToBackend(tokenValue);
+        sendTokenToBackend(tokenValue); // this will be moved to a better location. Just for test purposes
         console.log('Successfully sent token!!!')
     });
 
@@ -44,6 +44,11 @@ const addListeners = async () => {
     });
 }
 
+/**
+ * This method is used to call the request-method of the backend using the url
+ * to send the registration token there.
+ * @param token -> the registration token to be sent
+ */
 const sendTokenToBackend = async (token : Token) => {
     const options = {
         url : 'http://10.20.32.80:8081/api/notification/saveToken',
@@ -51,7 +56,7 @@ const sendTokenToBackend = async (token : Token) => {
         data : JSON.stringify(token)
     }
 
-    return CapacitorHttp.post(options);
+    return CapacitorHttp.post(options); //this method triggers the request-method in the backend
 }
 
 /**

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * This class is a request to get the token from the frontend and then store it in the database
+ */
 public class TokenRequest {
     @NotBlank
     private String token;

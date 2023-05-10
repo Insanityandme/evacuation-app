@@ -1,15 +1,17 @@
 package com.evac.models;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 
+/**
+ * This class is an entity that creates a table in the database. This table will contain a registration token and the email
+ * of the user that owns it.
+ */
 @Entity
 @Table(name = "Token",
 uniqueConstraints ={

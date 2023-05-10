@@ -13,12 +13,6 @@
                     <ion-label :key="tab">{{ tab.tab2}}</ion-label>
                 </ion-tab-button>
 
-                <ion-tab-button tab="tab3" @click="()=> router.push('/tabs/tab3/' + navigation)">
-                    <ion-icon aria-hidden="true" :icon="notificationsOutline"/>
-                    <ion-label>Notifications</ion-label>
-                    <ion-badge color="danger">11</ion-badge>
-                </ion-tab-button>
-
                 <ion-tab-button tab="tab4" @click="()=> router.push('/tabs/tab4/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="settingsOutline"/>
                     <ion-label>Settings</ion-label>
@@ -48,6 +42,7 @@ async function getRole() {
     const userData = await store.read('user');
 
     if (userData !== null) {
+
         const userDataParsed = JSON.parse(userData.value!);
         role = userDataParsed.roles[0];
 

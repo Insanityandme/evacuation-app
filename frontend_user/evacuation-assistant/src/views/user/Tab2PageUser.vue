@@ -18,7 +18,6 @@
                 </ion-toolbar>
             </ion-header>
 
-
             <div id="incoming">
                 <ion-card>
                     <ion-card-header>

@@ -1,13 +1,16 @@
 <template>
-  <ion-page>
-    <ion-content>
-      <h1 class="ion-margin">Evacuation Assistance Application cock</h1>
-      <LoginForm :sign-in-user="signIn"/>
-      <ion-toast position="bottom" color="danger" @didDismiss="setOpen(false)" :is-open="isOpen"
-                 message="Invalid Email or Password"
-                 :duration="2000"></ion-toast>
-    </ion-content>
-  </ion-page>
+    <ion-page>
+        <ion-content>
+            <h1 class="ion-margin">Evacuation Assistance Application cock</h1>
+            <LoginForm :sign-in-user="signIn"/>
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)" :is-open="isOpenServerConnection"
+                       message="No connection to server"
+                       :duration="2000"></ion-toast>
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenEmailOrPassword(false)" :is-open="isOpenEmailOrPassword"
+                       message="Invalid Email or Password"
+                       :duration="2000"></ion-toast>
+        </ion-content>
+    </ion-page>
 </template>
 
 <script setup lang="ts">
@@ -17,13 +20,19 @@ import {ref} from 'vue';
 import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User} from '@/data/user';
+import {enablePushNotifications} from "@/data/notifications";
 
 // boolean value for the toast component in vuejs
-const isOpen = ref(false);
+const isOpenEmailOrPassword = ref(false);
+const isOpenServerConnection = ref(false);
 
 // function to change the boolean value of isOpen
-const setOpen = (state: boolean) => {
-  isOpen.value = state
+const setOpenEmailOrPassword = (state: boolean) => {
+    isOpenEmailOrPassword.value = state
+};
+
+const setOpenServerConnection = (state: boolean) => {
+    isOpenServerConnection.value = state
 };
 
 // create a StorageService object
@@ -34,29 +43,25 @@ const ionRouter = useIonRouter();
 
 // to check if a user is already signed in
 const alreadySignedIn = async () => {
-  // locally stored user data
+    // locally stored user data
+    const userData = await store.read('user');
+    const userDataParsed = JSON.parse(userData.value!);
 
-  const userData = await store.read('user');
-  const userDataParsed = JSON.parse(userData.value!);
-  // console.log(userDataParsed.roles[0]);
-  // console.log(userDataParsed);
-
-  if (userData.value !== null) {
-    console.log("Successfully used stored token to redirect to home page");
-    // ionRouter.push("/tabs/home/");
-    //Navigate to the appropriate home page based on the user's role
-    if (userDataParsed.roles[0] === 'ROLE_DEPUTYLEADER') {
-      ionRouter.push("/tabs/home/deputyleader/");
-    } else if (userDataParsed.roles[0] === 'ROLE_EVACLEADER') {
-      ionRouter.push("/tabs/home/evacleader/");
-    } else if (userDataParsed.roles[0] === 'ROLE_USER') {
-      ionRouter.push("/tabs/home/user/");
+    if (userData.value !== null) {
+        console.log("Successfully used stored token to redirect to home page");
+        //Navigate to the appropriate home page based on the user's role
+        if (userDataParsed.roles[0] === 'ROLE_DEPUTYLEADER') {
+            ionRouter.push("/tabs/home/deputyleader/");
+        } else if (userDataParsed.roles[0] === 'ROLE_EVACLEADER') {
+            ionRouter.push("/tabs/home/evacleader/");
+        } else if (userDataParsed.roles[0] === 'ROLE_USER') {
+            ionRouter.push("/tabs/home/user/");
+        } else {
+            console.log('Unknown role');
+        }
     } else {
-      console.log('Unknown role');
+        console.log("User is not signed in yet.");
     }
-  } else {
-    console.log("User is not signed in yet.");
-  }
 }
 
 alreadySignedIn();
@@ -66,34 +71,36 @@ alreadySignedIn();
    the case create a local storage object
    that will be used to store your "login" information.
  */
-
 const signIn = async (user: User) => {
-  // POST request to our backend API
-  const response = await signInUser(user);
-  console.log(response.data);
+    // POST request to our backend API
+    const response = await signInUser(user);
 
-  // if we exist in the backend DB, create an object storing our information
-  if (response.data.accessToken) {
-    console.log("Retreived accesstoken and storing it response data...");
+    // if we exist in the backend DB, create an object storing our information
+    if (response.data.accessToken) {
+        console.log("Retreived accesstoken and storing it response data...");
 
-    // very important data is turned into a JSON string and then able to JSON.parse it later on
-    await store.create('user', JSON.stringify(response.data));
-    console.log(response.data.roles);
+        // very important data is turned into a JSON string and then able to JSON.parse it later on
+        await store.create('user', JSON.stringify(response.data));
+        console.log(response.data.roles);
 
-    //Navigate to the appropriate home page based on the user's role
-    if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
-      ionRouter.push("/tabs/home/deputyleader/");
-    } else if (response.data.roles.includes('ROLE_EVACLEADER')) {
-      ionRouter.push("/tabs/home/evacleader/");
-    } else if (response.data.roles.includes('ROLE_USER')) {
-      ionRouter.push("/tabs/home/user/");
-    } else {
-      console.log('Unknown role:', response.data.roles);
+        //Navigate to the appropriate home page based on the user's role
+        if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
+            ionRouter.push("/tabs/home/deputyleader/");
+        } else if (response.data.roles.includes('ROLE_EVACLEADER')) {
+            ionRouter.push("/tabs/home/evacleader/");
+            // To make sure if you are logged in as an evac leader
+            // you can get push notifications
+            await enablePushNotifications();
+            console.log("Successfully listening to push notifications")
+        } else if (response.data.roles.includes('ROLE_USER')) {
+            ionRouter.push("/tabs/home/user/");
+        } else {
+            console.log('Unknown role:', response.data.roles);
+        }
+    } else if (response.status == 400 || response.status == 401) {
+        // if you get a bad request, make sure the toast component can notify someone again.
+        setOpenEmailOrPassword(true);
     }
-  } else if (response.status == 400 || response.status == 401) {
-    // if you get a bad request, make sure the toast component can notify someone again.
-    setOpen(true);
-  }
 }
 </script>
 

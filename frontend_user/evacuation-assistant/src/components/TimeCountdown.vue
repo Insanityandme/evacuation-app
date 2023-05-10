@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="myvariables.answeredYes">
-            <AnsweredCountdownYes></AnsweredCountdownYes>
+            <AnsweredCountdownYes/>
         </template>
         <template v-else-if="myvariables.answeredNo">
             <AnsweredCountdownNo></AnsweredCountdownNo>

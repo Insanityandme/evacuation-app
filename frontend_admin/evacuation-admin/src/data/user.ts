@@ -72,7 +72,7 @@ export const getAllDelegations = async () => {
 
 export const setDelegationByID = async (id: number, responsibilities: Responsibility) => {
     const options = {
-        url: `http://192.168.1.238:8081/api/evacAuth/delegateById/${id}`,
+        url: `http://localhost:8081/api/evacAuth/delegateById/${id}`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(responsibilities)
     }

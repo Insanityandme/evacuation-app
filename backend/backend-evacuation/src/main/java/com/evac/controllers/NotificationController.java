@@ -1,6 +1,5 @@
 package com.evac.controllers;
 
-import com.evac.models.NotificationMessage;
 import com.evac.models.Token;
 import com.evac.payload.request.NotificationPayload;
 import com.evac.payload.request.TokenRequest;

@@ -1,7 +1,6 @@
 package com.evac.repository;
 
 import com.evac.models.Token;
-import com.evac.payload.request.TokenRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

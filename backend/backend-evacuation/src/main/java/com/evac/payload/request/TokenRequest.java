@@ -1,6 +1,5 @@
 package com.evac.payload.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotBlank;
 

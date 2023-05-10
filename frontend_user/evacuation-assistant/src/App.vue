@@ -53,22 +53,6 @@ const getDeliveredNotifications = async () => {
 }
 const createNotificationChannel = async () => {
 
-PushNotifications.createChannel({
-    description: 'This is a test channel for custom sound for notifications',
-    id: 'fcm_default_channel',
-    importance: 5,
-    lights: true,
-    name: 'My notification channel',
-    sound: 'alarm_ship',
-    vibration: true,
-    visibility: 1,
-    lightColor: '#FF0000'
-}).then(() => {
-    console.log('push channel created: ');
-}).catch(error => {
-    console.error('push channel error: ', error);
-});
-
     PushNotifications.createChannel({
         description: 'This is a test channel for custom sound for notifications',
         id: 'custom_channel',

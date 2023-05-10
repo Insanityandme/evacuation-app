@@ -119,7 +119,7 @@ public class EvacAuthController {
      * badRequest if there is not a user with the given username
      */
     @DeleteMapping("deleteDelegationByUsername")
-    public ResponseEntity<?> deleteDelegationById(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
+    public ResponseEntity<?> deleteDelegationByUsername(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
         if (delegationRepository.existsByUsername(delegationDeleteRequest.getUsername())) {
             List <Delegation> delegationList = delegationRepository.findAll();
             for (Delegation delegation1 : delegationList) {

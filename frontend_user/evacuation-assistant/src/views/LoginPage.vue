@@ -3,7 +3,10 @@
         <ion-content>
             <h1 class="ion-margin">Evacuation Assistance Application cock</h1>
             <LoginForm :sign-in-user="signIn"/>
-            <ion-toast position="bottom" color="danger" @didDismiss="setOpen(false)" :is-open="isOpen"
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)" :is-open="isOpenServerConnection"
+                       message="No connection to server"
+                       :duration="2000"></ion-toast>
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenEmailOrPassword(false)" :is-open="isOpenEmailOrPassword"
                        message="Invalid Email or Password"
                        :duration="2000"></ion-toast>
         </ion-content>
@@ -20,11 +23,16 @@ import {signInUser, User} from '@/data/user';
 import {enablePushNotifications} from "@/data/notifications";
 
 // boolean value for the toast component in vuejs
-const isOpen = ref(false);
+const isOpenEmailOrPassword = ref(false);
+const isOpenServerConnection = ref(false);
 
 // function to change the boolean value of isOpen
-const setOpen = (state: boolean) => {
-    isOpen.value = state
+const setOpenEmailOrPassword = (state: boolean) => {
+    isOpenEmailOrPassword.value = state
+};
+
+const setOpenServerConnection = (state: boolean) => {
+    isOpenServerConnection.value = state
 };
 
 // create a StorageService object
@@ -66,7 +74,6 @@ alreadySignedIn();
 const signIn = async (user: User) => {
     // POST request to our backend API
     const response = await signInUser(user);
-    console.log(response.data);
 
     // if we exist in the backend DB, create an object storing our information
     if (response.data.accessToken) {
@@ -92,7 +99,7 @@ const signIn = async (user: User) => {
         }
     } else if (response.status == 400 || response.status == 401) {
         // if you get a bad request, make sure the toast component can notify someone again.
-        setOpen(true);
+        setOpenEmailOrPassword(true);
     }
 }
 </script>

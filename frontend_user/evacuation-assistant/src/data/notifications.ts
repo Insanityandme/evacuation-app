@@ -103,10 +103,10 @@ const deleteNotificationChannel = async () => {
 }
 
 export const enablePushNotifications = async() => {
+    await createNotificationChannel()
     await addListeners()
     await registerNotifications()
     await getDeliveredNotifications()
-    await createNotificationChannel()
 }
 
 /**

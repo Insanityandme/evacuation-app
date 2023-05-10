@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "ionic:build": "vue-cli-service build --mode capacitor",
+    "ionic:serve": "vue-cli-service serve --mode capacitor",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -13,6 +14,7 @@
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^2.2.3",
     "@capacitor-community/fcm": "^3.0.2",
+    "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "4.7.1",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.7.1",

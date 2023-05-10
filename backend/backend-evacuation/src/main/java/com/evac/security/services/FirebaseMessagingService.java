@@ -1,12 +1,13 @@
 package com.evac.security.services;
 
 import com.evac.models.NotificationMessage;
-import com.evac.payload.NotificationPayload;
+import com.evac.payload.request.NotificationPayload;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
-import java.util.Map;
 
+/**
+ * This class is a service for FirebaseMessaging. This class makes push notifications possible because it sends it.
+ */
 @Service
 public class FirebaseMessagingService {
 
@@ -20,7 +21,7 @@ public class FirebaseMessagingService {
         this.firebaseMessaging = firebaseMessaging;
     }
 
-
+    //Probably this method will be removed
     public String sendNotificationByToken(NotificationMessage notificationMessage) throws FirebaseMessagingException{
 
         String sound = "alarm";
@@ -42,6 +43,12 @@ public class FirebaseMessagingService {
         return "Success sending notification!";
     }
 
+    /**
+     * This method sends a custom push notification using the NotificationPayload class as the notification structure.
+     * @param payload -> notification structure
+     * @return a String with the confirmation that the message has been sent.
+     * @throws FirebaseMessagingException -> Exception that handles everything related to FirebaseMessaging.
+     */
     public String sendCustomNotification(NotificationPayload payload) throws FirebaseMessagingException{
 
         Notification notification = Notification.builder()

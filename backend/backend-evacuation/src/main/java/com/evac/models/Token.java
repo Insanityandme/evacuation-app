@@ -1,31 +1,37 @@
 package com.evac.models;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "Token",
 uniqueConstraints ={
         @UniqueConstraint(columnNames = "token"),
-        @UniqueConstraint(columnNames = "user_id")
+        @UniqueConstraint(columnNames = "email")
 })
 public class Token {
 
     @Id
     private String token;
 
-    private Long id;
+    @Email
+    private String email;
 
     public Token(){
 
     }
 
-    public Token(String token, Long id){
+    @JsonCreator
+    public Token(@JsonProperty("token") String token){
         this.token = token;
-        this.id = id;
+        //this.email = email;
     }
 
     public String getToken() {
@@ -36,11 +42,11 @@ public class Token {
         this.token = token;
     }
 
-    public Long getId() {
-        return id;
+    public String getUser_email() {
+        return email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_email(String email) {
+        this.email = email;
     }
 }

@@ -47,9 +47,6 @@ public class AuthController {
     @Autowired
     private EvacActiveRepository evacActiveRepository;
 
-    @Autowired
-    private TokenRepository tokenRepository;
-
 
     /**
      * This method authenticates the user information provided by the user by using a LoginRequest object. It will check if the user is valid or not.
@@ -71,7 +68,8 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+
+        return ResponseEntity.ok( new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),

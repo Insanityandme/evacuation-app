@@ -3,7 +3,7 @@ import router from "@/router";
 import {CapacitorHttp} from "@capacitor/core";
 
 // Change this depending on what network you are on
-const resourceUrl = 'http://10.20.32.80:8081/api/notification/saveToken'
+const resourceUrl = 'http://192.168.10.165:8081/api/notification/saveToken'
 
 interface Token {
     token: string

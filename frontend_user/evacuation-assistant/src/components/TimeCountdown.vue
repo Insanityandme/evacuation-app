@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import {changeActiveTrue} from "@/data/getTimestamp";
+import {changeActiveTrue} from "@/data/changeActive";
 import {reactive} from "vue";
 import {IonProgressBar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle,} from "@ionic/vue";
 import AnsweredCountdownYes from "@/components/AnsweredCountdownYes.vue";
@@ -49,27 +49,41 @@ const myvariables = reactive({
     answeredYes: false,
     answeredNo: false,
 })
+/**
+ * gets data for logged in user,
+ * sends username as parameter to changeActiveTrue method
+ * for calling the backend.
+ * @param value
+ */
 const submitForm = async (value: string) => {
     const userData = await store.read('user');
     const userDataParsed = JSON.parse(userData.value!);
     await changeActiveTrue(userDataParsed.username);
     console.log(value)
 }
+/**
+ * method used to set boolean answeredYes/answeredNo to true
+ * if corresponding buttons in ion-card are clicked
+ * progress of progressbar set to 1 to
+ * @param value String yes or no depending on button pressed
+ */
 const answer = async (value: string) => {
     clearInterval(myInterval);
 
     if (value === "yes") {
         myvariables.answeredYes = true;
         myvariables.progress = 1;
+        await submitForm(value);
     } else if (value === "no") {
         myvariables.answeredNo = true;
         myvariables.progress = 1;
     }
-
-    await submitForm(value);
 }
 
-
+/**
+ * starts the countdown on the progress bar
+ * if progress < 0, redirect to /tabs/home/evacleader
+ */
 const startCountdown = async () => {
     const step = 0.01;
 

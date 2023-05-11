@@ -248,11 +248,21 @@ public class EvacAuthController {
     public List<EvacLeaderPriority> getAllLeadersAndPriorities() {
         return evacLeaderPriorityRepository.findAll();
     }
+
+    /**
+     * This mapping is used to get a list of all delegations (id, username, zone, floor)
+     * @return list of all rows of delegations table.
+     */
     @GetMapping("getAllDelegations")
     public List<Delegation> getAllDelegations() {
         return delegationRepository.findAll();
     }
 
+    /**
+     * this mapping is used to change the row boolean is_active to true
+     * @param username in row to set to true
+     * @return the is_active status of the row with specified username if succesful.
+     */
     @PutMapping("/changeActiveTrue/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);
@@ -282,6 +292,11 @@ public class EvacAuthController {
                 .badRequest()
                 .body("no evacleader with this username");
     }
+    /**
+     * this mapping is used to change the row boolean is_active to false
+     * @param username in row to set to false
+     * @return the is_active status of the row with specified username if succesful.
+     */
 
     @PutMapping("/changeActiveFalse/{username}")
     public ResponseEntity<?> changeActiveF(@PathVariable("username") String username){
@@ -312,6 +327,12 @@ public class EvacAuthController {
                 .badRequest()
                 .body("no evacleader with this username");
     }
+
+    /**
+     * this mapping is used to set all columns is_active of table
+     * evac_active to false
+     * @return Responseentity.ok
+     */
 
     @PutMapping("/turnOffAllActive")
     public ResponseEntity<?> turnOffAllActive() {

@@ -1,3 +1,9 @@
+<!--
+This class is responsible for showing a card with
+a message after answering no on TimeCountdown
+-->
+
+
 <template>
     <ion-card>
         <ion-card-header>
@@ -13,7 +19,6 @@
 </template>
 
 <script>
-
 export default {
     name: "answeredCountdownNo.vue",
 }

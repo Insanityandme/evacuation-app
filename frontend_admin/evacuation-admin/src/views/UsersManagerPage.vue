@@ -16,12 +16,14 @@
         <ion-content class="ion-padding">
             <ion-modal ref="modal" trigger="open-modal">
                 <ion-content>
+
                     <ion-toolbar>
                         <ion-title>Filter</ion-title>
                         <ion-buttons slot="end">
                             <ion-button color="light" @click="dismiss()">Close</ion-button>
                         </ion-buttons>
                     </ion-toolbar>
+
                     <ion-list>
                         <ion-item>
                             <ion-icon :icon="person" slot="start"/>
@@ -52,6 +54,7 @@
                             </ion-label>
                         </ion-item>
                     </ion-list>
+
                 </ion-content>
             </ion-modal>
         </ion-content>
@@ -64,21 +67,11 @@
 import { IonPage, IonHeader } from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
 import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
-// eslint-disable-next-line
-//import {HTMLIonModalElement} from '@ionic/core';
-//import {setupIonicVue} from '@ionic/vue';
-/*interface ModalCustomEvent extends CustomEvent {
-    target: HTMLIonModalElement;
-}*/
 
-import component from "*.vue";
 </script>
 
 <script lang="ts">
-//import {HTMLIonModalElement} from '@ionic/core';
-import {
-    IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,
-} from '@ionic/vue';
+import {IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,} from '@ionic/vue';
 import {defineComponent} from 'vue';
 
 export default defineComponent({
@@ -91,9 +84,25 @@ export default defineComponent({
             // eslint-disable-next-line
             if(test !== null) {
                 test.dismiss();
-                //this.dismiss();
             }
         },
     },
 });
 </script>
+<style>
+ion-modal {
+    --height: 50%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+    background: rgba(209, 213, 219);
+    opacity: 1;
+}
+
+ion-modal ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+}
+</style>

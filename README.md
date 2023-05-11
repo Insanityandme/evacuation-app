@@ -32,9 +32,12 @@ Keep in mind, the most important detail:
 
 >spring.jpa.hibernate.ddl-auto= create
 
-This line must be equal to *create*, otherwise the table *roles* will not be populated with predefined data that exist inside the `backend/backend-evacuation/src/main/resources/import.sql`file.
+It should be set to *create*, otherwise the tables *roles, floors, zones* and *priority* will not be populated with predefined data that exists inside the `backend/backend-evacuation/src/main/resources/import.sql`file. Afterwards, it is imperative to change that line to:
+>spring.jpa.hibernate.ddl-auto= update
 
-The *import.sql* file has the following INSERT INTO in it, in case it is ignored in the future by mistake:
+The reason being that *create* will always rewrite the entire database each time the server restarts, potentially causing catastrophic data loss. Whereas *update* will append new data on top of the existing data in the database. The downside is that *update* will not initialize the database, i.e. populate it with predefined data that exists in the `import.sql` file.
+
+The `import.sql` file has the following INSERT INTO queries, in case it is ignored in the future GIT commits by mistake:
 ```
 INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_DEPUTYLEADER');
@@ -44,6 +47,13 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 INSERT INTO floors(name) VALUES ('FIRST FLOOR');
 INSERT INTO floors(name) VALUES ('SECOND FLOOR');
 INSERT INTO floors(name) VALUES ('THIRD FLOOR');
+INSERT INTO floors(name) VALUES ('FOURTH FLOOR');
+INSERT INTO floors(name) VALUES ('FIFTH FLOOR');
+INSERT INTO floors(name) VALUES ('SIXTH FLOOR');
+INSERT INTO floors(name) VALUES ('SEVENTH FLOOR');
+INSERT INTO floors(name) VALUES ('EIGHTH FLOOR');
+INSERT INTO floors(name) VALUES ('NINTH FLOOR');
+INSERT INTO floors(name) VALUES ('TENTH FLOOR');
 
 INSERT INTO zones(name) VALUES ('A');
 INSERT INTO zones(name) VALUES ('B');

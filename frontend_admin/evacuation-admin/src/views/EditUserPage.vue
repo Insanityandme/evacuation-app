@@ -3,7 +3,7 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons slot="start">
-                    <ion-button href="/tabs/UsersManager"><ion-icon :icon="chevronBack" slot="start"/> back</ion-button><!--router-link="/tabs/UsersManager" router-direction="back"-->
+                    <ion-button href="/tabs/UsersManager"><ion-icon :icon="chevronBack" slot="start"/> back</ion-button>
                 </ion-buttons>
                 <ion-title>Edit User {{ id }}</ion-title>
             </ion-toolbar>

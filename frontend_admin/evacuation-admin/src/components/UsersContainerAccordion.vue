@@ -60,6 +60,7 @@
                             <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                             <ion-label><b>Priority: High</b></ion-label>
                         </ion-chip>
+
                     </ion-item>
                 </ion-list>
             </div>
@@ -68,26 +69,17 @@
 </template>
 
 <script setup lang="ts">
-import {
-    pencil,
-    trash,
-    alertOutline,
-    mapOutline,
-    layersOutline,
-    call,
-    person,
-    mail
-} from "ionicons/icons";
+import {trash, alertOutline, mapOutline, layersOutline, person, mail} from "ionicons/icons";
 
 import {actionSheetController} from "@ionic/vue";
 
 
-import {confirmDeletion, getAllDelegations, getAllUsers, setDelegationByID} from "@/data/user";
+import {confirmDeletion, getAllDelegations, getAllUsers} from "@/data/user";
 
 import {ref} from "vue";
 const users = ref([]);
 const delegations = ref([]);
-const userDelegation = ref([]);
+
 
 const fetchAllUsers = async() => {
     // POST request to our backend API
@@ -109,16 +101,11 @@ const fetchAllDelegations = async() => {
 fetchAllUsers();
 fetchAllDelegations();
 
-const result = ref('');
-const setResult = (ev: CustomEvent) => {
-    result.value = JSON.stringify(ev.detail, null, 2);
-};
 const confirmDeletionButton = async(num:number) => {
     const response = await confirmDeletion(num);
     console.log(response.data[0].message);
     console.log(num);
 }
-
 
 const presentActionSheet = async(num:number, name: string) => {
     const actionSheet = await actionSheetController.create({
@@ -144,15 +131,7 @@ const presentActionSheet = async(num:number, name: string) => {
             },
         ],
     });
-
-
-
     await actionSheet.present();
-
-
-
-
-
 }
 
 </script>

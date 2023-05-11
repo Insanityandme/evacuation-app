@@ -4,12 +4,15 @@
             <ion-item>
                 <ion-input :value="state.username" @input="state.username=$event.target.value" label="Enter Username" label-placement="floating" placeholder="e.g. JohnDoe"/>
             </ion-item>
+
             <ion-item>
                 <ion-input :value="state.email" @input="state.email=$event.target.value" label="Enter Email Address" label-placement="floating" placeholder="john.doe@gmail.com"/>
             </ion-item>
+
             <ion-item>
                 <ion-input type="password" :value="state.password" @input="state.password=$event.target.value" label="Enter Password" label-placement="floating" placeholder="********"/>
             </ion-item>
+
             <ion-item @click="openPicker()" class="clickable ion-focusable">
                 <ion-label>Choose Role and Responsibilities:</ion-label>
                 <ion-button button-type="submit" @click="openPicker()">{{state.role || 'Select'}}</ion-button>

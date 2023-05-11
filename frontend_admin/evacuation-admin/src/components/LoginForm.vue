@@ -4,10 +4,12 @@
             <ion-input placeholder="Username" v-model="v$.username.$model" @blur="v$.username.$touch"></ion-input>
             <ion-label color="danger" v-if="v$.username.$error">Name is required</ion-label>
         </ion-item>
+
         <ion-item>
             <ion-input placeholder="Email" v-model="v$.email.$model" type="email"></ion-input>
             <ion-label color="danger" v-if="v$.email.$error">Invalid email</ion-label>
         </ion-item>
+
         <ion-item>
             <ion-input placeholder="Password" v-model="v$.password.$model" type="password"></ion-input>
             <ion-label color="danger" v-if="v$.password.$error">Password is required</ion-label>

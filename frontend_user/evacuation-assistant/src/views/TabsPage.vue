@@ -11,12 +11,13 @@
                 <ion-tab-button tab="tab2" @click="()=> router.push('/tabs/tab2/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="megaphoneOutline"/>
                     <ion-label :key="tab">{{ tab.tab2}}</ion-label>
+                  <ion-badge color="warning">1</ion-badge>
                 </ion-tab-button>
 
                 <ion-tab-button tab="tab3" @click="()=> router.push('/tabs/tab3/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="notificationsOutline"/>
                     <ion-label>Notifications</ion-label>
-                    <ion-badge color="danger">11</ion-badge>
+                    <ion-badge color="danger">4</ion-badge>
                 </ion-tab-button>
 
                 <ion-tab-button tab="tab4" @click="()=> router.push('/tabs/tab4/' + navigation)">
@@ -55,7 +56,7 @@ async function getRole() {
             navigation.value = 'deputyleader';
             tab.value = {
                 tab1: 'Home',
-                tab2: 'Communications'
+                tab2: 'Communication'
             }
         } else if (role === 'ROLE_EVACLEADER') {
             navigation.value = 'evacleader';

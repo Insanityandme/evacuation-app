@@ -53,10 +53,22 @@ async function getUserInfo() {
         console.log(userData);
         userName = userDataParsed.name;
         role = userDataParsed.roles[0];
-        floor = userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
-        zone = userDataParsed.zone;
+        checkRole();
+        floor = '2'     // userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
+        zone = 'A'    // userDataParsed.zone;
         console.log("Sparat användarinfo");
     }
     return role
 }
+
+    function checkRole() {
+      if (role.includes('ROLE_DEPUTYLEADER')) {
+        role = 'Deputy leader'
+      } else if (role.includes('ROLE_EVACLEADER')) {
+        role = 'Evacuation leader'
+      } else if (role.includes('ROLE_USER')) {
+        role = 'User'
+      }
+    }
+
 </script>

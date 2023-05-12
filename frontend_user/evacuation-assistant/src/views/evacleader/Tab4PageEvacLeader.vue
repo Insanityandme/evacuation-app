@@ -22,6 +22,18 @@
           </ion-item>
         </ion-toolbar>
 
+      <ion-list>
+        <ion-item>
+          <ion-toggle labelPlacement="end">Receive Push Notifications</ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-toggle labelPlacement="end">Receive Emails</ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-toggle labelPlacement="end">Receive Text Messages</ion-toggle>
+        </ion-item>
+      </ion-list>
+
 
     </ion-content>
   </ion-page>

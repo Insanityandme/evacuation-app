@@ -8,16 +8,22 @@
         <ion-content>
             <ion-header collapse="condense">
                 <ion-toolbar>
-                    <ion-title size="large" email="wow">Welcome Evac!</ion-title>
+                    <ion-title size="large" email="wow">Welcome!</ion-title>
                 </ion-toolbar>
             </ion-header>
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-item>
-                <ion-label>Logged in as: Anna Bohlen, Evacuation leader</ion-label>
+              <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
             </ion-item>
-            <ion-item>
-                <ion-label>Assigned floor: 4 and zone: C</ion-label>
+          <ion-item>
+            <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
             </ion-item>
+
+
+          <ion-toolbar>
+          <ion-button color="tertiary" expand="block">Checklist</ion-button>
+          </ion-toolbar>
+
         </ion-content>
     </ion-page>
 </template>
@@ -29,5 +35,28 @@ import {ref} from "vue";
 
 const store = new StorageService();
 const devices: any = ref([])
+
+let userName = '';
+let role = '';
+let floor = '';
+let zone = '';     //TODO: Gör om denna till en array för flera zoner
+
+getUserInfo();
+
+async function getUserInfo() {
+  // Call the read method to retrieve the user data
+  const userData = await store.read('user');
+
+  if (userData !== null) {
+    const userDataParsed = JSON.parse(userData.value!);
+    console.log(userData);
+    userName = userDataParsed.name;
+    role = userDataParsed.roles[0];
+    floor = userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
+    zone = userDataParsed.zone;
+    console.log("Sparat användarinfo");
+  }
+  return role
+}
 
 </script>

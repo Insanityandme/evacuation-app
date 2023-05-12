@@ -1,57 +1,47 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-              <ion-title>Evacuation Assistance</ion-title>
-                <h1>Communication</h1>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content :fullscreen="true">
-            <ion-header collapse="condense">  </ion-header>
-                <ion-toolbar>
-                  <ion-item>
-                    <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
-                  </ion-item>
-                </ion-toolbar>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Communication</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-toolbar>
+        <ion-item>
+          <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
+        </ion-item>
+      </ion-toolbar>
 
 
+      <div id="incoming">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Need of assistans</ion-card-subtitle>
+            <ion-card-title>Please help</ion-card-title>
+          </ion-card-header>
 
-            <div id="incoming">
-                <ion-card>
-                    <ion-card-header>
-                        <ion-card-subtitle>Need of assistans</ion-card-subtitle>
-                        <ion-card-title>Please help</ion-card-title>
-                    </ion-card-header>
+          <ion-card-content>
+            A person in a wheel chair and with severe anxiety is stuck on Floor 4, Zone B.
+            Can you help?
+          </ion-card-content>
 
-                    <ion-card-content>
-                        A person in a wheel chair and with severe anxiety is stuck on Floor 4, Zone B.
-                        Can you help?
-                    </ion-card-content>
+          <ion-button fill="clear">Sure, I'll help</ion-button>
+          <ion-button fill="clear">Nah</ion-button>
+        </ion-card>
+      </div>
 
-                    <ion-button fill="clear">Sure, I'll help</ion-button>
-                    <ion-button fill="clear">Nah</ion-button>
-                </ion-card>
-            </div>
 
-            <div id="button">
-                <ion-item>
-                    <ion-button color="danger">Report hazard</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="dark">Not available</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="secondary">Help me</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="success">Done</ion-button>
-                </ion-item>
-            </div>
+      <div id="button">
+        <ion-button color="danger" expand="block">Report hazard</ion-button>
+        <ion-button color="dark" expand="block">Not available</ion-button>
+        <ion-button color="medium" expand="block">Need assistance</ion-button>
+        <ion-button color="success" expand="block">Evacuation completed</ion-button>
+      </div>
 
-        </ion-content>
-    </ion-page>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonGrid, IonRow } from '@ionic/vue';
 </script>

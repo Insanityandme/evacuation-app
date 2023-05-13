@@ -31,9 +31,9 @@
                         <ion-label><ion-icon :icon="person" slot="start"/> {{ user.username }}</ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
-                                <!--<ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward">--><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
-                                    <!--<ion-icon :icon="pencil"/>
-                                </ion-button>-->
+                                <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
+                                    <ion-icon :icon="pencil"/>
+                                </ion-button>
                                 <ion-button fill="clear" class="ion-float-right" @click="presentActionSheet(user.id, user.username)">
                                     <ion-icon :icon="trash"></ion-icon>
                                 </ion-button>
@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import {trash, alertOutline, mapOutline, layersOutline, person, mail} from "ionicons/icons";
+import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil} from "ionicons/icons";
 
 import {actionSheetController} from "@ionic/vue";
 

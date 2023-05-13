@@ -7,19 +7,19 @@
                 </ion-label>
             </ion-item>
         </ion-accordion>
-        <ion-accordion toggle-icon-slot="end" v-for="(user, index) in users" :key="user.id">
+        <ion-accordion toggle-icon-slot="end" v-for="(user) in users" :key="user.id"><!--/*, index*/-->
 
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
-                <ion-chip color="tertiary"><!--slot="start"-->
+                <ion-chip color="tertiary">
                     <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                    <ion-label><b>{{ delegations[index].floorName }}</b></ion-label>
+                    <!--<ion-label><b>{{ delegations[index].floorName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary"><!--style="margin: auto"-->
+                <ion-chip color="tertiary">
                     <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                    <ion-label><b>{{ delegations[index].zoneName }}</b></ion-label>
+                    <!--<ion-label><b>{{ delegations[index].zoneName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary"><!--slot="end"-->
+                <ion-chip color="tertiary">
                     <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                     <ion-label><b>High</b></ion-label>
                 </ion-chip>
@@ -31,7 +31,7 @@
                         <ion-label><ion-icon :icon="person" slot="start"/> {{ user.username }}</ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
-                                <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward"><!--@click="() => router.push('/tabs/UsersManager/edit/1')"-->
+                                <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1" router-link="/tabs/UsersManager/edit/1" router-direction="forward">
                                     <ion-icon :icon="pencil"/>
                                 </ion-button>
                                 <ion-button fill="clear" class="ion-float-right" @click="presentActionSheet(user.id, user.username)">
@@ -48,12 +48,12 @@
                     <ion-item class="ion-align-items-center">
                         <ion-chip color="tertiary">
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                            <ion-label><b>Floor: {{delegations[index].floorName}}</b></ion-label>
+                            <!--<ion-label><b>Floor: {{delegations[index].floorName}}</b></ion-label>-->
                         </ion-chip>
 
                         <ion-chip color="tertiary">
                             <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                            <ion-label><b>Zone: {{delegations[index].zoneName}}</b></ion-label>
+                            <!--<ion-label><b>Zone: {{delegations[index].zoneName}}</b></ion-label>-->
                         </ion-chip>
 
                         <ion-chip color="tertiary">
@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil} from "ionicons/icons";
-
+import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion} from '@ionic/vue';
 import {actionSheetController} from "@ionic/vue";
 
 

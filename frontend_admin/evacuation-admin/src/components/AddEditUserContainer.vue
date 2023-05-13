@@ -28,7 +28,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {CapacitorHttp} from "@capacitor/core";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {getAllUsers, setDelegationByID, signUpUser, User} from "@/data/user";
+import {getAllUsers, setDelegationByID, setPriorityByID, signUpUser, User} from "@/data/user";
 import {IonButton, IonList, IonLabel, IonItem, IonInput, pickerController} from '@ionic/vue';
 
 if (add === "true") {
@@ -43,7 +43,8 @@ const state = reactive({
     password: '',
     role: '',
     floorname: '',
-    zone: ''
+    zone: '',
+    priority: 0
 })
 
 const rules = {
@@ -52,7 +53,8 @@ const rules = {
     password: {required},
     role: {required},
     floorname: {required},
-    zone: {required}
+    zone: {required},
+    priority: {required}
 }
 const v$ = useVuelidate(rules, state);
 
@@ -150,6 +152,27 @@ const openPicker = async () => {
                     },
                 ],
             },
+            {
+                name: 'priority',
+                options: [
+                    {
+                        text: 'Select Priority',
+                        value: 'select-priority',
+                    },
+                    {
+                        text: 'High',
+                        value: 1,
+                    },
+                    {
+                        text: 'Medium',
+                        value: 2,
+                    },
+                    {
+                        text: 'Low',
+                        value: 3,
+                    },
+                ],
+            },
         ],
         buttons: [
             {
@@ -163,6 +186,7 @@ const openPicker = async () => {
                     state.role = value.role.value;
                     state.floorname = value.floor.value;
                     state.zone = value.zone.value;
+                    state.priority = value.priority.value;
                 },
             },
         ],
@@ -183,7 +207,7 @@ const submitForm = async () => {
     console.log(selectedOption.value);
 
     if (isFormCorrect) {
-        await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]/*, floor: state.floor, zone: state.zone*/});
+        await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
         await fetchUserId(state.username, state.email);
     }
 }
@@ -197,6 +221,7 @@ const fetchUserId = async(username: string, email: string) => {
         if (user.username === username && user.email === email) {
             const userId: number = user.id;
             await setDelegationByID(userId, {floorname: state.floorname, zone: [state.zone]});
+            await setPriorityByID(userId, {priority:state.priority});
         }
     }
 }
@@ -214,7 +239,7 @@ ion-item {
     cursor: pointer;
 }
 .my-picker {
-    --max-width:900px;
+    --max-width:1200px;
 }
 
 </style>

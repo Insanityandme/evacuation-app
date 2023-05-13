@@ -1,4 +1,4 @@
-import {
+/*import {
     IonToolbar,
     IonGrid,
     IonCol,
@@ -11,9 +11,10 @@ import {
     IonCardSubtitle,
     IonPage,
     IonCardContent,
-    IonCardHeader
+    IonCardHeader,
+    IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion
 } from '@ionic/vue';
-
+;
 export default {
     IonToolbar,
     IonGrid,
@@ -27,5 +28,7 @@ export default {
     IonCardSubtitle,
     IonPage,
     IonCardContent,
-    IonCardHeader
+    IonCardHeader,
+    IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion
 };
+*/

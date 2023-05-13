@@ -17,7 +17,7 @@ export interface User {
 export interface Responsibility {
     floorname: string,
     zone: [
-        name: string
+        zone: string
     ],
 }
 

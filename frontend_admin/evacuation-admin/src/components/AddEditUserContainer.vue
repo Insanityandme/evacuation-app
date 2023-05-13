@@ -49,7 +49,7 @@
                     interface="popover"
                     label-placement="floating"
                     :multiple="true"
-                    @ionChange="state.zone = $event.detail.value.value"
+                    @ionChange="state.zone = $event.detail.value"
                 >
                     <ion-select-option v-for="zone in zones" :value="zone">{{ zone.text }}</ion-select-option>
                 </ion-select>
@@ -69,9 +69,9 @@
             <ion-item v-if="state.role === 'other'">
                 <ion-input :value="state.username" @input="state.username=$event.target.value" label="Enter Role" label-placement="floating" placeholder="e.g. JohnDoe"/>
             </ion-item>
-            <!--<ion-item lines="none">
-                <ion-label>Current value: {{ state.priority }}</ion-label>
-            </ion-item>-->
+            <ion-item lines="none">
+                <ion-label>Current value: {{ state.zone }}</ion-label>
+            </ion-item>
         </ion-list>
         <ion-button expand="block" shape="round" size="large" @click="submitForm()">Save</ion-button>
     </div>
@@ -262,6 +262,7 @@ const submitForm = async () => {
     console.log(selectedOption.value);
 
     if (isFormCorrect) {
+
         await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
         await fetchUserId(state.username, state.email);
     }
@@ -272,10 +273,17 @@ const fetchUserId = async(username: string, email: string) => {
     const response = await getAllUsers();
     console.log(response.data[0].username);
     users.value = response.data;
+    const zonesArray = Array<string>();
+    for (let i = 0; i < state.zone.length; i++) {
+        zonesArray.push(state.zone[i].value);
+    }
+    console.log(zonesArray[0]);
+    console.log(zonesArray[1]);
     for (const user of response.data) {
         if (user.username === username && user.email === email) {
             const userId: number = user.id;
-            await setDelegationByID(userId, {floorname: state.floorname, zone: [state.zone]});
+
+            await setDelegationByID(userId, {floorname: state.floorname, zone: zonesArray});
             await setPriorityByID(userId, {priority:state.priority});
         }
     }

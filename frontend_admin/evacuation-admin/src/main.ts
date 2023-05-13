@@ -11,8 +11,11 @@ import {
   IonTitle,
   IonContent,
   IonPage,
-  IonicVue
-} from '@ionic/vue';
+  IonicVue,
+  IonSelect,
+  IonSelectOption
+} from "@ionic/vue";
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -45,6 +48,8 @@ app.component('ion-header', IonHeader);
 app.component('ion-title', IonTitle);
 app.component('ion-content', IonContent);
 app.component('ion-page', IonPage);
+app.component('ion-select', IonSelect);
+app.component('ion-select-option', IonSelectOption);
 router.isReady().then(() => {
   app.mount('#app');
 });

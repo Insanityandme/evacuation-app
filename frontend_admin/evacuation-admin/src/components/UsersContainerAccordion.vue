@@ -11,15 +11,15 @@
 
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
-                <ion-chip color="tertiary">
+                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)"><!--delegations[index].username === user.username-->
                     <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                     <!--<ion-label><b>{{ delegations[index].floorName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary">
+                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)">
                     <ion-icon :icon="mapOutline" color="warning"></ion-icon>
                     <!--<ion-label><b>{{ delegations[index].zoneName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary">
+                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)">
                     <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                     <ion-label><b>High</b></ion-label>
                 </ion-chip>
@@ -45,7 +45,7 @@
                         <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
                     </ion-item>
 
-                    <ion-item class="ion-align-items-center">
+                    <ion-item class="ion-align-items-center" v-if="isEvacLeader(user.id) === true">
                         <ion-chip color="tertiary">
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                             <!--<ion-label><b>Floor: {{delegations[index].floorName}}</b></ion-label>-->
@@ -74,11 +74,11 @@ import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, Ion
 import {actionSheetController} from "@ionic/vue";
 
 
-import {confirmDeletion, getAllDelegations, getAllUsers} from "@/data/user";
+import {confirmDeletion, Delegation, getAllDelegations, getAllUsers} from "@/data/user";
 
 import {ref} from "vue";
 const users = ref([]);
-const delegations = ref([]);
+const delegations = ref<[Delegation]>();
 
 
 const fetchAllUsers = async() => {
@@ -105,6 +105,25 @@ const confirmDeletionButton = async(num:number) => {
     const response = await confirmDeletion(num);
     console.log(response.data[0].message);
     console.log(num);
+}
+
+const isEvacLeader = (id: number) : boolean => {
+    if (delegations.value !== undefined && delegations.value.length > 0) {
+        /*for (const delegate: Delegation in delegations) {
+            if (delegate.username === username) {
+                console.log(delegate.username + " is true");
+                return true;
+            }
+        }*/
+        delegations.value.forEach((delegate) => {
+            if (delegate.id === id) {
+                console.log(delegate.id + "===" + id + " is true");
+                return true;
+            }
+        });
+    }
+    console.log(id + " is false")
+    return false;
 }
 
 const presentActionSheet = async(num:number, name: string) => {

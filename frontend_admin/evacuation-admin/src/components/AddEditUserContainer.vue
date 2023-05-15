@@ -21,7 +21,7 @@
                     label-placement="floating"
                     @ionChange="state.role = $event.detail.value.value"
                 >
-                    <ion-select-option v-for="role in roles" :value="role">{{ role.text }}</ion-select-option>
+                    <ion-select-option v-for="role in roles" :key="role" :value="role">{{ role.text }}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.role === 'evac'">
@@ -33,7 +33,7 @@
                     label-placement="floating"
                     @ionChange="state.floorname = $event.detail.value.value"
                 >
-                    <ion-select-option v-for="floor in floors" :value="floor">{{ floor.text }}</ion-select-option>
+                    <ion-select-option v-for="floor in floors" :key="floor" :value="floor">{{ floor.text }}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.floorname">
@@ -46,7 +46,7 @@
                     :multiple="true"
                     @ionChange="state.zone = $event.detail.value"
                 >
-                    <ion-select-option v-for="zone in zones" :value="zone">{{ zone.text }}</ion-select-option>
+                    <ion-select-option v-for="zone in zones" :key="zone" :value="zone">{{ zone.text }}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.floorname">
@@ -58,7 +58,7 @@
                     label-placement="floating"
                     @ionChange="state.priority = $event.detail.value.value"
                 >
-                    <ion-select-option v-for="priority in priorities" :value="priority">{{ priority.text }}</ion-select-option>
+                    <ion-select-option v-for="priority in priorities" :key="priority" :value="priority">{{ priority.text }}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.role === 'other'">

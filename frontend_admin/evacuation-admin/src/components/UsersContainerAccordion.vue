@@ -58,13 +58,18 @@
                             <ion-label><b>Floor: {{fetchFloorName(user.id)}}</b></ion-label>
                         </ion-chip>
 
-                        <div v-if="fetchZoneName(user.id).length>0">
+                        <div v-if="fetchZoneName(user.id).length>2">
                             <ion-chip color="tertiary" v-for="zone in fetchZoneName(user.id)">
                                 <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                                <ion-label><b>Zone: {{fetchZoneName(user.id)[0]}}</b></ion-label>
+                                <ion-label><b>Zone: {{zone}}</b></ion-label>
                             </ion-chip>
                         </div>
-
+                        <div v-else>
+                            <ion-chip color="tertiary">
+                                <ion-icon :icon="mapOutline" color="warning"></ion-icon>
+                                <ion-label><b>Zone: {{fetchZoneName(user.id)}}</b></ion-label>
+                            </ion-chip>
+                        </div>
                         <ion-chip color="tertiary">
                             <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                             <ion-label><b>Priority: {{fetchPriorityName(fetchPriority(user.id))}}</b></ion-label>
@@ -75,8 +80,8 @@
                         <ion-label><b>Role: {{user.roles[0].name}}</b></ion-label>
                     </ion-chip>
                     <ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
-                        <ion-button color="danger">Activate</ion-button>
-                        <ion-button color="success">Deactivate</ion-button>
+                        <ion-button color="danger" style="width: 50%; height: 30px;">Activate</ion-button>
+                        <ion-button color="success" style="width: 50%; height: 30px;">Deactivate</ion-button>
                     </ion-item>
                 </ion-list>
             </div>

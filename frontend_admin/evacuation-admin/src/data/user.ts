@@ -145,6 +145,15 @@ export const signUpUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
+export const setEvacLeaderActive = async (username: string) => {
+    const options = {
+        url: `${resourceUrl + authUrl}/changeActiveTrue/${username}`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
 export const confirmDeletion = async (id: number) => {
     const options = {
         url: `${resourceUrl + authUrl}/deleteById/` + id,

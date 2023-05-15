@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import {changeActiveTrue} from "@/data/changeActive";
+import {changeActiveTrue} from "@/data/getTimestamp";
 import {reactive} from "vue";
 import {IonProgressBar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle,} from "@ionic/vue";
 import AnsweredCountdownYes from "@/components/AnsweredCountdownYes.vue";

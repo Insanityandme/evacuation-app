@@ -81,8 +81,8 @@ export default defineComponent({
     methods: {
         dismiss() {
             const test = document.querySelector('ion-modal');
-            // eslint-disable-next-line
             if(test !== null) {
+                // eslint-disable-next-line
                 test.dismiss();
             }
         },

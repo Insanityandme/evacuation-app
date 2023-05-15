@@ -21,3 +21,6 @@ INSERT INTO zones(name) VALUES ('C');
 INSERT INTO priority(name) values ('HIGH');
 INSERT INTO priority(name) values ('MEDIUM');
 INSERT INTO priority(name) values ('LOW');
+INSERT INTO sensor_set_pos(id, position) values ('1', 'left side');
+INSERT INTO sensorset(sensor_name, sensor_set_pos_id) values ('ABC123', '1');
+INSERT INTO sensorset(sensor_name, sensor_set_pos_id) values ('DEF123', '1');

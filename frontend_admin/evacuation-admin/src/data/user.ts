@@ -14,6 +14,17 @@ export interface User {
     ],
 }
 
+export interface Users {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+    roles: [
+        id: number,
+        name: string
+    ],
+}
+
 export interface Responsibility {
     floorname: string,
     zone: [
@@ -48,9 +59,14 @@ export interface UserPriority {
     priority: number,
 }
 
-export interface GetUserPriority {
+export interface Priority {
     priority: number,
     id: number,
+}
+
+export interface PriorityInfo {
+    id: number,
+    name: string,
 }
 
 export const signInUser = async (user: User) => {
@@ -104,6 +120,15 @@ export const setPriorityByID = async (id:number, userPriority: UserPriority) => 
 export const getAllPriorities = async () => {
     const options = {
         url: `${resourceUrl + evacAuthUrl}/getAllLeadersAndPriorities`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
+export const getPriorityInfo = async () => {
+    const options = {
+        url: `${resourceUrl + evacAuthUrl}/getAllPriorities`,
         headers: {"Content-Type": "application/json"}
     }
 

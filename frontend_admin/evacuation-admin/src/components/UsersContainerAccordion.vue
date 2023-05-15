@@ -7,19 +7,19 @@
                 </ion-label>
             </ion-item>
         </ion-accordion>
-        <ion-accordion toggle-icon-slot="end" v-for="(user) in users" :key="user.id"><!--/*, index*/-->
+        <ion-accordion toggle-icon-slot="end" v-for="user in users" :key="user.id"><!--/*, index*/-->
 
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
-                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)"><!--delegations[index].username === user.username-->
+                <ion-chip color="tertiary" v-if="user.roles[0].id === 1"><!--delegations[index].username === user.username-->
                     <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                     <!--<ion-label><b>{{ delegations[index].floorName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)">
+                <ion-chip color="tertiary" v-if="user.roles[0].id === 2">
                     <ion-icon :icon="mapOutline" color="warning"></ion-icon>
                     <!--<ion-label><b>{{ delegations[index].zoneName }}</b></ion-label>-->
                 </ion-chip>
-                <ion-chip color="tertiary" v-if="isEvacLeader(user.id)">
+                <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
                     <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                     <ion-label><b>High</b></ion-label>
                 </ion-chip>
@@ -45,20 +45,22 @@
                         <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
                     </ion-item>
 
-                    <ion-item class="ion-align-items-center" v-if="isEvacLeader(user.id) === true">
+                    <ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
                         <ion-chip color="tertiary">
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                            <!--<ion-label><b>Floor: {{delegations[index].floorName}}</b></ion-label>-->
+                            <ion-label><b>Floor: {{fetchFloorName(user.id)}}</b></ion-label>
                         </ion-chip>
 
-                        <ion-chip color="tertiary">
-                            <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                            <!--<ion-label><b>Zone: {{delegations[index].zoneName}}</b></ion-label>-->
-                        </ion-chip>
+                        <div v-if="fetchZoneName(user.id).length>0">
+                            <ion-chip color="tertiary" v-for="zone in fetchZoneName(user.id)">
+                                <ion-icon :icon="mapOutline" color="warning"></ion-icon>
+                                <ion-label><b>Zone: {{zone}}</b></ion-label>
+                            </ion-chip>
+                        </div>
 
                         <ion-chip color="tertiary">
                             <ion-icon :icon="alertOutline" color="danger"></ion-icon>
-                            <ion-label><b>Priority: High</b></ion-label>
+                            <ion-label><b>Priority: {{fetchPriorityName(fetchPriority(user.id))}}</b></ion-label>
                         </ion-chip>
 
                     </ion-item>
@@ -74,32 +76,69 @@ import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, Ion
 import {actionSheetController} from "@ionic/vue";
 
 
-import {confirmDeletion, Delegation, getAllDelegations, getAllUsers} from "@/data/user";
+import {
+    confirmDeletion,
+    Delegation,
+    getAllDelegations,
+    getAllPriorities,
+    getAllUsers, getPriorityInfo,
+    Priority, PriorityInfo,
+    User,
+    Users
+} from "@/data/user";
 
 import {ref} from "vue";
-const users = ref([]);
+const users = ref<[Users]>();
 const delegations = ref<[Delegation]>();
+const priorities = ref<[Priority]>();
+const priorityName = ref<[PriorityInfo]>();
 
 
 const fetchAllUsers = async() => {
     // POST request to our backend API
     const response = await getAllUsers();
-    console.log(response.data[0].username);
+    //console.log(response.data[0].username);
     users.value = response.data;
+    //console.log(users.value[0].roles[0].id);
+    //console.log(users.value[0].roles[0].name);
 }
 
 const fetchAllDelegations = async() => {
     // POST request to our backend API
     const response = await getAllDelegations();
-    console.log(response.data[0].username);
-    console.log(response.data[0].floorName);
-    console.log(response.data[0].zoneName);
-    console.log(response.data);
-    console.log(response);
+    //console.log(response.data[0].username);
+    //console.log(response.data[0].floorName);
+    //console.log(response.data[0].zoneName);
+    //console.log(response.data);
+    //console.log(response);
     delegations.value = response.data;
 }
+
+const fetchAllPriorities = async() => {
+    // POST request to our backend API
+    const response = await getAllPriorities();
+    //console.log(response.data[0].id);
+    //console.log(response.data[0].priority);
+    //console.log(response.data);
+    //console.log(response);
+    priorities.value = response.data;
+}
+
+const fetchPriorityInfo = async() => {
+    // POST request to our backend API
+    const response = await getPriorityInfo();
+    //console.log(response.data[0].name);
+    //console.log(response.data[0].id);
+    //console.log(response.data);
+    //console.log(response);
+    priorityName.value = response.data;
+}
+
 fetchAllUsers();
 fetchAllDelegations();
+fetchPriorityInfo();
+fetchAllPriorities();
+
 
 const confirmDeletionButton = async(num:number) => {
     const response = await confirmDeletion(num);
@@ -107,14 +146,8 @@ const confirmDeletionButton = async(num:number) => {
     console.log(num);
 }
 
-const isEvacLeader = (id: number) : boolean => {
+/*const isEvacLeader = (id: number) : boolean => {
     if (delegations.value !== undefined && delegations.value.length > 0) {
-        /*for (const delegate: Delegation in delegations) {
-            if (delegate.username === username) {
-                console.log(delegate.username + " is true");
-                return true;
-            }
-        }*/
         delegations.value.forEach((delegate) => {
             if (delegate.id === id) {
                 console.log(delegate.id + "===" + id + " is true");
@@ -124,8 +157,67 @@ const isEvacLeader = (id: number) : boolean => {
     }
     console.log(id + " is false")
     return false;
+}*/
+
+const fetchZoneName = (id:number) : Array<string> => {
+    //fetchDelegateInfo(user.id)[1]
+    const output = Array<string>();
+    if (delegations.value !== undefined && delegations.value.length > 0) {
+        delegations.value.forEach((delegate) => {
+            if (delegate.id === id) {
+                //console.log(delegate.id + "===" + id + " is true");
+                output.push(delegate.zoneName[0]);// = delegate.zoneName[0];
+                //console.log(delegate.zoneName[0]);
+            }
+        });
+    }
+    return output;
 }
 
+const fetchFloorName = (id:number) : string => {
+    //fetchDelegateInfo(user.id)[1]
+    let output = "";
+    if (delegations.value !== undefined && delegations.value.length > 0) {
+        delegations.value.forEach((delegate) => {
+            if (delegate.id === id) {
+                //console.log(delegate.id + "===" + id + " is true");
+                output = delegate.floorName;
+                //console.log(delegate.floorName);
+            }
+        });
+    }
+    return output;
+}
+
+const fetchPriority = (id:number) : number => {
+    let output = 0;
+    if (priorities.value !== undefined && priorities.value.length > 0) {
+        priorities.value.forEach((prio) => {
+            if (id === prio.id) {
+                //console.log(priority.id + "===" + id + " is true");
+                output = prio.priority;
+                //console.log(prio.id);
+                //console.log(prio.priority);
+            }
+        });
+    }
+    return output;
+}
+
+const fetchPriorityName = (priorityId:number) : string => {
+    let output = "";
+    if (priorityName.value !== undefined && priorityName.value?.length > 0) {
+        priorityName.value.forEach((prioName) => {
+            if (priorityId === prioName.id) {
+                output = prioName.name;
+                console.log(prioName.id);
+                console.log(prioName.name);
+            }
+        })
+    }
+    return output;
+}
+console.log("name: " + fetchPriorityName(1));
 const presentActionSheet = async(num:number, name: string) => {
     const actionSheet = await actionSheetController.create({
         header: 'Are you sure you want to delete the user: ' + name,

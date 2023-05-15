@@ -79,9 +79,9 @@ INSERT INTO priority(name) values ('LOW');
 
 ## Front-end Users
 ### Setup for front-end users on android
-`npm install`
-`ionic capacitor add android`
-`ionic build && ionic cap copy && ionic cap sync`
+```npm install
+ionic capacitor add android
+ionic build && ionic cap copy && ionic cap sync```
 
 ### Open android studio and build onto your smartphone with your USB cable connected. 
 `ionic cap open android`

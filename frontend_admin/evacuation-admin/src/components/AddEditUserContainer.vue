@@ -77,6 +77,7 @@ import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {getAllUsers, setDelegationByID, setPriorityByID, signUpUser, User} from "@/data/user";
 import {IonButton, IonList, IonLabel, IonItem, IonInput, pickerController, IonPopover} from '@ionic/vue';
+import router from "@/router";
 
 if (add === "true") {
     console.log("true")
@@ -116,12 +117,14 @@ const submitForm = async () => {
     console.log(state);
 
     if (isFormCorrect) {
-
         await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
+
         if (state.role === 'evac') {
             console.log(state.role);
             await fetchUserId(state.username, state.email);
         }
+
+        await router.push('/tabs/UsersManager');
     }
 }
 const users = ref([]);

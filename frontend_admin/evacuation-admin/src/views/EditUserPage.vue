@@ -9,9 +9,7 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-
             <AddEditUserContainer add='true'></AddEditUserContainer>
-
         </ion-content>
     </ion-page>
 </template>

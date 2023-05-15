@@ -1,6 +1,17 @@
 # evacuation-app
 
-***Todo***: write a project description.
+This project is a proof-of-concept of a smartphone application that will help and support the evacuation of people in an emergency situation.
+It includes:
+1. Front-end for administrators to register and edit users and simulate an alarm.
+2. Front-end for iOS/Android for three types of users
+3. Back-end API to talk to communicate and store data
+4. A indoor-positioning system for users in need of emergency help. 
+
+This applications backend is written in Java with the Spring Boot framework.
+The front-end is written in Typescript using Ionic as a framework to enable development
+for both iOS and android independently. 
+
+VueJS is our front-end framework for making our GUI. 
 
 ---
 

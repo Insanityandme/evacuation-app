@@ -99,9 +99,9 @@ const rules = {
     email: {required, email},
     password: {required},
     role: {required},
-    floorname: {required},
-    zone: {required},
-    priority: {required}
+    floorname: {},
+    zone: {},
+    priority: {}
 }
 const v$ = useVuelidate(rules, state);
 
@@ -114,12 +114,14 @@ const submitForm = async () => {
     console.log(state.floorname);
     console.log(state.zone);
     console.log(state);
-    console.log(selectedOption.value);
 
     if (isFormCorrect) {
 
         await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
-        await fetchUserId(state.username, state.email);
+        if (state.role === 'evac') {
+            console.log(state.role);
+            await fetchUserId(state.username, state.email);
+        }
     }
 }
 const users = ref([]);

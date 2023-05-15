@@ -11,13 +11,17 @@
 
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
-                <ion-chip color="tertiary" v-if="user.roles[0].id === 1"><!--delegations[index].username === user.username-->
-                    <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                    <!--<ion-label><b>{{ delegations[index].floorName }}</b></ion-label>-->
+                <ion-chip color="tertiary">
+                    <ion-icon :icon="constructOutline" color="success"></ion-icon>
+                    <ion-label><b>{{user.roles[0].name}}</b></ion-label>
                 </ion-chip>
-                <ion-chip color="tertiary" v-if="user.roles[0].id === 2">
+                <ion-chip color="tertiary" v-if="user.roles[0].id === 3"><!--delegations[index].username === user.username-->
+                    <ion-icon :icon="layersOutline" color="primary"></ion-icon>
+                    <ion-label><b>{{fetchFloorName(user.id)}}</b></ion-label>
+                </ion-chip>
+                <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
                     <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                    <!--<ion-label><b>{{ delegations[index].zoneName }}</b></ion-label>-->
+                    <ion-label><b>{{fetchZoneName(user.id)[0]}}</b></ion-label>
                 </ion-chip>
                 <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
                     <ion-icon :icon="alertOutline" color="danger"></ion-icon>
@@ -44,8 +48,11 @@
                     <ion-item>
                         <ion-label><ion-icon :icon="mail" slot="start"/> {{ user.email }}</ion-label>
                     </ion-item>
-
                     <ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
+                        <ion-chip color="tertiary">
+                            <ion-icon :icon="constructOutline" color="success"></ion-icon>
+                            <ion-label><b>Role: {{user.roles[0].name}}</b></ion-label>
+                        </ion-chip>
                         <ion-chip color="tertiary">
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                             <ion-label><b>Floor: {{fetchFloorName(user.id)}}</b></ion-label>
@@ -54,7 +61,7 @@
                         <div v-if="fetchZoneName(user.id).length>0">
                             <ion-chip color="tertiary" v-for="zone in fetchZoneName(user.id)">
                                 <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                                <ion-label><b>Zone: {{zone}}</b></ion-label>
+                                <ion-label><b>Zone: {{fetchZoneName(user.id)[0]}}</b></ion-label>
                             </ion-chip>
                         </div>
 
@@ -62,7 +69,14 @@
                             <ion-icon :icon="alertOutline" color="danger"></ion-icon>
                             <ion-label><b>Priority: {{fetchPriorityName(fetchPriority(user.id))}}</b></ion-label>
                         </ion-chip>
-
+                    </ion-item>
+                    <ion-chip color="tertiary" v-else>
+                        <ion-icon :icon="constructOutline" color="success"></ion-icon>
+                        <ion-label><b>Role: {{user.roles[0].name}}</b></ion-label>
+                    </ion-chip>
+                    <ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
+                        <ion-button color="danger">Activate</ion-button>
+                        <ion-button color="success">Deactivate</ion-button>
                     </ion-item>
                 </ion-list>
             </div>
@@ -71,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil} from "ionicons/icons";
+import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil, constructOutline} from "ionicons/icons";
 import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion} from '@ionic/vue';
 import {actionSheetController} from "@ionic/vue";
 

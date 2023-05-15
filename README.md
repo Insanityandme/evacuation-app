@@ -16,7 +16,7 @@ VueJS is our front-end framework for making our GUI.
 ---
 
 # Initial setup steps:
-
+## Backend-Evacuation
 1. Create a database called "evacdb" in your PostgreSQL database.
    a. Make sure that the port for the database is 5432.
    b. Set the username to "postgres"
@@ -74,3 +74,14 @@ INSERT INTO priority(name) values ('HIGH');
 INSERT INTO priority(name) values ('MEDIUM');
 INSERT INTO priority(name) values ('LOW');
 ```
+### Run backend server
+`mvn spring-boot:run`
+
+## Front-end Users
+### Setup for front-end users on android
+`npm install`
+`ionic capacitor add android`
+`ionic build && ionic cap copy && ionic cap sync`
+
+### Open android studio and build onto your smartphone with your USB cable connected. 
+`ionic cap open android`

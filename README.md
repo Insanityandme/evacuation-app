@@ -8,6 +8,7 @@ It includes:
 4. An indoor-positioning system for users in need of emergency help. 
 
 This applications backend is written in Java with the Spring Boot framework.
+
 The front-end is written in Typescript using Ionic as a framework to enable development
 for both iOS and android independently. 
 

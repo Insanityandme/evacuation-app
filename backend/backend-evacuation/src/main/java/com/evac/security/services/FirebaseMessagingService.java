@@ -5,6 +5,8 @@ import com.evac.payload.request.NotificationPayload;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * This class is a service for FirebaseMessaging. This class makes push notifications possible because it sends it.
  */
@@ -70,6 +72,28 @@ public class FirebaseMessagingService {
         //Send the message using FirebaseMessaging
         String response = firebaseMessaging.send(builder.build());
         return response;
+
+    }
+
+    public void sendToMultipleDevices(List<String> tokens) throws FirebaseMessagingException{
+        Notification notification = Notification.builder()
+                .setTitle("Evacuation initiated!!!")
+                .setBody("Are you available?")
+                .build();
+
+        //Create a multicastMessage object
+
+        MulticastMessage.Builder multicastMessage = MulticastMessage.builder()
+                .setNotification(notification)
+                .addAllTokens(tokens)
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .setNotification(AndroidNotification.builder()
+                                .setChannelId("custom_channel")
+                                .build())
+                        .build());
+
+        firebaseMessaging.sendMulticast(multicastMessage.build());
 
     }
 }

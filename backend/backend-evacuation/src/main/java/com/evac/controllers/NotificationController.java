@@ -45,7 +45,7 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
 
 
-    }
+   }
 
     /**
      * This method is called from the frontend (App.vue) so it gets the registration token and
@@ -55,14 +55,11 @@ public class NotificationController {
      */
     @PostMapping("/saveToken")
     public ResponseEntity<?> saveToken(@Valid @RequestBody TokenRequest request){
-        /*
         if (tokenRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body("Error: Email is already taken!");
         }
-
-         */
 
         if (tokenRepository.existsByToken(request.getToken())) {
             return ResponseEntity

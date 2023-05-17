@@ -19,7 +19,7 @@
                 <ion-item>Distance (in m): {{ device.distance }}, Filtered: {{ device.filtered }}</ion-item>
             </ion-list>
             <ion-list>
-                <ion-item>Position:  </ion-item>
+                <ion-item>Trilateration: {{ position }}</ion-item>
             </ion-list>
         </ion-content>
     </ion-page>
@@ -36,10 +36,10 @@ import {Beacon, trilaterate} from "@/services/trilateration";
 const filter = new MovingAverageFilter(20, 10);
 const store = new StorageService();
 const devices: any = ref([])
+const position: any = ref();
 
 // unique identifier for all the beacons that are in use for this project.
 const BEACON_SERVICES = '0000feaa-0000-1000-8000-00805f9b34fb';
-
 
 const startScan = async () => {
     resetArray();
@@ -72,23 +72,22 @@ const startScan = async () => {
                             device.rssi = result.rssi;
                             device.distance = measuredDistance(result.rssi);
                             device.filtered = measuredDistance(filter.getFilteredValue());
+
+                            const beacon1: Beacon = { position: { x: 0, y: 0 }, distance: devices.value[0].filtered };
+                            const beacon2: Beacon = { position: { x: 10, y: 0 }, distance: devices.value[1].filtered };
+                            const beacon3: Beacon = { position: { x: 5, y: 8 }, distance: devices.value[2].filtered };
+
+                            position.value = trilaterate([beacon1, beacon2, beacon3]);
+
+                            if (position.value) {
+                                console.log('Trilateration result:', position);
+                            } else {
+                                console.error('Trilateration failed.');
+                            }
+
                         }
                     }
                 })
-            }
-
-            devices.value[0].
-
-            const beacon1: Beacon = { position: { x: 0, y: 0 }, distance: 5 };
-            const beacon2: Beacon = { position: { x: 10, y: 0 }, distance: 8 };
-            const beacon3: Beacon = { position: { x: 5, y: 8 }, distance: 7 };
-
-            const position = trilaterate([beacon1, beacon2, beacon3]);
-
-            if (position) {
-                console.log('Trilateration result:', position);
-            } else {
-                console.error('Trilateration failed.');
             }
 
         });

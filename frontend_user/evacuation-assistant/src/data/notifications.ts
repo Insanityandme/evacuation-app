@@ -1,9 +1,11 @@
 import {PushNotifications} from "@capacitor/push-notifications";
 import router from "@/router";
 import {CapacitorHttp} from "@capacitor/core";
+import {resourceUrl} from "@/data/resourceUrl";
 
 // Change this depending on what network you are on
-const resourceUrl = 'http://192.168.10.211:8081/api/notification/saveToken'
+// const resourceUrl = 'http://192.168.10.211:8081/api/notification/saveToken'
+const url = `${resourceUrl}/api/notification/saveToken`;
 
 interface Token {
     token: string
@@ -11,7 +13,7 @@ interface Token {
 
 const sendTokenToBackend = async (token: Token) => {
     const options = {
-        url: resourceUrl,
+        url: url,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(token)
     }

@@ -1,8 +1,8 @@
 import {CapacitorHttp} from "@capacitor/core";
+import {resourceUrl} from "@/data/resourceUrl";
 
 // url to access our API
-const resourceUrl = 'http://192.168.10.211:8081/api/auth/';
-// const resourceUrl = 'http://10.2.19.50:8081/api/auth/';
+const url = `${resourceUrl}/api/auth/`;
 
 // interface for user data
 export interface User {
@@ -18,7 +18,7 @@ export interface User {
  */
 export const signInUser = async (user: User) => {
     const options = {
-        url: `${resourceUrl}signin`,
+        url: `${url}signin`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(user)
     }

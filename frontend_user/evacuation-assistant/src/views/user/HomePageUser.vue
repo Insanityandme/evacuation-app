@@ -12,7 +12,7 @@
                 </ion-toolbar>
             </ion-header>
             <ion-item>
-                <ion-label>You are logged in as Evac - [Role]</ion-label>
+                <ion-label>You are logged in as User - [Role]</ion-label>
             </ion-item>
         </ion-content>
     </ion-page>

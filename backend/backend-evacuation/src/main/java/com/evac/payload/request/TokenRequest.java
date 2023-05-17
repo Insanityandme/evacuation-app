@@ -1,6 +1,5 @@
 package com.evac.payload.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,6 +10,7 @@ public class TokenRequest {
     @NotBlank
     private String token;
 
+    @NotBlank
     private String email;
 
     public TokenRequest(){}

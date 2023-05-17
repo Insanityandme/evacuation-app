@@ -16,10 +16,6 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/tabs/UsersManager'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
-      },
-      {
         path: 'UsersManager',
         component: () => import('@/views/UsersManagerPage.vue'),
       },
@@ -30,10 +26,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'UsersManager/add',
         component: () => import('@/views/AddUserPage.vue')
-      },
-      {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
       }
     ]
   },

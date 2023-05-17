@@ -1,6 +1,5 @@
 package com.evac.controllers;
 
-import com.evac.models.NotificationMessage;
 import com.evac.models.Token;
 import com.evac.payload.request.NotificationPayload;
 import com.evac.payload.request.TokenRequest;
@@ -87,7 +86,7 @@ public class NotificationController {
                     .body("Error: Token is already in use!");
         }
 
-        Token token = new Token(request.getToken());
+        Token token = new Token(request.getToken(), request.getEmail());
 
         tokenRepository.save(token);
 

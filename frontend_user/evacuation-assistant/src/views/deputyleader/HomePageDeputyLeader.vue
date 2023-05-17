@@ -41,7 +41,6 @@ getUserInfo();
 
 async function getUserInfo() {
     // Call the read method to retrieve the user data
-
     const userData = await store.read('user');
 
     if (userData !== null) {

@@ -14,7 +14,6 @@
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^2.2.3",
     "@capacitor-community/fcm": "^3.0.2",
-    "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "4.7.1",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.7.1",
@@ -35,6 +34,7 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@capacitor/assets": "^2.0.4",
     "@capacitor/cli": "4.7.1",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.6.0",

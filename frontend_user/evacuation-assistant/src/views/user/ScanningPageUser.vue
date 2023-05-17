@@ -73,9 +73,18 @@ const startScan = async () => {
                             device.distance = measuredDistance(result.rssi);
                             device.filtered = measuredDistance(filter.getFilteredValue());
 
-                            const beacon1: Beacon = { position: { x: 0, y: 0 }, distance: devices.value[0].filtered };
-                            const beacon2: Beacon = { position: { x: 10, y: 0 }, distance: devices.value[1].filtered };
-                            const beacon3: Beacon = { position: { x: 5, y: 8 }, distance: devices.value[2].filtered };
+                            let beacon1: Beacon = { position: {x: 0, y: 0}, distance: 0};
+                            let beacon2: Beacon = { position: {x: 0, y: 0}, distance: 0};
+                            let beacon3: Beacon = { position: {x: 0, y: 0}, distance: 0};
+
+                            if (device.name === "evac-WtW4") {
+                                beacon1 = {position: {x: 0, y: 0}, distance: devices.value[0].filtered};
+                            } else if (device.name === "evac-WtW3") {
+                                beacon2 = {position: {x: 10, y: 0}, distance: devices.value[1].filtered};
+                            } else if (device.name === "evac-Wtw2") {
+                                beacon3 = {position: {x: 5, y: 8}, distance: devices.value[2].filtered};
+
+                            }
 
                             position.value = trilaterate([beacon1, beacon2, beacon3]);
 

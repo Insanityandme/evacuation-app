@@ -2,20 +2,25 @@ import {PushNotifications} from "@capacitor/push-notifications";
 import router from "@/router";
 import {CapacitorHttp} from "@capacitor/core";
 import {resourceUrl} from "@/data/resourceUrl";
+import {StorageService} from "@/services/storage.service";
+
+// create a StorageService object
+const store = new StorageService();
 
 // Change this depending on what network you are on
 // const resourceUrl = 'http://192.168.10.211:8081/api/notification/saveToken'
 const url = `${resourceUrl}/api/notification/saveToken`;
 
-interface Token {
-    token: string
+interface TokenAndEmail {
+    token: string,
+    email: string
 }
 
-const sendTokenToBackend = async (token: Token) => {
+const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
     const options = {
         url: url,
         headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(token)
+        data: JSON.stringify(tokenAndEmail)
     }
 
     return CapacitorHttp.post(options);
@@ -25,10 +30,17 @@ const sendTokenToBackend = async (token: Token) => {
  * performed action
  */
 const addListeners = async () => {
-    await PushNotifications.addListener('registration', token => {
+    await PushNotifications.addListener('registration', async token => {
         console.info('Registration token: ', token.value);
-        const tokenValue: Token = {token: token.value};
-        sendTokenToBackend(tokenValue);
+        const userData = await store.read('user');
+        const userDataParsed = JSON.parse(userData.value!);
+
+        const tokenValue: TokenAndEmail = {
+            token: token.value,
+            email: userDataParsed.email
+        };
+
+        await sendTokenToBackend(tokenValue);
     });
 
     await PushNotifications.addListener('registrationError', err => {

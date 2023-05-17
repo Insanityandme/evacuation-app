@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //This class is a rest-controller for push notifications via Firebase. It will handle device's tokens as well.
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -45,6 +47,24 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
 
 
+   }
+
+   @PostMapping("/sendToMultipleDevices")
+   public ResponseEntity<?> sendToMultipleDevices(){
+        List<Token> tokens = tokenRepository.findAll();
+        List<String> deviceTokens = new ArrayList<>();
+
+        for(Token token : tokens){
+            deviceTokens.add(token.getToken());
+        }
+
+       try {
+           firebaseMessagingService.sendToMultipleDevices(deviceTokens);
+       } catch (FirebaseMessagingException e) {
+           throw new RuntimeException(e);
+       }
+
+       return ResponseEntity.ok().body("All devices have been notified");
    }
 
     /**

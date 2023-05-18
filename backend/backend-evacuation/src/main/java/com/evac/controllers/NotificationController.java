@@ -54,14 +54,11 @@ public class NotificationController {
      */
     @PostMapping("/saveToken")
     public ResponseEntity<?> saveToken(@Valid @RequestBody TokenRequest request){
-        /*
         if (tokenRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body("Error: Email is already taken!");
         }
-
-         */
 
         if (tokenRepository.existsByToken(request.getToken())) {
             return ResponseEntity
@@ -69,7 +66,7 @@ public class NotificationController {
                     .body("Error: Token is already in use!");
         }
 
-        Token token = new Token(request.getToken());
+        Token token = new Token(request.getToken(), request.getEmail());
 
         tokenRepository.save(token);
 

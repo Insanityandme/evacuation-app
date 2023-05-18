@@ -10,6 +10,7 @@ public class TokenRequest {
     @NotBlank
     private String token;
 
+    @NotBlank
     private String email;
 
     public TokenRequest(){}

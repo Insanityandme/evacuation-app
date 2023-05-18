@@ -1,7 +1,7 @@
 <template>
     <ion-page>
         <ion-content>
-            <h1 class="ion-margin">Evacuation Assistance Application cock</h1>
+            <h1 class="ion-margin">Evacuation Assistance Application</h1>
             <LoginForm :sign-in-user="signIn"/>
             <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)" :is-open="isOpenServerConnection"
                        message="No connection to server"
@@ -83,7 +83,7 @@ const signIn = async (user: User) => {
         await store.create('user', JSON.stringify(response.data));
         console.log(response.data.roles);
 
-        //Navigate to the appropriate home page based on the user's role
+        // navigate to the appropriate home page based on the user's role
         if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
             ionRouter.push("/tabs/home/deputyleader/");
         } else if (response.data.roles.includes('ROLE_EVACLEADER')) {

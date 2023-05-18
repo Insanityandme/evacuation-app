@@ -73,6 +73,7 @@ import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} fro
 <script lang="ts">
 import {IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,} from '@ionic/vue';
 import {defineComponent} from 'vue';
+import {ModalOptions} from "@ionic/vue";
 
 export default defineComponent({
     components: {
@@ -80,10 +81,9 @@ export default defineComponent({
     },
     methods: {
         dismiss() {
-            const test = document.querySelector('ion-modal');
-            // eslint-disable-next-line
+            const test = document.querySelector('ion-modal') as ModalOptions;
             if(test !== null) {
-                test.dismiss();
+                //test.dismiss();
             }
         },
     },

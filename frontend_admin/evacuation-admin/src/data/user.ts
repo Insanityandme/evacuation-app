@@ -1,6 +1,8 @@
 import {CapacitorHttp} from "@capacitor/core";
 
-const resourceUrl = 'http://localhost:8081/api/auth';
+const resourceUrl = 'http://localhost:8081/';
+const authUrl = 'api/auth';
+const evacAuthUrl = 'api/evacAuth';
 
 export interface User {
     //id: number,
@@ -12,10 +14,21 @@ export interface User {
     ],
 }
 
+export interface Users {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+    roles: [
+        id: number,
+        name: string
+    ],
+}
+
 export interface Responsibility {
     floorname: string,
     zone: [
-        name: string
+        zone: string
     ],
 }
 
@@ -42,9 +55,23 @@ export interface UserDelegate {
     ],
 }
 
+export interface UserPriority {
+    priority: number,
+}
+
+export interface Priority {
+    priority: number,
+    id: number,
+}
+
+export interface PriorityInfo {
+    id: number,
+    name: string,
+}
+
 export const signInUser = async (user: User) => {
     const options = {
-        url: `${resourceUrl}/signin`,
+        url: `${resourceUrl + authUrl}/signin`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(user)
     }
@@ -54,7 +81,7 @@ export const signInUser = async (user: User) => {
 
 export const getAllUsers = async () => {
     const options = {
-        url: `${resourceUrl}/getAllUsers`,
+        url: `${resourceUrl + authUrl}/getAllUsers`,
         headers: {"Content-Type": "application/json"}
     }
 
@@ -63,7 +90,7 @@ export const getAllUsers = async () => {
 
 export const getAllDelegations = async () => {
     const options = {
-        url: `http://localhost:8081/api/evacAuth/getAllDelegations`,
+        url: `${resourceUrl + evacAuthUrl}/getAllDelegations`,
         headers: {"Content-Type": "application/json"}
     }
 
@@ -72,7 +99,7 @@ export const getAllDelegations = async () => {
 
 export const setDelegationByID = async (id: number, responsibilities: Responsibility) => {
     const options = {
-        url: `http://localhost:8081/api/evacAuth/delegateById/${id}`,
+        url: `${resourceUrl + evacAuthUrl}/delegateById/${id}`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(responsibilities)
     }
@@ -80,9 +107,37 @@ export const setDelegationByID = async (id: number, responsibilities: Responsibi
     return CapacitorHttp.post(options);
 }
 
+export const setPriorityByID = async (id:number, userPriority: UserPriority) => {
+    const options = {
+        url: `${resourceUrl + evacAuthUrl}/setPriorityToEvacuationLeader/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(userPriority)
+    }
+    console.log(options.data);
+    return CapacitorHttp.post(options);
+}
+
+export const getAllPriorities = async () => {
+    const options = {
+        url: `${resourceUrl + evacAuthUrl}/getAllLeadersAndPriorities`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
+export const getPriorityInfo = async () => {
+    const options = {
+        url: `${resourceUrl + evacAuthUrl}/getAllPriorities`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
 export const signUpUser = async (user: User) => {
     const options = {
-        url: `${resourceUrl}/signup`,
+        url: `${resourceUrl + authUrl}/signup`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(user)
     }
@@ -90,19 +145,18 @@ export const signUpUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
-/*export const signupAndAssignResponsibilities = async (user: UserPlus) => {
+export const setEvacLeaderActive = async (username: string) => {
     const options = {
-        url: `${resourceUrl}/signup`,
-        headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(user)
+        url: `${resourceUrl + authUrl}/changeActiveTrue/${username}`,
+        headers: {"Content-Type": "application/json"}
     }
-    console.log(options.data);
-    return CapacitorHttp.post(options);
-}*/
+
+    return CapacitorHttp.get(options)
+}
 
 export const confirmDeletion = async (id: number) => {
     const options = {
-        url: `${resourceUrl}/deleteById/` + id,
+        url: `${resourceUrl + authUrl}/deleteById/` + id,
         headers: {"Content-Type": "application/json"}
     }
     console.log(options);

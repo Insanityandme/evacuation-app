@@ -3,18 +3,13 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons slot="start">
-                    <ion-button href="/tabs/UsersManager" ><ion-icon :icon="chevronBack" slot="start"/> Manage Users</ion-button>
+                    <ion-button href="/tabs/UsersManager" ><ion-icon :icon="chevronBack" slot="start"/>Manage Users</ion-button>
                 </ion-buttons>
                 <ion-title>Add User</ion-title>
-                <ion-buttons slot="end">
-                    <ion-button>Save</ion-button>
-                </ion-buttons>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-
             <AddEditUserContainer :sign-up-user="signUp"/>
-
         </ion-content>
     </ion-page>
 </template>
@@ -29,8 +24,7 @@ export default {
 import AddEditUserContainer from '@/components/AddEditUserContainer.vue';
 import {chevronBack} from "ionicons/icons";
 import {signUpUser, User} from "@/data/user";
-
-
+import router from "@/router";
 
 const signUp = async (user: User) => {
     // POST request to our backend API

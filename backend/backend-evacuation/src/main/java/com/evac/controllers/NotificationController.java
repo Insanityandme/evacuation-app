@@ -48,6 +48,10 @@ public class NotificationController {
 
    }
 
+    /**
+     * This method is a post-mapping that sends push-notifications to many tokens(devices) instead of just one
+     * @return a ResponseEntity confirming that all the devices have been notified.
+     */
    @PostMapping("/sendToMultipleDevices")
    public ResponseEntity<?> sendToMultipleDevices(){
         List<Token> tokens = tokenRepository.findAll();

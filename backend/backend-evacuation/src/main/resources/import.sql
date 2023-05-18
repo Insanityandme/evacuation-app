@@ -21,3 +21,4 @@ INSERT INTO zones(name) VALUES ('C');
 INSERT INTO priority(name) values ('HIGH');
 INSERT INTO priority(name) values ('MEDIUM');
 INSERT INTO priority(name) values ('LOW');
+

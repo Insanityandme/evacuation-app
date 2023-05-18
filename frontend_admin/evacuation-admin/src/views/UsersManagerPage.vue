@@ -83,7 +83,7 @@ export default defineComponent({
         dismiss() {
             const test = document.querySelector('ion-modal') as ModalOptions;
             if(test !== null) {
-                test.dismiss();
+                //test.dismiss();
             }
         },
     },

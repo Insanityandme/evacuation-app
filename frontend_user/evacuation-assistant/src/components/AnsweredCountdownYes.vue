@@ -1,3 +1,9 @@
+<!--
+This class is responsible for showing a card with
+a message after answering yes on TimeCountdown
+-->
+
+
 <template>
     <ion-card>
         <ion-card-header>

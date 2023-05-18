@@ -1,9 +1,10 @@
 package com.evac.security.services;
 
-import com.evac.models.NotificationMessage;
 import com.evac.payload.request.NotificationPayload;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * This class is a service for FirebaseMessaging. This class makes push notifications possible because it sends it.
@@ -19,28 +20,6 @@ public class FirebaseMessagingService {
 
     public FirebaseMessagingService(FirebaseMessaging firebaseMessaging){
         this.firebaseMessaging = firebaseMessaging;
-    }
-
-    //Probably this method will be removed
-    public String sendNotificationByToken(NotificationMessage notificationMessage) throws FirebaseMessagingException{
-
-        String sound = "alarm";
-
-        Notification notification = Notification
-                .builder()
-                .setTitle(notificationMessage.getTitle())
-                .setBody(notificationMessage.getBody())
-                .build();
-
-        Message message = Message
-                .builder()
-                .setToken(notificationMessage.getRecipientToken())
-                .setNotification(notification)
-                .putData("android_channel_id", "android_default_channel")
-                .build();
-
-        firebaseMessaging.send(message);
-        return "Success sending notification!";
     }
 
     /**
@@ -70,6 +49,28 @@ public class FirebaseMessagingService {
         //Send the message using FirebaseMessaging
         String response = firebaseMessaging.send(builder.build());
         return response;
+
+    }
+
+    public void sendToMultipleDevices(List<String> tokens) throws FirebaseMessagingException{
+        Notification notification = Notification.builder()
+                .setTitle("Evacuation initiated!!!")
+                .setBody("Are you available?")
+                .build();
+
+        //Create a multicastMessage object
+
+        MulticastMessage.Builder multicastMessage = MulticastMessage.builder()
+                .setNotification(notification)
+                .addAllTokens(tokens)
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .setNotification(AndroidNotification.builder()
+                                .setChannelId("custom_channel")
+                                .build())
+                        .build());
+
+        firebaseMessaging.sendMulticast(multicastMessage.build());
 
     }
 }

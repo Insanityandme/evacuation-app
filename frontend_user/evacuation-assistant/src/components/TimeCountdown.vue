@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="myvariables.answeredYes">
-            <AnsweredCountdownYes></AnsweredCountdownYes>
+            <AnsweredCountdownYes/>
         </template>
         <template v-else-if="myvariables.answeredNo">
             <AnsweredCountdownNo></AnsweredCountdownNo>
@@ -49,26 +49,41 @@ const myvariables = reactive({
     answeredYes: false,
     answeredNo: false,
 })
+/**
+ * gets data for logged in user,
+ * sends username as parameter to changeActiveTrue method
+ * for calling the backend.
+ * @param value
+ */
 const submitForm = async (value: string) => {
     const userData = await store.read('user');
     const userDataParsed = JSON.parse(userData.value!);
     await changeActiveTrue(userDataParsed.username);
     console.log(value)
 }
+/**
+ * method used to set boolean answeredYes/answeredNo to true
+ * if corresponding buttons in ion-card are clicked
+ * progress of progressbar set to 1 to
+ * @param value String yes or no depending on button pressed
+ */
 const answer = async (value: string) => {
     clearInterval(myInterval);
-    await submitForm(value);
 
     if (value === "yes") {
         myvariables.answeredYes = true;
         myvariables.progress = 1;
+        await submitForm(value);
     } else if (value === "no") {
         myvariables.answeredNo = true;
         myvariables.progress = 1;
     }
 }
 
-
+/**
+ * starts the countdown on the progress bar
+ * if progress < 0, redirect to /tabs/home/evacleader
+ */
 const startCountdown = async () => {
     const step = 0.01;
 

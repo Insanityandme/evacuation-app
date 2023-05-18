@@ -31,10 +31,9 @@
 <script setup lang="ts">
 import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
-import {ref} from "vue";
 
+/* eslint-disable */
 const store = new StorageService();
-const devices: any = ref([])
 
 let userName = '';
 let role = '';

@@ -1,3 +1,9 @@
+<!--
+This class is responsible for showing a card with
+a message after answering no on TimeCountdown
+-->
+
+
 <template>
     <ion-card>
         <ion-card-header>
@@ -13,8 +19,6 @@
 </template>
 
 <script>
-import {IonButton} from "@ionic/vue";
-
 export default {
     name: "answeredCountdownNo.vue",
 }

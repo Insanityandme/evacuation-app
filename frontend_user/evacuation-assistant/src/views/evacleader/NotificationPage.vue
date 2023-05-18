@@ -1,3 +1,8 @@
+<!--
+This class is responsible for displaying a
+notification with a progressbar and yes/no answer when
+evacuation is triggered
+-->
 <template>
     <ion-page>
         <ion-header>

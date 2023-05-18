@@ -13,11 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
-      },
-      {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        redirect: '/tabs/UsersManager'
       },
       {
         path: 'UsersManager',
@@ -30,10 +26,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'UsersManager/add',
         component: () => import('@/views/AddUserPage.vue')
-      },
-      {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
       }
     ]
   },

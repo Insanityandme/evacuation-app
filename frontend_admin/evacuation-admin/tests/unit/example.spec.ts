@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+/*import { mount } from '@vue/test-utils'
 import Tab1Page from '@/views/Tab1Page.vue'
 
 describe('Tab1Page.vue', () => {
@@ -7,3 +7,4 @@ describe('Tab1Page.vue', () => {
     expect(wrapper.text()).toMatch('Tab 1 page')
   })
 })
+*/

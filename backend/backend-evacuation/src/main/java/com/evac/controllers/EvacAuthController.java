@@ -76,6 +76,7 @@ public class EvacAuthController {
 
                         System.out.println("hej");
                         for (String zone : strZones) {
+
                             if (zoneRepository.existsByName(zone)) {
                                 Delegation delegation = new Delegation(
                                         user.get().getUsername(), floorName, zone);
@@ -119,17 +120,20 @@ public class EvacAuthController {
      * badRequest if there is not a user with the given username
      */
     @DeleteMapping("deleteDelegationByUsername")
-    public ResponseEntity<?> deleteDelegationById(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
+    public ResponseEntity<?> deleteDelegationByUsername(@RequestBody DelegationDeleteRequest delegationDeleteRequest) {
         if (delegationRepository.existsByUsername(delegationDeleteRequest.getUsername())) {
             List <Delegation> delegationList = delegationRepository.findAll();
+
             for (Delegation delegation1 : delegationList) {
                 System.out.println(delegation1.getUsername());
                 System.out.println(delegationDeleteRequest.getUsername());
+
                 if(delegation1.getUsername().equals(delegationDeleteRequest.getUsername())) {
                     Long id = delegation1.getId();
                     System.out.println(id);
                     delegationRepository.deleteById(id);
                  }
+
             }
             return ResponseEntity.ok("Delegation of floor/zones for leader succesfully deleted");
         } else {
@@ -171,7 +175,9 @@ public class EvacAuthController {
                         .body("Invalid priority!");
             } else {
                 user = userRepository.findById(leaderId);
+
                 for (Role role : user.get().getRoles()) {
+
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
                         EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
                         this.evacLeaderPriorityRepository.save(leaderPriority);
@@ -248,19 +254,45 @@ public class EvacAuthController {
     public List<EvacLeaderPriority> getAllLeadersAndPriorities() {
         return evacLeaderPriorityRepository.findAll();
     }
+
+    /**
+     * This mapping is used to get a list of all delegations (id, username, zone, floor)
+     * @return list of all rows of delegations table.
+     */
     @GetMapping("getAllDelegations")
     public List<Delegation> getAllDelegations() {
         return delegationRepository.findAll();
     }
 
+    /**
+     * this mapping is used to change the row boolean is_active to true
+     * @param username in row to set to true
+     * @return the is_active status of the row with specified username if succesful.
+     */
+
+    @GetMapping("/getDelegationsByUsername/{username}")
+    public ResponseEntity<?> getDelegationByUsername(@PathVariable("username") String username) {
+        List<Delegation> delegationsList = delegationRepository.findAll();
+        List<Delegation> returnToFront = new LinkedList<Delegation>() {
+        };
+        for(Delegation delegation : delegationsList) {
+            if(delegation.getUsername().equals(username)) {
+                returnToFront.add(delegation);
+            }
+        }
+        return ResponseEntity.ok(returnToFront);
+    }
     @PutMapping("/changeActiveTrue/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);
         List<EvacActive> evacActiveList = evacActiveRepository.findAll();
 
         for(EvacActive evacActive: evacActiveList) {
+
             if(evacActive.getUsername().equals(username)){
+
                 for (Role role : user.get().getRoles()) {
+
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
                         Optional <EvacActive> evacActive2 = evacActiveRepository.findByUsername(username);
                         EvacActive newEvacActive = evacActive2.get();
@@ -282,6 +314,11 @@ public class EvacAuthController {
                 .badRequest()
                 .body("no evacleader with this username");
     }
+    /**
+     * this mapping is used to change the row boolean is_active to false
+     * @param username in row to set to false
+     * @return the is_active status of the row with specified username if succesful.
+     */
 
     @PutMapping("/changeActiveFalse/{username}")
     public ResponseEntity<?> changeActiveF(@PathVariable("username") String username){
@@ -289,8 +326,11 @@ public class EvacAuthController {
         List<EvacActive> evacActiveList = evacActiveRepository.findAll();
 
         for(EvacActive evacActive: evacActiveList) {
+
             if(evacActive.getUsername().equals(username)){
+
                 for (Role role : user.get().getRoles()) {
+
                     if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
                         Optional <EvacActive> evacActive2 = evacActiveRepository.findByUsername(username);
                         EvacActive newEvacActive = evacActive2.get();
@@ -313,9 +353,16 @@ public class EvacAuthController {
                 .body("no evacleader with this username");
     }
 
+    /**
+     * this mapping is used to set all columns is_active of table
+     * evac_active to false
+     * @return Responseentity.ok
+     */
+
     @PutMapping("/turnOffAllActive")
     public ResponseEntity<?> turnOffAllActive() {
         List<EvacActive> evacActiveList = evacActiveRepository.findAll();
+
         for (EvacActive evacActive : evacActiveList) {
             String username = evacActive.getUsername();
             EvacActive newEvacActive = evacActive;
@@ -324,6 +371,11 @@ public class EvacAuthController {
                     .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
         }
         return ResponseEntity.ok("all active: true evacuation leaders set to false");
+    }
+
+    @GetMapping("/getAllActiveStatus")
+    public List <EvacActive> getAllActiveStatus() {
+        return evacActiveRepository.findAll();
     }
 
 

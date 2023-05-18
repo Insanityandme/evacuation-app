@@ -98,6 +98,22 @@ public class NotificationController {
 
     }
 
+    /**
+     * This method is a post-mapping that will save manually a token with its email into the database.
+     * This method is just for test purposes. It will probably be removed in the final version.
+     * @return a ResponseEntity with a confirmation of the token being saved into the database.
+     */
+    @PostMapping("/hardcode")
+    public ResponseEntity<?> saveTokenHardcode(){
+        //Filips token
+        String token = "c0En-fotQCSDTRbdlp-BsY:APA91bHwZ3eMURzrqszlf2c992YnbjlhxwoG095YpgO5CuhtuLCyCo8h-oz6tx0ggHI79bQynAzO-tU_gmwuxBHHEqBHVnmjvhNUZByFuabaxhS5iq7-b4BhjcW-GtN0bsfJldAUdBnb";
+        String email = "evactest@mail.com";
+
+        tokenRepository.save(new Token(token, email));
+
+        return ResponseEntity.ok().body("Token saved!!");
+    }
+
 
     /**
      * This is a bean that handles and verifies the credentials to use Firebase services

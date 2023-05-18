@@ -1,6 +1,5 @@
 package com.evac.security.services;
 
-import com.evac.models.NotificationMessage;
 import com.evac.payload.request.NotificationPayload;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
@@ -21,28 +20,6 @@ public class FirebaseMessagingService {
 
     public FirebaseMessagingService(FirebaseMessaging firebaseMessaging){
         this.firebaseMessaging = firebaseMessaging;
-    }
-
-    //Probably this method will be removed
-    public String sendNotificationByToken(NotificationMessage notificationMessage) throws FirebaseMessagingException{
-
-        String sound = "alarm";
-
-        Notification notification = Notification
-                .builder()
-                .setTitle(notificationMessage.getTitle())
-                .setBody(notificationMessage.getBody())
-                .build();
-
-        Message message = Message
-                .builder()
-                .setToken(notificationMessage.getRecipientToken())
-                .setNotification(notification)
-                .putData("android_channel_id", "android_default_channel")
-                .build();
-
-        firebaseMessaging.send(message);
-        return "Success sending notification!";
     }
 
     /**

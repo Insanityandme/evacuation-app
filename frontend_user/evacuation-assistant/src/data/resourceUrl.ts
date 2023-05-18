@@ -1,1 +1,1 @@
-export const resourceUrl = 'http://10.2.6.145:8081';
+export const resourceUrl = 'http://192.168.1.135:8081';

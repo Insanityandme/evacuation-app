@@ -45,6 +45,7 @@ const ionRouter = useIonRouter();
 const alreadySignedIn = async () => {
     // locally stored user data
     const userData = await store.read('user');
+    // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
 
     if (userData.value !== null) {

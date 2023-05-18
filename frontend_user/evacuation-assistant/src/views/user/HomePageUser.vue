@@ -19,5 +19,5 @@
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
+import {IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
 </script>

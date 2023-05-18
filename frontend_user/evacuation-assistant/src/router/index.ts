@@ -11,6 +11,7 @@ async function getRole() {
     const userData = await store.read('user');
 
     if (userData.value !== null) {
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         // console.log(userData);
         role = userDataParsed.roles[0];

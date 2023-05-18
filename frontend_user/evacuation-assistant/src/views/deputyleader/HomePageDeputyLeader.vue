@@ -27,10 +27,8 @@
 <script setup lang="ts">
 import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
-import {ref} from "vue";
 
 const store = new StorageService();
-const devices: any = ref([])
 
 let userName = '';
 let role = '';
@@ -44,6 +42,7 @@ async function getUserInfo() {
     const userData = await store.read('user');
 
     if (userData !== null) {
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
         userName = userDataParsed.name;

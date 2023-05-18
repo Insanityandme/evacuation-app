@@ -14,6 +14,7 @@
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-button @click="startScan()">Start scanning</ion-button>
             <ion-button @click="stopScan()">Stop scanning</ion-button>
+            <ion-button @click="trilateration()">Trilaterate</ion-button>
             <ion-list v-for="device in devices" :key="device">
                 <ion-item>Device: {{ device.name }}, Rssi: {{ device.rssi }}</ion-item>
                 <ion-item>Distance (in m): {{ device.distance }}, Filtered: {{ device.filtered }}</ion-item>
@@ -80,35 +81,35 @@ const startScan = async () => {
                     }
                 })
             }
-
-            devices.value.forEach((device: any) => {
-                if (device.name === "evac-WtW4") {
-                    const beacon1: Beacon = {position: {x: -2.5, y: -7}, distance: device.distance};
-                    console.log(device.distance);
-                    beacons.value.push(beacon1);
-                } else if (device.name === "evac-WtW3") {
-                    const beacon2: Beacon = {position: {x: -4.8, y: 0}, distance: device.distance};
-                    console.log(device.distance);
-                    beacons.value.push(beacon2);
-                } else if (device.name === "evac-WtW2") {
-                    const beacon3: Beacon = {position: {x: 2.1, y: 2.2}, distance: device.distance};
-                    console.log(device.distance);
-                    beacons.value.push(beacon3);
-                }
-            });
-
-            position.value = trilaterate(beacons);
-
-            if (position.value) {
-                console.log('Trilateration result:', position);
-            } else {
-                console.error('Trilateration failed.');
-            }
+            
+            trilateration();
         });
 
     } catch (error) {
         console.log(error);
     }
+}
+
+function trilateration() {
+    beacons.value = [];
+
+    devices.value.forEach((device: any) => {
+        if (device.name === "evac-WtW4") {
+            const beacon1: Beacon = {position: {x: -2.5, y: -7}, distance: device.distance};
+            console.log(device.distance);
+            beacons.value.push(beacon1);
+        } else if (device.name === "evac-WtW3") {
+            const beacon2: Beacon = {position: {x: -4.8, y: 0}, distance: device.distance};
+            console.log(device.distance);
+            beacons.value.push(beacon2);
+        } else if (device.name === "evac-WtW2") {
+            const beacon3: Beacon = {position: {x: 2.1, y: 2.2}, distance: device.distance};
+            console.log(device.distance);
+            beacons.value.push(beacon3);
+        }
+    })
+    position.value = trilaterate(beacons.value);
+    console.log(position.value);
 }
 
 async function stopScan() {

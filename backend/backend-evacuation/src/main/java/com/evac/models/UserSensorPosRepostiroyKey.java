@@ -7,7 +7,7 @@ public class UserSensorPosRepostiroyKey implements Serializable {
 
     private SensorSetPos sensorSetPos;
 
-    private long id;
+    private String username;
 
     private LocalDateTime localDateTime;
 }

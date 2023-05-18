@@ -269,6 +269,8 @@ public class EvacAuthController {
      * @param username in row to set to true
      * @return the is_active status of the row with specified username if succesful.
      */
+
+    @GetMapping
     @PutMapping("/changeActiveTrue/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);
@@ -358,6 +360,11 @@ public class EvacAuthController {
                     .map(updatedDeputy -> this.evacActiveRepository.save(newEvacActive));
         }
         return ResponseEntity.ok("all active: true evacuation leaders set to false");
+    }
+
+    @GetMapping("/getAllActiveStatus")
+    public List <EvacActive> getAllActiveStatus() {
+        return evacActiveRepository.findAll();
     }
 
 

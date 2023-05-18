@@ -15,7 +15,7 @@ public class UserSensorPos {
 
     @Id
     @Column
-    private long id;
+    private String username;
 
     @Column(length = 20)
     private String floorName;
@@ -23,6 +23,7 @@ public class UserSensorPos {
     @Column(length = 5)
     private String zoneName;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sensorSetPos_position", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

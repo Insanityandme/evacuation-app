@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+
 @Entity
 @Table(name = "sensorset",
         uniqueConstraints = {
@@ -14,10 +15,18 @@ import javax.validation.constraints.NotBlank;
         }
 )
 public class SensorSet {
+    public SensorSet() {
+
+    }
+    public SensorSet(SensorSetPos setPos, String sensorName) {
+        this.sensorName = sensorName;
+        this.sensorSetPos = setPos;
+
+    }
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sensorSetPos_id", nullable = false)
+    @JoinColumn(name = "sensorSetPos_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private SensorSetPos sensorSetPos;
@@ -42,4 +51,6 @@ public class SensorSet {
     public void setSensorSetPos(SensorSetPos sensorSetPos) {
         this.sensorSetPos = sensorSetPos;
     }
+
+
 }

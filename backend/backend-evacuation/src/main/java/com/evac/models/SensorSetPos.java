@@ -1,5 +1,7 @@
 package com.evac.models;
 
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,7 @@ import javax.persistence.*;
 public class SensorSetPos {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -22,7 +25,9 @@ public class SensorSetPos {
     }
 
     public SensorSetPos() {
+    }
 
-
+    public SensorSetPos(String position) {
+        this.position = position;
     }
 }

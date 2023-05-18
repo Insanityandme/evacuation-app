@@ -36,6 +36,7 @@ import {Beacon, trilaterate} from "@/services/trilateration";
 const filter = new MovingAverageFilter(20, 10);
 const store = new StorageService();
 const devices: any = ref([])
+const beacons: any = ref([]);
 const position: any = ref();
 
 // unique identifier for all the beacons that are in use for this project.
@@ -52,17 +53,20 @@ const startScan = async () => {
             scanMode: 2,
             allowDuplicates: true
         }, (result) => {
-
             console.log(result);
 
             if (devices.value.length < 3) {
                 if (result.rssi != null) {
-                    devices.value.push({
+                    const index = devices.value.findIndex((x: {
+                        name: string | undefined;
+                    }) => x.name == result.localName);
+
+                    index === -1 ? devices.value.push({
                         name: result.localName,
                         rssi: result.rssi,
                         distance: measuredDistance(result.rssi),
                         filtered: measuredDistance(filter.getFilteredValue())
-                    });
+                    }) : console.log("object already exists");
                 }
             } else {
                 devices.value.forEach((device: any) => {
@@ -72,33 +76,34 @@ const startScan = async () => {
                             device.rssi = result.rssi;
                             device.distance = measuredDistance(result.rssi);
                             device.filtered = measuredDistance(filter.getFilteredValue());
-
-                            let beacon1: Beacon = { position: {x: 0, y: 0}, distance: 0};
-                            let beacon2: Beacon = { position: {x: 0, y: 0}, distance: 0};
-                            let beacon3: Beacon = { position: {x: 0, y: 0}, distance: 0};
-
-                            if (device.name === "evac-WtW4") {
-                                beacon1 = {position: {x: 0, y: 0}, distance: devices.value[0].filtered};
-                            } else if (device.name === "evac-WtW3") {
-                                beacon2 = {position: {x: 10, y: 0}, distance: devices.value[1].filtered};
-                            } else if (device.name === "evac-Wtw2") {
-                                beacon3 = {position: {x: 5, y: 8}, distance: devices.value[2].filtered};
-
-                            }
-
-                            position.value = trilaterate([beacon1, beacon2, beacon3]);
-
-                            if (position.value) {
-                                console.log('Trilateration result:', position);
-                            } else {
-                                console.error('Trilateration failed.');
-                            }
-
                         }
                     }
                 })
             }
 
+            devices.value.forEach((device: any) => {
+                if (device.name === "evac-WtW4") {
+                    const beacon1: Beacon = {position: {x: -2.5, y: -7}, distance: device.distance};
+                    console.log(device.distance);
+                    beacons.value.push(beacon1);
+                } else if (device.name === "evac-WtW3") {
+                    const beacon2: Beacon = {position: {x: -4.8, y: 0}, distance: device.distance};
+                    console.log(device.distance);
+                    beacons.value.push(beacon2);
+                } else if (device.name === "evac-WtW2") {
+                    const beacon3: Beacon = {position: {x: 2.1, y: 2.2}, distance: device.distance};
+                    console.log(device.distance);
+                    beacons.value.push(beacon3);
+                }
+            });
+
+            position.value = trilaterate(beacons);
+
+            if (position.value) {
+                console.log('Trilateration result:', position);
+            } else {
+                console.error('Trilateration failed.');
+            }
         });
 
     } catch (error) {

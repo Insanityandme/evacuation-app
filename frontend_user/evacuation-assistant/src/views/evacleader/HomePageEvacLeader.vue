@@ -46,14 +46,15 @@ getUserInfo();
 async function getUserInfo() {
   // Call the read method to retrieve the user data
   const userData = await store.read('user');
+  const userAssignData = store.read('delegation');
 
   if (userData !== null) {
     const userDataParsed = JSON.parse(userData.value!);
     console.log(userData);
-    userName = userDataParsed.name;
+    userName = userDataParsed.username;
     role = userDataParsed.roles[0];
-    floor = userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
-    zone = userDataParsed.zone;
+    floor = '2' // userDataParsed.;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
+    zone = 'A'  //userDataParsed.zone;
     console.log("Sparat användarinfo");
   }
   return role

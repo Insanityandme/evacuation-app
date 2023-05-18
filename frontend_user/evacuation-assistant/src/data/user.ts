@@ -11,6 +11,10 @@ export interface User {
     password: string
 }
 
+export interface EvacUser {
+    
+}
+
 /**
  * This function is responsible for making a post request
  * to our backend and return data from our server

@@ -14,7 +14,7 @@
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-grid>
                 <ion-item>
-                    <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
+                  <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
                 </ion-item>
 
             </ion-grid>
@@ -27,20 +27,12 @@ import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar
 import {StorageService} from '@/services/storage.service';
 import {ref} from "vue";
 
-/*  //LÄGG TILLBAKA NEDAN, TILL OVAN, EFTER TESTDAG 2 - Flytta floor och zone till evac
-  <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
- */
 
 const store = new StorageService();
 const devices: any = ref([])
 
 let userName = '';
 let role = '';
-let floor = '';
-let zone = '';     //TODO: Gör om denna till en array för flera zoner
 
 getUserInfo();
 
@@ -51,11 +43,9 @@ async function getUserInfo() {
     if (userData !== null) {
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
-        userName = userDataParsed.name;
+        userName = userDataParsed.username;
         role = userDataParsed.roles[0];
         checkRole();
-        floor = '2'     // userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
-        zone = 'A'    // userDataParsed.zone;
         console.log("Sparat användarinfo");
     }
     return role

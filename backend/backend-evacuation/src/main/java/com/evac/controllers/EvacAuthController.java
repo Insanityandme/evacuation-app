@@ -270,7 +270,18 @@ public class EvacAuthController {
      * @return the is_active status of the row with specified username if succesful.
      */
 
-    @GetMapping
+    @GetMapping("/getDelegationsByUsername/{username}")
+    public ResponseEntity<?> getDelegationByUsername(@PathVariable("username") String username) {
+        List<Delegation> delegationsList = delegationRepository.findAll();
+        List<Delegation> returnToFront = new LinkedList<Delegation>() {
+        };
+        for(Delegation delegation : delegationsList) {
+            if(delegation.getUsername().equals(username)) {
+                returnToFront.add(delegation);
+            }
+        }
+        return ResponseEntity.ok(returnToFront);
+    }
     @PutMapping("/changeActiveTrue/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);

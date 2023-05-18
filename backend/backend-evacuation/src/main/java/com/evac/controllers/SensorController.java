@@ -46,6 +46,6 @@ public class SensorController {
 
         LocalDateTime localDateTime = LocalDateTime.now();
 
-
+        return ResponseEntity.ok("hej");
     }
 }

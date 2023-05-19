@@ -49,6 +49,11 @@ const users = ref([])
 import {getAllUserPositionData} from "@/data/user";
 import {ref} from "vue";
 
-// const userPositions = await getAllUserPositionData();
-// console.log(userPositions);
+const getUserPositions = async () => {
+    const userPositions = await getAllUserPositionData();
+    console.log(userPositions.data[0]);
+}
+
+getUserPositions()
+
 </script>

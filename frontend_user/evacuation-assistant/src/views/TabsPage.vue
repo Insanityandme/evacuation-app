@@ -24,8 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonBadge} from '@ionic/vue';
-import {megaphoneOutline, notificationsOutline, homeOutline, settingsOutline} from 'ionicons/icons';
+import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet} from '@ionic/vue';
+import {megaphoneOutline, homeOutline, settingsOutline} from 'ionicons/icons';
 import {StorageService} from "@/services/storage.service";
 import {ref} from 'vue';
 import router from "@/router";
@@ -43,6 +43,7 @@ async function getRole() {
 
     if (userData !== null) {
 
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         role = userDataParsed.roles[0];
 

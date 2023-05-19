@@ -178,6 +178,9 @@ public class AuthController {
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                         String username = signUpRequest.getUsername();
+                        if(userSensorPosRepository.existsByUsername(username)) {
+                            userSensorPosRepository.deleteByUsername(username);
+                        }
                         LocalDateTime localDateTime = LocalDateTime.now();
                         UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
                         userSensorPosRepository.save(userSensorPos);

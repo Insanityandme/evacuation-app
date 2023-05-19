@@ -41,6 +41,7 @@ const addListeners = async () => {
     await PushNotifications.addListener('registration', async token => {
         console.info('Registration token: ', token.value);
         const userData = await store.read('user');
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
 
         const tokenValue: TokenAndEmail = {
@@ -119,10 +120,13 @@ const createNotificationChannel = async () => {
  * Method to delete a notification channel if needed. It will only be used in case we need to change a channel's
  * attributes. According to android documentation you have to recreate the android channel in order to set new attributes.
  */
+/*
 const deleteNotificationChannel = async () => {
     await PushNotifications.deleteChannel({id: "custom_channel"});
     console.log('notification channel deleted')
 }
+
+ */
 
 export const enablePushNotifications = async() => {
     await createNotificationChannel()

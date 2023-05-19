@@ -32,6 +32,7 @@ export function trilaterate(beacons: Beacon[]): Point | null {
 }
 
 // Example usage
+/*
 const beacon1: Beacon = { position: { x: 0, y: 0 }, distance: 5 };
 const beacon2: Beacon = { position: { x: 10, y: 0 }, distance: 8 };
 const beacon3: Beacon = { position: { x: 5, y: 8 }, distance: 7 };
@@ -42,5 +43,6 @@ if (position) {
 } else {
     console.error('Trilateration failed.');
 }
+ */
 
 

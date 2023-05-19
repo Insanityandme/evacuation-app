@@ -57,6 +57,7 @@ const myvariables = reactive({
  */
 const submitForm = async (value: string) => {
     const userData = await store.read('user');
+    // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     await changeActiveTrue(userDataParsed.username);
     console.log(value)

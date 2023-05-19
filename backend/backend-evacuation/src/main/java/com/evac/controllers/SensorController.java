@@ -3,6 +3,7 @@ package com.evac.controllers;
 import com.evac.models.SensorSet;
 import com.evac.models.SensorSetPos;
 import com.evac.models.UserSensorPos;
+import com.evac.payload.request.AllUserPosRequest;
 import com.evac.payload.request.UserSensorPosRequest;
 import com.evac.repository.SensorSetPosRepository;
 import com.evac.repository.SensorSetRepository;
@@ -14,9 +15,7 @@ import com.evac.payload.request.SensorRequest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -103,8 +102,24 @@ public class SensorController {
     }
 
     @GetMapping("/getAllUserPos")
-    public List<UserSensorPos> getAllUserPos() {
-        return userSensorPosRepository.findAll();
+    public List<AllUserPosRequest> getAllUserPos() {
+        List<UserSensorPos> userSensorPosList = userSensorPosRepository.findAll();
+        List<AllUserPosRequest> userPosRequests= new ArrayList<>();
+        for (UserSensorPos userSensorPos : userSensorPosList) {
+            String username = userSensorPos.getUsername();
+            LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
+            String sensorSetPos = userSensorPos.getSensorSetPos();
+            SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
+            String floorName = setPos.getFloorName();
+            String zoneName = setPos.getZoneName();
+            AllUserPosRequest request = new AllUserPosRequest(
+                    username, sensorSetPos, localDateTime, floorName, zoneName);
+            userPosRequests.add(request);
+
+
+        }
+
+        return userPosRequests;
     }
 
 }

@@ -21,15 +21,50 @@
 
 
       <ion-toolbar>
-        <ion-button color="tertiary" expand="block">Checklist</ion-button>
+        <ion-header>
+        <ion-title color="default">Checklist</ion-title>
+        </ion-header>
       </ion-toolbar>
+
+
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+        <ion-label>Notify others of ongoing fire</ion-label>
+
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+        <ion-label>Put on safety vest (if in reach)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+      <ion-label >Direct individuals to the nearest <br>available exit route</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+      <ion-label>Identify any signs of fire or smoke in <br>your area</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+      <ion-label>In case of fire, call 112 even if the <br>alarm is already activated.<br>
+        If deemed safe, attempt to extinguish <br>the fire</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+      <ion-label>Confirm completed evacuation of <br>assigned floor</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox label-placement="end"></ion-checkbox>
+      <ion-label>Provide a report at the designated <br>assembly point. Include results and <br>any deviations/observations</ion-label>
+      </ion-item>
+
 
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel, IonCheckbox} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 import {reactive, ref} from "vue";
 import {getFloorAndZone} from "@/data/user";

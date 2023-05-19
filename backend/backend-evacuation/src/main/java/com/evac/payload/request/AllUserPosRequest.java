@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 public class AllUserPosRequest {
     @NotBlank
     private String username;
-    @NotBlank
+
     private String position;
 
     @NotBlank
     private LocalDateTime localDateTime;
 
-    @NotBlank
+
     private String floorName;
 
-    @NotBlank
+
     private String zoneName;
 
     public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName) {
@@ -30,6 +30,11 @@ public class AllUserPosRequest {
     }
     public AllUserPosRequest() {
 
+    }
+
+    public AllUserPosRequest(String username, LocalDateTime localDateTime) {
+        this.username = username;
+        this.localDateTime = localDateTime;
     }
 
     public String getUsername() {

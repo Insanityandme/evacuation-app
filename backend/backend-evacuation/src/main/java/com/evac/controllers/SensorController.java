@@ -85,7 +85,7 @@ public class SensorController {
         }
         UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
         userSensorPosRepository.save(userSensorPos);
-        return ResponseEntity.ok("goodie");
+        return ResponseEntity.ok("username added to userSensorPos without position");
     }
 
 
@@ -99,7 +99,7 @@ public class SensorController {
             UserSensorPos userr = userSensorPosRepository.findByUsername(username).get();
             return ResponseEntity.ok(userr);
         }
-        return ResponseEntity.badRequest().body("something wrong");
+        return ResponseEntity.badRequest().body("username not found in userSensorPos");
     }
 
     @GetMapping("/getAllUserPos")

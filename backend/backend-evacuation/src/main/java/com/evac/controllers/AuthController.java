@@ -1,9 +1,11 @@
 package com.evac.controllers;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import com.evac.models.*;
 import com.evac.repository.*;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,6 +48,8 @@ public class AuthController {
     DeputyRepository deputyRepository;
     @Autowired
     private EvacActiveRepository evacActiveRepository;
+    @Autowired
+    private UserSensorPosRepository userSensorPosRepository;
 
 
     /**
@@ -173,6 +177,11 @@ public class AuthController {
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
+                        String username = signUpRequest.getUsername();
+                        LocalDateTime localDateTime = LocalDateTime.now();
+                        UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
+                        userSensorPosRepository.save(userSensorPos);
+
                 }
             });
         }

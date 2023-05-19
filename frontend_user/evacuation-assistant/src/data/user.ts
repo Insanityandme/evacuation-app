@@ -3,7 +3,9 @@ import {resourceUrl} from "@/data/resourceUrl";
 
 // url to access our API
 const url = `${resourceUrl}/api/auth/`;
-const urlSensor = `${resourceUrl}/api/sensor/updateUserPos`;
+const urlPositions = `${resourceUrl}/api/sensor/`;
+
+
 
 // interface for user data
 export interface User {
@@ -15,6 +17,14 @@ export interface User {
 export interface UserPosition {
     id: number
     username: string,
+}
+
+export interface getAllUserPositions {
+    username: string,
+    sensorSetPos: string,
+    localDateTime: string,
+    floor: string,
+    zone: string
 }
 
 /**
@@ -34,10 +44,19 @@ export const signInUser = async (user: User) => {
 
 export const sendPositionData = async (userPosition: UserPosition) => {
     const options = {
-        url: `${urlSensor}`,
+        url: `${urlPositions}updateUserPos`,
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(userPosition)
     }
 
     return CapacitorHttp.post(options);
+}
+
+export const getAllUserPositionData = async () => {
+    const options = {
+        url: `${urlPositions}getAllUserPos`,
+        headers: {"Content-Type": "application/json"},
+    }
+
+    return CapacitorHttp.get(options);
 }

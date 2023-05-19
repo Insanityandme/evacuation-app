@@ -9,7 +9,7 @@
             <ion-item>
                 <ion-label>Welcome to your homepage - {{ username }}!</ion-label>
             </ion-item>
-            <ion-img style="width:10%" src="../assets/img/holding-phone-2.jpg"></ion-img>
+            <ion-img style="width:50%" src="../assets/img/holding-phone-2.jpg"></ion-img>
             <ion-button @click="sendData()">Request Assistance</ion-button>
         </ion-content>
     </ion-page>

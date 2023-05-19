@@ -108,15 +108,21 @@ public class SensorController {
         for (UserSensorPos userSensorPos : userSensorPosList) {
             String username = userSensorPos.getUsername();
             LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
+
             String sensorSetPos = userSensorPos.getSensorSetPos();
-            SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
-            String floorName = setPos.getFloorName();
-            String zoneName = setPos.getZoneName();
-            AllUserPosRequest request = new AllUserPosRequest(
-                    username, sensorSetPos, localDateTime, floorName, zoneName);
-            userPosRequests.add(request);
+            if(sensorSetPos != null) {
+                SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
+                String floorName = setPos.getFloorName();
+                String zoneName = setPos.getZoneName();
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, sensorSetPos, localDateTime, floorName, zoneName);
+                userPosRequests.add(request);
 
-
+            } else {
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, localDateTime);
+                userPosRequests.add(request);
+            }
         }
 
         return userPosRequests;

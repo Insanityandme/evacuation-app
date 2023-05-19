@@ -16,9 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
+import {IonImg, IonButton, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
 import {ref} from "vue";
+import {sendPositionData, UserPosition} from "@/data/user";
 
 const storage = new StorageService();
 const username = ref('');
@@ -32,6 +33,12 @@ const getUserName = async () => {
 getUserName();
 
 const sendData = async () => {
-    console.log("hi");
+    const userPos: UserPosition = {
+        id: 3, // FAKE DATA!!!
+        username: username.value
+    }
+
+    await sendPositionData(userPos);
+    console.log("successfully sent data");
 }
 </script>

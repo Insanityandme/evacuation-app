@@ -57,6 +57,7 @@
 
                 </ion-content>
             </ion-modal>
+          <ion-button color="primary" @click="sendNotifications()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Start Evacuation Simulation</ion-button>
         </ion-content>
 
     </ion-content>
@@ -64,9 +65,10 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader } from '@ionic/vue';
+import {IonPage, IonHeader, IonIcon} from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
 import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
+import {sendNotifications} from "@/data/alarm";
 
 </script>
 

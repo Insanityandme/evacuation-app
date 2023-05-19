@@ -17,21 +17,50 @@ public class UserSensorPos {
     @Column
     private String username;
 
-    @Column(length = 20)
-    private String floorName;
 
-    @Column(length = 5)
-    private String zoneName;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sensorSetPos_position", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private SensorSetPos sensorSetPos;
+    @Column
+    private String sensorSetPos;
 
     @Id
     @Column
     private LocalDateTime localDateTime;
 
+    public UserSensorPos(String sensorSetPos, LocalDateTime localDateTime, String username){
+        this.sensorSetPos = sensorSetPos;
+        this.localDateTime = localDateTime;
+        this.username = username;
+    }
+
+    public UserSensorPos() {
+
+    }
+
+    public UserSensorPos(LocalDateTime localDateTime, String username) {
+        this.localDateTime = localDateTime;
+        this.username = username;
+    }
+
+    public String getSensorSetPos() {
+        return sensorSetPos;
+    }
+
+    public void setSensorSetPos(String sensorSetPos) {
+        this.sensorSetPos = sensorSetPos;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

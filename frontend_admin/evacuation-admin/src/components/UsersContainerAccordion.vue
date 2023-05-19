@@ -67,9 +67,8 @@
                             <ion-label><b>Floor: {{ fetchFloorName(user.id) }}</b></ion-label>
                         </ion-chip>
 
-                        <div v-if="fetchZoneName(user.id).length>2">
-                            <ion-chip color="tertiary" :key="zone in fetchZoneName(user.id)"
-                                      v-for="zone in fetchZoneName(user.id)">
+                        <div v-if="fetchZoneName(user.username).length>1">
+                            <ion-chip color="tertiary" v-for="zone in fetchZoneName(user.username)" :key="zone">
                                 <ion-icon :icon="mapOutline" color="warning"></ion-icon>
                                 <ion-label><b>Zone: {{ zone }}</b></ion-label>
                             </ion-chip>
@@ -77,7 +76,7 @@
                         <div v-else>
                             <ion-chip color="tertiary">
                                 <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                                <ion-label><b>Zone: {{ fetchZoneName(user.id) }}</b></ion-label>
+                                <ion-label><b>Zone: {{ fetchZoneName(user.username)[0] }}</b></ion-label>
                             </ion-chip>
                         </div>
                         <ion-chip color="tertiary">
@@ -89,10 +88,10 @@
                         <ion-icon :icon="constructOutline" color="success"></ion-icon>
                         <ion-label><b>Role: {{ user.roles[0].name }}</b></ion-label>
                     </ion-chip>
-                    <ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
+                    <!--<ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
                         <ion-button color="danger" style="width: 50%; height: 30px;">Activate</ion-button>
                         <ion-button color="success" style="width: 50%; height: 30px;">Deactivate</ion-button>
-                    </ion-item>
+                    </ion-item>-->
                 </ion-list>
             </div>
         </ion-accordion>
@@ -197,15 +196,15 @@ const confirmDeletionButton = async (num: number) => {
     return false;
 }*/
 
-const fetchZoneName = (id: number): Array<string> => {
+const fetchZoneName = (username: string): Array<string> => {
     //fetchDelegateInfo(user.id)[1]
     const output = Array<string>();
     if (delegations.value !== undefined && delegations.value.length > 0) {
         delegations.value.forEach((delegate) => {
-            if (delegate.id === id) {
+            if (delegate.username === username) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output.push(delegate.zoneName[0]);// = delegate.zoneName[0];
-                //console.log(delegate.zoneName[0]);
+                console.log(delegate.zoneName[0]);
             }
         });
     }

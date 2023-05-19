@@ -95,15 +95,15 @@ function trilateration() {
 
     devices.value.forEach((device: any) => {
         if (device.name === "evac-WtW4") {
-            const beacon1: Beacon = {position: {x: -2.5, y: -7}, distance: device.distance};
+            const beacon1: Beacon = {position: {x: -2.5, y: -7}, distance: 3.5};
             console.log(device.distance);
             beacons.value.push(beacon1);
         } else if (device.name === "evac-WtW3") {
-            const beacon2: Beacon = {position: {x: -4.8, y: 0}, distance: device.distance};
+            const beacon2: Beacon = {position: {x: -4.8, y: 0}, distance: 4.8};
             console.log(device.distance);
             beacons.value.push(beacon2);
         } else if (device.name === "evac-WtW2") {
-            const beacon3: Beacon = {position: {x: 2.1, y: 2.2}, distance: device.distance};
+            const beacon3: Beacon = {position: {x: 2.1, y: 2.2}, distance: 7.25};
             console.log(device.distance);
             beacons.value.push(beacon3);
         }

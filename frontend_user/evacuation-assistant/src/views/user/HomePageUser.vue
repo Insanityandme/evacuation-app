@@ -14,10 +14,15 @@
             <ion-item>
                 <ion-label>You are logged in as User - [Role]</ion-label>
             </ion-item>
+            <ion-button @click="sendData()">Request Assistance</ion-button>
         </ion-content>
     </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
+import {IonButton, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
+
+const sendData = async () => {
+    console.log("hi");
+}
 </script>

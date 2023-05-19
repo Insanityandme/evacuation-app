@@ -16,7 +16,7 @@
         <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
       </ion-item>
       <ion-item>
-        <ion-label>Assigned floor: {{ userInfo.floor }}, zone: {{ userInfo.zoneArray }}</ion-label>
+        <ion-label>Assigned floor: {{ userInfo.floor }}, zone: {{ userInfo.zoneArray.toString() }}</ion-label>
       </ion-item>
 
 
@@ -47,14 +47,12 @@ const userInfo = reactive({
 });
 
 
-//let userName = '';
-//let role = '';
-//let floorRef = ref('');
-//let floor = '';
-//let zoneArray : string[] = [];
-
 getUserInfo();
 
+/**
+ * Function that fetched the current logged in users info from the database
+ * and saves it in variables for displaying in the GUI
+ */
 async function getUserInfo() {
   // Call the read method to retrieve the user data
   const userData = await store.read('user');
@@ -72,13 +70,16 @@ async function getUserInfo() {
       for (let i = 0; i < getEvacLeaderData.data.length; i++) {
         //floorRef = getEvacLeaderData.data[i].floorName;
         userInfo.floor = getEvacLeaderData.data[i].floorName;
-        console.log(userInfo.floor);
-        checkFloor(userInfo.floor);
+       // console.log('Before checkFloor:' + userInfo.floor);
+
+        //Change the text version of the floor into a number (still String)
+        userInfo.floor = checkFloor(userInfo.floor);
+       // console.log('After checkFloor:' + userInfo.floor);
 
         userInfo.zoneArray.push(getEvacLeaderData.data[i].zoneName);
 
-        console.log(getEvacLeaderData.data[i].floorName);
-        console.log(getEvacLeaderData.data[i].zoneName);
+       // console.log(getEvacLeaderData.data[i].floorName);
+       // console.log(getEvacLeaderData.data[i].zoneName);
       }
     }
 
@@ -90,6 +91,10 @@ async function getUserInfo() {
   return userInfo.role
 }
 
+/**
+ * Function that converts the caps-text version of the role, from the database,
+ * into a nicer looking text version for the display in the GUI
+ */
 function checkRole() {
   if (userInfo.role.includes('ROLE_DEPUTYLEADER')) {
     userInfo.role = 'Deputy leader'
@@ -100,6 +105,11 @@ function checkRole() {
   }
 }
 
+/**
+ * Function that converts the text version of the floor, from the database,
+ * into a number version, which looks nicer in the GUI
+ * @param floor The text version of the floor name, from the database
+ */
 function checkFloor(floor: string) {
   console.log('hej! ' + floor)
 
@@ -137,6 +147,7 @@ function checkFloor(floor: string) {
     default:
       floor = 'N/A';
   }
+  return floor;
 }
 
 </script>

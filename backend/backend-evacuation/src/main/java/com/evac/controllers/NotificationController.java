@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //This class is a rest-controller for push notifications via Firebase. It will handle device's tokens as well.
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -44,7 +46,29 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
 
 
-    }
+   }
+
+    /**
+     * This method is a post-mapping that sends push-notifications to many tokens(devices) instead of just one
+     * @return a ResponseEntity confirming that all the devices have been notified.
+     */
+   @PostMapping("/sendToMultipleDevices")
+   public ResponseEntity<?> sendToMultipleDevices(){
+        List<Token> tokens = tokenRepository.findAll();
+        List<String> deviceTokens = new ArrayList<>();
+
+        for(Token token : tokens){
+            deviceTokens.add(token.getToken());
+        }
+
+       try {
+           firebaseMessagingService.sendToMultipleDevices(deviceTokens);
+       } catch (FirebaseMessagingException e) {
+           throw new RuntimeException(e);
+       }
+
+       return ResponseEntity.ok().body("All devices have been notified");
+   }
 
     /**
      * This method is called from the frontend (App.vue) so it gets the registration token and
@@ -72,6 +96,22 @@ public class NotificationController {
 
         return ResponseEntity.ok("Token saved in database!");
 
+    }
+
+    /**
+     * This method is a post-mapping that will save manually a token with its email into the database.
+     * This method is just for test purposes. It will probably be removed in the final version.
+     * @return a ResponseEntity with a confirmation of the token being saved into the database.
+     */
+    @PostMapping("/hardcode")
+    public ResponseEntity<?> saveTokenHardcode(){
+        //Filips token
+        String token = "c0En-fotQCSDTRbdlp-BsY:APA91bHwZ3eMURzrqszlf2c992YnbjlhxwoG095YpgO5CuhtuLCyCo8h-oz6tx0ggHI79bQynAzO-tU_gmwuxBHHEqBHVnmjvhNUZByFuabaxhS5iq7-b4BhjcW-GtN0bsfJldAUdBnb";
+        String email = "evactest@mail.com";
+
+        tokenRepository.save(new Token(token, email));
+
+        return ResponseEntity.ok().body("Token saved!!");
     }
 
 

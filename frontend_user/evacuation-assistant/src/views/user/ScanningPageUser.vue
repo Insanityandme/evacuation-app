@@ -77,7 +77,7 @@ const startScan = async () => {
                 })
             }
 
-            devices.value[0].
+            //devices.value[0].
 
             const beacon1: Beacon = { position: { x: 0, y: 0 }, distance: 5 };
             const beacon2: Beacon = { position: { x: 10, y: 0 }, distance: 8 };

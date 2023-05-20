@@ -1,11 +1,4 @@
 <template>
-    <!--<ion-refresher ref="refresher" @ionRefresh="refreshPage($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>-->
-    <IonRefresher @ionRefresh="onRefresh" :refreshing="isRefreshing.value">
-        <!-- Add your custom refresh content here -->
-    </IonRefresher>
-
     <ion-accordion-group :multiple="true">
         <ion-accordion value="second" readonly toggle-icon="">
             <ion-item slot="header" color="success">
@@ -22,19 +15,29 @@
                     <ion-icon :icon="constructOutline" color="success"></ion-icon>
                     <ion-label><b>{{ user.roles[0].name }}</b></ion-label>
                 </ion-chip>
-                <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
-                    <!--delegations[index].username === user.username-->
-                    <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                    <ion-label><b>{{ fetchFloorName(user.id) }}</b></ion-label>
-                </ion-chip>
-                <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
-                    <ion-icon :icon="mapOutline" color="warning"></ion-icon>
-                    <ion-label><b>{{ fetchZoneName(user.id)[0] }}</b></ion-label>
-                </ion-chip>
-                <ion-chip color="tertiary" v-if="user.roles[0].id === 3">
-                    <ion-icon :icon="alertOutline" color="danger"></ion-icon>
-                    <ion-label><b>High</b></ion-label>
-                </ion-chip>
+                <div v-if="user.roles[0].id === 3">
+                    <ion-chip color="tertiary">
+                        <!--delegations[index].username === user.username-->
+                        <ion-icon :icon="layersOutline" color="primary"></ion-icon>
+                        <ion-label><b>{{ fetchFloorName(user.username) }}</b></ion-label>
+                    </ion-chip>
+                    <div v-if="fetchZoneName(user.username).length>1" style="display: inline">
+                        <ion-chip color="tertiary" v-for="zone in fetchZoneName(user.username)" :key="zone">
+                            <ion-icon :icon="mapOutline" color="warning"></ion-icon>
+                            <ion-label><b>{{ zone }}</b></ion-label>
+                        </ion-chip>
+                    </div>
+                    <div v-else style="display: inline">
+                        <ion-chip color="tertiary">
+                            <ion-icon :icon="mapOutline" color="warning"></ion-icon>
+                            <ion-label><b>{{ fetchZoneName(user.username)[0] }}</b></ion-label>
+                        </ion-chip>
+                    </div>
+                    <ion-chip color="tertiary">
+                        <ion-icon :icon="alertOutline" color="danger"></ion-icon>
+                        <ion-label><b>{{ fetchPriorityName(fetchPriority(user.id)) }}</b></ion-label>
+                    </ion-chip>
+                </div>
             </ion-item>
 
             <div id="usersList" slot="content">
@@ -71,7 +74,7 @@
                         </ion-chip>
                         <ion-chip color="tertiary">
                             <ion-icon :icon="layersOutline" color="primary"></ion-icon>
-                            <ion-label><b>Floor: {{ fetchFloorName(user.id) }}</b></ion-label>
+                            <ion-label><b>Floor: {{ fetchFloorName(user.username) }}</b></ion-label>
                         </ion-chip>
 
                         <div v-if="fetchZoneName(user.username).length>1">
@@ -107,12 +110,8 @@
 
 <script setup lang="ts">
 import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil, constructOutline} from "ionicons/icons";
-import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion, IonRefresher} from '@ionic/vue';
+import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion} from '@ionic/vue';
 
-//import { HTMLIonRefresherElement} from '@ionic/core'; //IonRefresherCustomEvent, RefresherEventDetail, HTMLStencilElement,
-
-/*export interface HTMLIonRefresherElement extends Components.IonRefresher, HTMLStencilElement
-@ionic/*/
 import {actionSheetController} from "@ionic/vue";
 
 import {confirmDeletion, Delegation, getAllDelegations, getAllPriorities, getAllUsers, getPriorityInfo, Priority, PriorityInfo, Users} from "@/data/user";
@@ -152,6 +151,7 @@ const fetchAllPriorities = async () => {
     //console.log(response.data[0].priority);
     //console.log(response.data);
     //console.log(response);
+    //console.log(response.data);
     priorities.value = response.data;
 }
 
@@ -173,60 +173,11 @@ fetchAllPriorities();
 
 const confirmDeletionButton = async (num: number) => {
     const response = await confirmDeletion(num);
-    console.log(response.data[0].message);
-    console.log(num);
-    //triggerRefresher();
-    onRefresh();
-}
-
-const isRefreshing = ref(false);
-const onRefresh = () => {
-    isRefreshing.value = true;
-    // Perform your refresh logic here
+    //console.log(response.data[0].message);
+    //console.log(num);
+    //Refresh the page to see the changes
     window.location.reload();
-    // Once the refresh is complete, set isRefreshing back to false
-    setTimeout(() => {
-        isRefreshing.value = false;
-    }, 2000); // Replace with the actual refresh duration
-};
-
-
-/*const refresher = ref< HTMLIonRefresherElement | null>(null);//eslint-disable-line
-
-const triggerRefresher = () => {
-    if (refresher.value) {
-        (refresher.value as any).start();//eslint-disable-line
-    }
-};
-const refreshPage = () => {
-    // Perform necessary refresh operations here
-
-    if (refresher.value) {//(refresher.value !== null) {
-        refresher.value.complete();//eslint-disable-line//refresher.value.complete();
-    }
-};
-interface RefresherCustomEvent extends CustomEvent {
-    detail: RefresherEventDetail;
-    target: HTMLIonRefresherElement;//eslint-disable-line
 }
-
-onMounted(() => {
-    refresher.value?.addEventListener('ionRefresh', refreshPage);
-});*/
-
-
-/*const isEvacLeader = (id: number) : boolean => {
-    if (delegations.value !== undefined && delegations.value.length > 0) {
-        delegations.value.forEach((delegate) => {
-            if (delegate.id === id) {
-                console.log(delegate.id + "===" + id + " is true");
-                return true;
-            }
-        });
-    }
-    console.log(id + " is false")
-    return false;
-}*/
 
 const fetchZoneName = (username: string): Array<string> => {
     //fetchDelegateInfo(user.id)[1]
@@ -243,15 +194,15 @@ const fetchZoneName = (username: string): Array<string> => {
     return output;
 }
 
-const fetchFloorName = (id: number): string => {
+const fetchFloorName = (username: string): string => {
     //fetchDelegateInfo(user.id)[1]
     let output = "";
     if (delegations.value !== undefined && delegations.value.length > 0) {
         delegations.value.forEach((delegate) => {
-            if (delegate.id === id) {
+            if (delegate.username === username) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output = delegate.floorName;
-                console.log(delegate.floorName);
+                //console.log(delegate.floorName);
             }
         });
     }
@@ -279,14 +230,14 @@ const fetchPriorityName = (priorityId: number): string => {
         priorityName.value.forEach((prioName) => {
             if (priorityId === prioName.id) {
                 output = prioName.name;
-                console.log(prioName.id);
-                console.log(prioName.name);
+                //console.log(prioName.id);
+                //console.log(prioName.name);
             }
         })
     }
     return output;
 }
-console.log("name: " + fetchPriorityName(1));
+//console.log("name: " + fetchPriorityName(1));
 const presentActionSheet = async (num: number, name: string) => {
     const actionSheet = await actionSheetController.create({
         header: 'Are you sure you want to delete the user: ' + name,

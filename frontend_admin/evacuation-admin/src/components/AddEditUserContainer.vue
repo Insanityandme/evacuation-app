@@ -77,7 +77,8 @@ import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {getAllUsers, setDelegationByID, setPriorityByID, signUpUser, User} from "@/data/user";
 import {IonButton, IonList, IonLabel, IonItem, IonInput, pickerController, IonPopover} from '@ionic/vue';
-import router from "@/router";
+//import router from "@/router";
+import {useRouter} from "vue-router";
 
 if (add === "true") {
     console.log("true")
@@ -106,6 +107,7 @@ const rules = {
 }
 const v$ = useVuelidate(rules, state);
 
+const router = useRouter();
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
     console.log(state.username);

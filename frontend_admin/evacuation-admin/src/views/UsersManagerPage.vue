@@ -4,7 +4,8 @@
       <ion-toolbar>
         <ion-title>Manage Users</ion-title>
           <ion-buttons slot="end">
-              <ion-button color="primary" id="open-modal"><ion-icon :icon="filterOutline" color="primary"/>&nbsp;Filter</ion-button>
+              <!--<ion-button color="primary" id="open-modal"><ion-icon :icon="filterOutline" color="primary"/>&nbsp;Filter</ion-button>-->
+              <ion-button color="primary" @click="sendNotifications()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Start Evacuation Simulation</ion-button>
               <ion-button color="primary" href="/tabs/UsersManager/add"><ion-icon :icon="add" size="large" color="primary"/></ion-button>
           </ion-buttons>
       </ion-toolbar>
@@ -57,7 +58,7 @@
 
                 </ion-content>
             </ion-modal>
-          <ion-button color="primary" @click="sendNotifications()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Start Evacuation Simulation</ion-button>
+
         </ion-content>
 
     </ion-content>

@@ -1,4 +1,11 @@
 <template>
+    <!--<ion-refresher ref="refresher" @ionRefresh="refreshPage($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>-->
+    <IonRefresher @ionRefresh="onRefresh" :refreshing="isRefreshing.value">
+        <!-- Add your custom refresh content here -->
+    </IonRefresher>
+
     <ion-accordion-group :multiple="true">
         <ion-accordion value="second" readonly toggle-icon="">
             <ion-item slot="header" color="success">
@@ -100,31 +107,18 @@
 
 <script setup lang="ts">
 import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil, constructOutline} from "ionicons/icons";
-import {
-    IonButtons,
-    IonButton,
-    IonList,
-    IonLabel,
-    IonItem,
-    IonIcon,
-    IonChip,
-    IonAccordionGroup,
-    IonAccordion
-} from '@ionic/vue';
+import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion, IonRefresher} from '@ionic/vue';
+
+//import { HTMLIonRefresherElement} from '@ionic/core'; //IonRefresherCustomEvent, RefresherEventDetail, HTMLStencilElement,
+
+/*export interface HTMLIonRefresherElement extends Components.IonRefresher, HTMLStencilElement
+@ionic/*/
 import {actionSheetController} from "@ionic/vue";
 
-import {
-    confirmDeletion,
-    Delegation,
-    getAllDelegations,
-    getAllPriorities,
-    getAllUsers, getPriorityInfo,
-    Priority, PriorityInfo,
-    User,
-    Users
-} from "@/data/user";
+import {confirmDeletion, Delegation, getAllDelegations, getAllPriorities, getAllUsers, getPriorityInfo, Priority, PriorityInfo, Users} from "@/data/user";
 
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {Components} from "ionicons";
 
 const users = ref<[Users]>();
 const delegations = ref<[Delegation]>();
@@ -181,7 +175,45 @@ const confirmDeletionButton = async (num: number) => {
     const response = await confirmDeletion(num);
     console.log(response.data[0].message);
     console.log(num);
+    //triggerRefresher();
+    onRefresh();
 }
+
+const isRefreshing = ref(false);
+const onRefresh = () => {
+    isRefreshing.value = true;
+    // Perform your refresh logic here
+    window.location.reload();
+    // Once the refresh is complete, set isRefreshing back to false
+    setTimeout(() => {
+        isRefreshing.value = false;
+    }, 2000); // Replace with the actual refresh duration
+};
+
+
+/*const refresher = ref< HTMLIonRefresherElement | null>(null);//eslint-disable-line
+
+const triggerRefresher = () => {
+    if (refresher.value) {
+        (refresher.value as any).start();//eslint-disable-line
+    }
+};
+const refreshPage = () => {
+    // Perform necessary refresh operations here
+
+    if (refresher.value) {//(refresher.value !== null) {
+        refresher.value.complete();//eslint-disable-line//refresher.value.complete();
+    }
+};
+interface RefresherCustomEvent extends CustomEvent {
+    detail: RefresherEventDetail;
+    target: HTMLIonRefresherElement;//eslint-disable-line
+}
+
+onMounted(() => {
+    refresher.value?.addEventListener('ionRefresh', refreshPage);
+});*/
+
 
 /*const isEvacLeader = (id: number) : boolean => {
     if (delegations.value !== undefined && delegations.value.length > 0) {
@@ -204,7 +236,7 @@ const fetchZoneName = (username: string): Array<string> => {
             if (delegate.username === username) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output.push(delegate.zoneName[0]);// = delegate.zoneName[0];
-                console.log(delegate.zoneName[0]);
+                //console.log(delegate.zoneName[0]);
             }
         });
     }
@@ -219,7 +251,7 @@ const fetchFloorName = (id: number): string => {
             if (delegate.id === id) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output = delegate.floorName;
-                //console.log(delegate.floorName);
+                console.log(delegate.floorName);
             }
         });
     }

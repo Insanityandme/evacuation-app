@@ -1,6 +1,7 @@
 import {CapacitorHttp} from "@capacitor/core";
 
-const resourceUrl = 'http://localhost:8081/';
+//const resourceUrl = 'http://localhost:8081/';
+const resourceUrl = 'https://ahmad.al-darraji.net/';
 const notificationUrl = 'api/notification';
 
 export const sendNotifications = async() => {

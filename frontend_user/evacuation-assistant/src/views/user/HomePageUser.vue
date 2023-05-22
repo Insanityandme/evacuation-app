@@ -26,6 +26,7 @@ const username = ref('');
 
 const getUserName = async () => {
     const userData = await storage.read('user');
+    // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     username.value = userDataParsed.username;
 }

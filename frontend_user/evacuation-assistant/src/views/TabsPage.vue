@@ -66,9 +66,6 @@ async function getRole() {
                 tab2: 'Test'
             }
         }
-
-        console.log("Navigation defined by role.");
-        console.log(navigation);
     }
 }
 

@@ -35,7 +35,7 @@ getUserName();
 
 const sendData = async () => {
     const userPos: UserPosition = {
-        id: 3, // FAKE DATA!!!
+        id: 1, // FAKE DATA!!!
         username: username.value
     }
 

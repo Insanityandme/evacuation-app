@@ -2,46 +2,25 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <ion-title>Communication</ion-title>
+                <ion-title>Notifications - Users</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <!--
-            <ion-list v-for="user in userPositions" :key="user">
-               <ion-item>Username: {{ user.username }}</ion-item>
-                <ion-item>Position: {{ user.position }}</ion-item>
-            </ion-list>
-            -->
             <div id="incoming">
-                <ion-card v-for="user in userPositions" :key="user">
+                <ion-card v-for="(user, index) in userPositions" :key="user">
                     <ion-card-header>
-                        <ion-card-subtitle>{{ user.username }} in need of assistance</ion-card-subtitle>
-                        <ion-card-title>Please help</ion-card-title>
+                        <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
+                            of assistance
+                        </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                        A person is stuck on {{ user.floorName }}, Zone {{ user.zoneName }}.
-                        Can you help?
+                        A person is {{ user.position }},
+                        {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
                     </ion-card-content>
-                    <ion-button fill="clear">Sure, I'll help</ion-button>
+                    <ion-button fill="clear" color="success" @click="getUserHelped(user, index)">I'll help</ion-button>
                     <ion-button fill="clear">Not available</ion-button>
                 </ion-card>
             </div>
-            <!--
-            <div id="button">
-                <ion-item>
-                    <ion-button color="danger">Report hazard</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="dark">Not available</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="secondary">Help me</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="success">Done</ion-button>
-                </ion-item>
-            </div>
-            -->
         </ion-content>
     </ion-page>
 </template>
@@ -49,7 +28,7 @@
 <script setup lang="ts">
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
-    IonCardTitle, IonCardSubtitle, IonButton, IonItem, IonList
+    IonCardTitle, IonButton
 } from '@ionic/vue';
 
 import {getAllUserPositionData} from "@/data/user";
@@ -68,10 +47,28 @@ const getUserPositions = async () => {
 
             if (index === -1 && userPositionData.data[i].floorName !== null) {
                 userPositions.value.push(userPositionData.data[i])
+            } else {
+                if (userPositionData.data[i].floorName != userPositions.value[i].floorName) {
+                    userPositions.value[i].position = userPositionData.data[i].position
+                    userPositions.value[i].floorName = userPositionData.data[i].floorName
+                    userPositions.value[i].zoneName = userPositionData.data[i].zoneName
+                }
             }
-            console.log("Object already exists")
+
         }
+
     }, 1000)
+}
+
+const getUserHelped = (user: any, index: any) => {
+    console.log(user.username)
+    if (userPositions.value[index] === user) {
+        // möjlighet att sätta floor, room osv till null i databasen
+        userPositions.value.splice(index, 1)
+    } else {
+        const found = userPositions.value.indexOf(user)
+        userPositions.value.indexOf(found, 1)
+    }
 }
 
 getUserPositions()

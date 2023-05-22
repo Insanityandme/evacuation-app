@@ -2,7 +2,7 @@ import {CapacitorHttp} from "@capacitor/core";
 import {ref} from "vue";
 
 //const resourceUrl = 'http://localhost:8081/';
-const resourceUrl = 'https://ahmad.al-darraji.net/';
+const resourceUrl = 'https://evac.al-darraji.net/';
 const authUrl = 'api/auth';
 const evacAuthUrl = 'api/evacAuth';
 const userAuth = 'api/userAuth';

@@ -49,9 +49,13 @@
                         </ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
-                                <ion-button fill="clear" class="ion-float-right" href="/tabs/UsersManager/edit/1"
-                                            router-link="/tabs/UsersManager/edit/1" router-direction="forward">
-                                    <ion-icon :icon="pencil"/>
+                                <ion-button fill="clear" class="ion-float-right"> <!--href="'/tabs/UsersManager/edit/' + {{user.id}}"
+                                            router-link='/tabs/UsersManager/edit/{{user.username}}' router-direction="forward">-->
+
+                                    <!--<router-link :to="'/tabs/UsersManager/edit/'+user.id+','+user.username+','+user.email+','+user.roles+','+fetchFloorName(user.username)+','+fetchZoneName(user.username)+','+fetchPriorityName(fetchPriority(user.id))+','+''" ><ion-icon :icon="pencil"/></router-link>--><!--:username,:email,:role,:floorName,:zones,:priority,:handicap-->
+                                    <router-link :to="'/tabs/UsersManager/edit/'+user.id"><ion-icon :icon="pencil"/></router-link>
+                                    <!--<router-link :to="{ name: 'editPage', params: { username: user.username, email: user.email, password: '', role: user.roles[0].name, floorName: fetchFloorName(user.username), zones: fetchZoneName(user.username), priority: fetchPriorityName(fetchPriority(user.id)) }}"/>-->
+                                    <!--<router-link :to="{ params: { id: user.id }, component: '@/views/EditUserPage.vue'}"/>-->
                                 </ion-button>
                                 <ion-button fill="clear" class="ion-float-right"
                                             @click="presentActionSheet(user.id, user.username)">
@@ -111,7 +115,7 @@
 <script setup lang="ts">
 import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil, constructOutline} from "ionicons/icons";
 import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion} from '@ionic/vue';
-
+//import editPage from '@/components/AddEditUserContainer.vue';
 import {actionSheetController} from "@ionic/vue";
 
 import {confirmDeletion, Delegation, getAllDelegations, getAllPriorities, getAllUsers, getPriorityInfo, Priority, PriorityInfo, Users} from "@/data/user";

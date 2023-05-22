@@ -1,8 +1,11 @@
 import {CapacitorHttp} from "@capacitor/core";
+import {ref} from "vue";
 
-const resourceUrl = 'http://localhost:8081/';
+//const resourceUrl = 'http://localhost:8081/';
+const resourceUrl = 'https://ahmad.al-darraji.net/';
 const authUrl = 'api/auth';
 const evacAuthUrl = 'api/evacAuth';
+const userAuth = 'api/userAuth';
 
 export interface User {
     //id: number,
@@ -41,20 +44,6 @@ export interface Delegation {
     ],
 }
 
-export interface UserDelegate {
-    id: number,
-    username: string,
-    email: string,
-    password: string,
-    role: [
-        name: string
-    ],
-    floorName: string,
-    zoneName: [
-        name: string
-    ],
-}
-
 export interface UserPriority {
     priority: number,
 }
@@ -66,6 +55,18 @@ export interface Priority {
 
 export interface PriorityInfo {
     id: number,
+    name: string,
+}
+
+export interface Handicap {
+    id: number,
+    name: string,
+}
+export interface HandicapID {
+    id: number,
+}
+
+export interface HandicapName {
     name: string,
 }
 
@@ -88,6 +89,40 @@ export const getAllUsers = async () => {
     return CapacitorHttp.get(options)
 }
 
+
+export const getAllHandicaps = async () => {
+    const options = {
+        url: `${resourceUrl + userAuth}/getAllHandicaps`,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
+
+export const setHandicapByID = async (userId: number, handicapId: number) => {
+    const handicapData = ref<HandicapID>({id:0});
+    handicapData.value.id = handicapId;
+    const options = {
+        url: `${resourceUrl + userAuth}/setHandicapToUser/${userId}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(handicapData.value)//handicapData
+    }
+    console.log(JSON.stringify(handicapData.value));
+    console.log(options.data);
+    return CapacitorHttp.post(options);
+}
+
+export const addHandicap = async (name: string) => {
+    const handicapData = ref<HandicapName>({name:''});
+    handicapData.value.name = name;
+    const options = {
+        url: `${resourceUrl + userAuth}/addHandicap`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(handicapData.value)
+    }
+    console.log(options.data);
+    return CapacitorHttp.post(options);
+}
 export const getAllDelegations = async () => {
     const options = {
         url: `${resourceUrl + evacAuthUrl}/getAllDelegations`,

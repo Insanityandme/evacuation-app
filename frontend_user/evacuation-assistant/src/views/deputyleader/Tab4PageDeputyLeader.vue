@@ -8,11 +8,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense"></ion-header>
-      <ion-toolbar>
-        <ion-item>
-          <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
-        </ion-item>
-      </ion-toolbar>
+
 
       <ion-toolbar>
 

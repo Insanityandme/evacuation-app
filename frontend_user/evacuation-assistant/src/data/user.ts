@@ -5,8 +5,6 @@ import {resourceUrl} from "@/data/resourceUrl";
 const url = `${resourceUrl}/api/auth/`;
 const urlPositions = `${resourceUrl}/api/sensor/`;
 
-
-
 // interface for user data
 export interface User {
     username: string,
@@ -17,14 +15,6 @@ export interface User {
 export interface UserPosition {
     id: number
     username: string,
-}
-
-export interface getAllUserPositions {
-    username: string,
-    sensorSetPos: string,
-    localDateTime: string,
-    floor: string,
-    zone: string
 }
 
 /**

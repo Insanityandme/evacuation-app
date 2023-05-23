@@ -31,7 +31,7 @@ import {
     IonCardTitle, IonButton
 } from '@ionic/vue';
 
-import {getAllUserPositionData} from "@/data/user";
+import {getAllUserPositionData, resetUserPosition, UserName} from "@/data/user";
 import {ref} from "vue";
 
 const userPositions: any = ref([]);
@@ -48,7 +48,7 @@ const getUserPositions = async () => {
             if (index === -1 && userPositionData.data[i].floorName !== null) {
                 userPositions.value.push(userPositionData.data[i])
             } else {
-                if (userPositionData.data[i].floorName != userPositions.value[i].floorName) {
+                if (userPositionData.data[i]?.floorName != userPositions.value[i]?.floorName) {
                     userPositions.value[i].position = userPositionData.data[i].position
                     userPositions.value[i].floorName = userPositionData.data[i].floorName
                     userPositions.value[i].zoneName = userPositionData.data[i].zoneName
@@ -60,11 +60,15 @@ const getUserPositions = async () => {
     }, 1000)
 }
 
-const getUserHelped = (user: any, index: any) => {
+const getUserHelped = async (user: any, index: any) => {
+    const username: UserName = {username: user.username}
     console.log(user.username)
     if (userPositions.value[index] === user) {
-        // möjlighet att sätta floor, room osv till null i databasen
+        /*
+        await resetUserPosition(username);
         userPositions.value.splice(index, 1)
+
+         */
     } else {
         const found = userPositions.value.indexOf(user)
         userPositions.value.indexOf(found, 1)

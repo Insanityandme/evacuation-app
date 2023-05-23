@@ -33,6 +33,7 @@ import {
 
 import {getAllUserPositionData, resetUserPosition, UserName} from "@/data/user";
 import {ref} from "vue";
+import {decrementCounter, incrementCounter} from "@/services/notificationCounter";
 
 const userPositions: any = ref([]);
 
@@ -47,11 +48,15 @@ const getUserPositions = async () => {
 
             if (index === -1 && userPositionData.data[i].floorName !== null) {
                 userPositions.value.push(userPositionData.data[i])
+                incrementCounter();
+
             } else {
-                if (userPositionData.data[i]?.floorName != userPositions.value[i]?.floorName) {
-                    userPositions.value[i].position = userPositionData.data[i].position
-                    userPositions.value[i].floorName = userPositionData.data[i].floorName
-                    userPositions.value[i].zoneName = userPositionData.data[i].zoneName
+                if (userPositionData.data[i]?.userName == userPositions.value[i]?.username) {
+                    if (userPositionData.data[i]?.floorName != userPositions.value[i]?.floorName) {
+                        userPositions.value[i].position = userPositionData.data[i].position
+                        userPositions.value[i].floorName = userPositionData.data[i].floorName
+                        userPositions.value[i].zoneName = userPositionData.data[i].zoneName
+                    }
                 }
             }
 
@@ -67,8 +72,8 @@ const getUserHelped = async (user: any, index: any) => {
         /*
         await resetUserPosition(username);
         userPositions.value.splice(index, 1)
-
          */
+        decrementCounter();
     } else {
         const found = userPositions.value.indexOf(user)
         userPositions.value.indexOf(found, 1)

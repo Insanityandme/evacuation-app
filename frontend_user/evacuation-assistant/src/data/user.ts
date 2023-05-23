@@ -3,7 +3,7 @@ import {resourceUrl} from "@/data/resourceUrl";
 
 // url to access our API
 const url = `${resourceUrl}/api/auth/`;
-const evacUrl = `${resourceUrl}/api/evacAuth/getDelegationsByUsername/`;
+const urlSensor = `${resourceUrl}/api/sensor/updateUserPos`;
 
 // interface for user data
 export interface User {
@@ -12,11 +12,9 @@ export interface User {
     password: string
 }
 
-export interface EvacFloorAndZone {
-    floorname: string,
-    zone: [
-        zone: string
-    ]
+export interface UserPosition {
+    id: number
+    username: string,
 }
 
 /**
@@ -34,11 +32,12 @@ export const signInUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
-export const getFloorAndZone = async (userName: string) => {
+export const sendPositionData = async (userPosition: UserPosition) => {
     const options = {
-        url: `${evacUrl}${userName}`,
+        url: `${urlSensor}`,
         headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(userPosition)
     }
 
-    return CapacitorHttp.get(options);
+    return CapacitorHttp.post(options);
 }

@@ -11,13 +11,6 @@
                 <ion-tab-button tab="tab2" @click="()=> router.push('/tabs/tab2/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="megaphoneOutline"/>
                     <ion-label :key="tab">{{ tab.tab2}}</ion-label>
-                  <ion-badge color="warning">1</ion-badge>
-                </ion-tab-button>
-
-                <ion-tab-button tab="tab3" @click="()=> router.push('/tabs/tab3/' + navigation)">
-                    <ion-icon aria-hidden="true" :icon="notificationsOutline"/>
-                    <ion-label>Notifications</ion-label>
-                    <ion-badge color="danger">4</ion-badge>
                 </ion-tab-button>
 
                 <ion-tab-button tab="tab4" @click="()=> router.push('/tabs/tab4/' + navigation)">
@@ -31,8 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonBadge} from '@ionic/vue';
-import {megaphoneOutline, notificationsOutline, homeOutline, settingsOutline} from 'ionicons/icons';
+import {IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet} from '@ionic/vue';
+import {megaphoneOutline, homeOutline, settingsOutline} from 'ionicons/icons';
 import {StorageService} from "@/services/storage.service";
 import {ref} from 'vue';
 import router from "@/router";
@@ -49,6 +42,8 @@ async function getRole() {
     const userData = await store.read('user');
 
     if (userData !== null) {
+
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         role = userDataParsed.roles[0];
 
@@ -56,7 +51,7 @@ async function getRole() {
             navigation.value = 'deputyleader';
             tab.value = {
                 tab1: 'Home',
-                tab2: 'Communication'
+                tab2: 'Communications'
             }
         } else if (role === 'ROLE_EVACLEADER') {
             navigation.value = 'evacleader';

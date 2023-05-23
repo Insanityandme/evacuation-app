@@ -11,11 +11,19 @@ const store = new StorageService();
 // const resourceUrl = 'http://192.168.10.211:8081/api/notification/saveToken'
 const url = `${resourceUrl}/api/notification/saveToken`;
 
+/**
+ * This interface is a json-object that later on will be converted to a java object for the mapping that is being used
+ * in the backend
+ */
 interface TokenAndEmail {
     token: string,
     email: string
 }
 
+/**
+ * This method uses that json-object above to send it and convert it to a java-object when is sent to the backend
+ * @param tokenAndEmail
+ */
 const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
     const options = {
         url: url,
@@ -23,7 +31,7 @@ const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
         data: JSON.stringify(tokenAndEmail)
     }
 
-    return CapacitorHttp.post(options);
+    return CapacitorHttp.post(options); //Trigger the mapping in the backend
 }
 /**
  * Listeners that are need to register a token and log it into logcat, register errors, log received notifications and their
@@ -33,6 +41,7 @@ const addListeners = async () => {
     await PushNotifications.addListener('registration', async token => {
         console.info('Registration token: ', token.value);
         const userData = await store.read('user');
+        // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
 
         const tokenValue: TokenAndEmail = {
@@ -111,10 +120,13 @@ const createNotificationChannel = async () => {
  * Method to delete a notification channel if needed. It will only be used in case we need to change a channel's
  * attributes. According to android documentation you have to recreate the android channel in order to set new attributes.
  */
+/*
 const deleteNotificationChannel = async () => {
     await PushNotifications.deleteChannel({id: "custom_channel"});
     console.log('notification channel deleted')
 }
+
+ */
 
 export const enablePushNotifications = async() => {
     await createNotificationChannel()

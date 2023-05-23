@@ -97,7 +97,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/evacAuth/**").permitAll()
             .antMatchers("/api/deputyAuth/**").permitAll()
             .antMatchers("/api/userAuth/**").permitAll()
-            .antMatchers("/api/notifyAuth/**").permitAll()
             .antMatchers("/api/notification/**").permitAll()
             .antMatchers("/api/sensor/**").permitAll()
         .anyRequest().authenticated();

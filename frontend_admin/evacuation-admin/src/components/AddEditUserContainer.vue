@@ -62,7 +62,7 @@
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.role === 'other'">
-                <ion-input :value="state.username" @input="state.username=$event.target.value" label="Enter Role" label-placement="floating" placeholder="e.g. JohnDoe"/>
+                <ion-input :value="state.handicap" @input="state.handicap=$event.target.value" label="Enter Special Needs details" label-placement="floating" placeholder="e.g. Immobile, Wheelchair user"/>
             </ion-item>
         </ion-list>
         <ion-button expand="block" shape="round" size="large" @click="submitForm()">Save</ion-button>
@@ -71,17 +71,25 @@
 
 <script setup lang="ts">
 import {add} from "ionicons/icons";
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, PropType, reactive, ref, watch} from "vue";
 import {CapacitorHttp} from "@capacitor/core";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {getAllUsers, setDelegationByID, setPriorityByID, signUpUser, User} from "@/data/user";
+import {
+    addHandicap, Delegation, getAllDelegations,
+    getAllHandicaps, getAllPriorities,
+    getAllUsers, getPriorityInfo,
+    Handicap, Priority, PriorityInfo,
+    setDelegationByID, setHandicapByID,
+    setPriorityByID,
+    signUpUser,
+    User, Users
+} from "@/data/user";
 import {IonButton, IonList, IonLabel, IonItem, IonInput, pickerController, IonPopover} from '@ionic/vue';
-import router from "@/router";
+//import router from "@/router";
+import {useRouter} from "vue-router";
 
-if (add === "true") {
-    console.log("true")
-}
+
 
 const selectedOption = ref(null);
 
@@ -92,7 +100,8 @@ const state = reactive({
     role: '',
     floorname: '',
     zone: '',
-    priority: 0
+    priority: 0,
+    handicap: ''
 })
 
 const rules = {
@@ -102,26 +111,30 @@ const rules = {
     role: {required},
     floorname: {},
     zone: {},
-    priority: {}
+    priority: {},
+    handicap: {}
 }
 const v$ = useVuelidate(rules, state);
 
+const router = useRouter();
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
-    console.log(state.username);
-    console.log(state.email);
-    console.log(state.password);
-    console.log(state.role);
-    console.log(state.floorname);
-    console.log(state.zone);
-    console.log(state);
+    //console.log(state.username);
+    //console.log(state.email);
+    //console.log(state.password);
+    //console.log(state.role);
+    //console.log(state.floorname);
+    //console.log(state.zone);
+    //console.log(state);
 
     if (isFormCorrect) {
         await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
 
         if (state.role === 'evac') {
-            console.log(state.role);
+            //console.log(state.role);
             await fetchUserId(state.username, state.email);
+        } else if (state.role === 'other') {
+            await completeOtherHandicapRegistration(state.username, state.email);
         }
 
         await router.push('/tabs/UsersManager');
@@ -131,14 +144,14 @@ const users = ref([]);
 const fetchUserId = async(username: string, email: string) => {
     // POST request to our backend API
     const response = await getAllUsers();
-    console.log(response.data[0].username);
+    //console.log(response.data[0].username);
     users.value = response.data;
     const zonesArray = Array<string>();
     for (let i = 0; i < state.zone.length; i++) {
         zonesArray.push(state.zone[i].value);
     }
-    console.log(zonesArray[0]);
-    console.log(zonesArray[1]);
+    //console.log(zonesArray[0]);
+    //console.log(zonesArray[1]);
     for (const user of response.data) {
         if (user.username === username && user.email === email) {
             const userId: number = user.id;
@@ -148,8 +161,31 @@ const fetchUserId = async(username: string, email: string) => {
         }
     }
 }
+const handicaps = ref<Handicap>();
+const completeOtherHandicapRegistration = async(username: string, email: string) => {
+    // POST request to our backend API
+    const fetchedUsers = await getAllUsers();
+    const response = await getAllHandicaps();
+    //console.log(response.data[0].username);
+    handicaps.value = response.data;
+    //console.log(zonesArray[0]);
+    //console.log(zonesArray[1]);
+    for (const user of fetchedUsers.data) {
+        if (user.username === username && user.email === email) {
+            const userId: number = user.id;
 
-const currentFood = ref('');
+            for (const handicap of response.data) {
+                if (handicap.name === state.handicap) {
+                    const handicapId: number = handicap.id;
+                    await setHandicapByID(userId, handicapId);
+                } else {
+                    await addHandicap(state.handicap);
+                    //await completeOtherHandicapRegistration(username,email);
+                }
+            }
+        }
+    }
+}
 
 const roles = [
     {
@@ -270,11 +306,44 @@ const priorities = [
 const prioritiesOptions = {
     header: 'Select Priorities',
     mode: 'ios',
-    //color: 'danger',
     size: 'cover',
     subHeader: 'Select the user\'s priority',
     message: 'Determines how fast the message of availability is sent to the user. High Priority = first',
 };
+
+const props = defineProps({
+    //state: Object,
+    edit: Boolean,
+    //id: String,
+    username: String,
+    email: String,
+    password: String,
+    role: String,
+    floorName: String,
+    zones: Array<string>,
+    priority: Number,
+    handicap: String
+    //myProps: Object as PropType<UserProps>, // Define the prop type
+});
+
+/*if (props.edit === true) {
+    /*state.username = username;
+    state.email = email;
+    state.role = password;
+    state.floorname = floorname;
+    state.zone = zone;
+    state.priority = priority;
+    state.handicap = handicap;*/
+    /*console.log("true");
+}*/
+
+/*onMounted(() => {
+    if (props.id !== null){
+        //fetchAllUsers();
+    }
+})*/
+
+
 
 </script>
 

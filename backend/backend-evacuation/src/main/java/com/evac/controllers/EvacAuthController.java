@@ -265,9 +265,9 @@ public class EvacAuthController {
     }
 
     /**
-     * this mapping is used to change the row boolean is_active to true
-     * @param username in row to set to true
-     * @return the is_active status of the row with specified username if succesful.
+     * this mapping is used to get Delegation instances for a certain username.
+     * @param username
+     * @return LinkedList of all rows with specified username in it.
      */
 
     @GetMapping("/getDelegationsByUsername/{username}")
@@ -282,6 +282,11 @@ public class EvacAuthController {
         }
         return ResponseEntity.ok(returnToFront);
     }
+    /**
+     * this mapping is used to change the row boolean is_active to true
+     * @param username in row to set to true
+     * @return the is_active status of the row with specified username if succesful.
+     */
     @PutMapping("/changeActiveTrue/{username}")
     public ResponseEntity<?> changeActive(@PathVariable("username") String username){
         Optional <User> user = userRepository.findByUsername(username);

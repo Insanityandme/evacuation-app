@@ -9,7 +9,7 @@
             <ion-item>
                 <ion-label>Welcome to your homepage - {{ username }}!</ion-label>
             </ion-item>
-            <ion-img style="width:10%" src="../assets/img/holding-phone-2.jpg"></ion-img>
+            <ion-img style="width:50%" src="../assets/img/holding-phone-2.jpg"></ion-img>
             <ion-button @click="sendData()">Request Assistance</ion-button>
         </ion-content>
     </ion-page>
@@ -26,6 +26,7 @@ const username = ref('');
 
 const getUserName = async () => {
     const userData = await storage.read('user');
+    // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     username.value = userDataParsed.username;
 }
@@ -34,7 +35,7 @@ getUserName();
 
 const sendData = async () => {
     const userPos: UserPosition = {
-        id: 3, // FAKE DATA!!!
+        id: 1, // FAKE DATA!!!
         username: username.value
     }
 

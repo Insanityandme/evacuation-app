@@ -1,57 +1,76 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Evacuation Assistance</ion-title>
-        <h1>Communication</h1>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-
-      </ion-header>
-
-      <ion-toolbar>
-        <ion-item>
-          <ion-label>Logged in as: Anna Bohlen, Evacuation leader</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Assigned floor: 4 and zone: C</ion-label>
-        </ion-item>
-      </ion-toolbar>
-
-
-      <div id="incoming">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>Need of assistans</ion-card-subtitle>
-            <ion-card-title>Please help</ion-card-title>
-          </ion-card-header>
-
-          <ion-card-content>
-            A person in a wheel chair and with severe anxiety is stuck on Floor 4, Zone B.
-            Can you help?
-          </ion-card-content>
-
-          <ion-button fill="clear">Sure, I'll help</ion-button>
-          <ion-button fill="clear">Nah</ion-button>
-        </ion-card>
-      </div>
-
-      <div id="button">
-        <ion-button color="danger" expand="block" >Report hazard</ion-button>
-        <ion-button color="secondary" expand="block">Need assistance</ion-button>
-        <ion-button color="success" expand="block">Evacuation completed</ion-button>
-        <ion-button color="dark" expand="block" fill="outline">No longer available</ion-button>
-      </div>
-
-    </ion-content>
-  </ion-page>
+    <ion-page>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Notifications - Users</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
+            <div id="incoming">
+                <ion-card v-for="(user, index) in userPositions" :key="user">
+                    <ion-card-header>
+                        <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
+                            of assistance
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        A person is {{ user.position }},
+                        {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
+                    </ion-card-content>
+                    <ion-button fill="clear" color="success" @click="getUserHelped(user, index)">I'll help</ion-button>
+                    <ion-button fill="clear">Not available</ion-button>
+                </ion-card>
+            </div>
+        </ion-content>
+    </ion-page>
 </template>
 
 <script setup lang="ts">
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
-  IonCardTitle, IonCardSubtitle, IonButton, IonLabel, IonItem
+    IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
+    IonCardTitle, IonButton
 } from '@ionic/vue';
+
+import {getAllUserPositionData} from "@/data/user";
+import {ref} from "vue";
+
+const userPositions: any = ref([]);
+
+const getUserPositions = async () => {
+    setInterval(async () => {
+        const userPositionData = await getAllUserPositionData();
+
+        for (let i = 0; i < userPositionData.data.length; i++) {
+            const index = userPositions.value.findIndex((x: {
+                username: string | undefined;
+            }) => x.username == userPositionData.data[i].username);
+
+            if (index === -1 && userPositionData.data[i].floorName !== null) {
+                userPositions.value.push(userPositionData.data[i])
+            } else {
+                if (userPositionData.data[i].floorName != userPositions.value[i].floorName) {
+                    userPositions.value[i].position = userPositionData.data[i].position
+                    userPositions.value[i].floorName = userPositionData.data[i].floorName
+                    userPositions.value[i].zoneName = userPositionData.data[i].zoneName
+                }
+            }
+
+        }
+
+    }, 1000)
+}
+
+const getUserHelped = (user: any, index: any) => {
+    console.log(user.username)
+    if (userPositions.value[index] === user) {
+        // möjlighet att sätta floor, room osv till null i databasen
+        userPositions.value.splice(index, 1)
+    } else {
+        const found = userPositions.value.indexOf(user)
+        userPositions.value.indexOf(found, 1)
+    }
+}
+
+getUserPositions()
+
 </script>

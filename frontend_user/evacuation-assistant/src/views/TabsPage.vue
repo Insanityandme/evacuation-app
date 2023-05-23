@@ -57,7 +57,7 @@ async function getRole() {
             navigation.value = 'evacleader';
             tab.value = {
                 tab1: 'Home',
-                tab2: 'Communication'
+                tab2: 'Notifications'
             }
         } else if (role === 'ROLE_USER') {
             navigation.value = 'user';
@@ -66,9 +66,6 @@ async function getRole() {
                 tab2: 'Test'
             }
         }
-
-        console.log("Navigation defined by role.");
-        console.log(navigation);
     }
 }
 

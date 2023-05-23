@@ -10,13 +10,6 @@
       <ion-header collapse="condense"></ion-header>
 
 
-      <ion-list>
-        <ion-item>
-          <ion-label>Logged in as: Margot Cockburn, Deputy leader</ion-label>
-        </ion-item>
-
-
-      </ion-list>
 
       <ion-card color="danger">
         <ion-card-header>

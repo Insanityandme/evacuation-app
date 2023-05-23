@@ -9,16 +9,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
       </ion-header>
-      <div>
-        <ion-list>
-          <ion-item>
-            <ion-label>Logged in as: Anna Bohlen, Evacuation leader</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Assigned floor: 4 and zone: C</ion-label>
-          </ion-item>
-        </ion-list>
-      </div>
+
 
       <ion-list>
         <ion-item valid-v-for="(item, index) in items">

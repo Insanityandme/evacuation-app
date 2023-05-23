@@ -3,6 +3,7 @@ import {resourceUrl} from "@/data/resourceUrl";
 
 // url to access our API
 const url = `${resourceUrl}/api/auth/`;
+const urlEvac = `${resourceUrl}/api/evacAuth/getDelegationsByUsername/`
 const urlPositions = `${resourceUrl}/api/sensor/`;
 
 // interface for user data
@@ -46,6 +47,16 @@ export const getAllUserPositionData = async () => {
     const options = {
         url: `${urlPositions}getAllUserPos`,
         headers: {"Content-Type": "application/json"},
+    }
+
+    return CapacitorHttp.get(options);
+}
+
+export const getFloorAndZone = async (username: string) => {
+    const options = {
+        url: `${urlEvac}${username}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(username)
     }
 
     return CapacitorHttp.get(options);

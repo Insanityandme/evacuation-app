@@ -224,26 +224,8 @@ const routes: Array<RouteRecordRaw> = [
     },
 ]
 
-
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
-
-/*
-router.beforeEach(async (to, from, next) => {
-    const userData = await store.read('user');
-    if (userData.value !== null) {
-        const userDataParsed = JSON.parse(userData.value!);
-        const userRole = userDataParsed.roles[0];
-        const routeRole = to.meta.role;
-        if (routeRole && routeRole !== userRole) {
-            return next('/');
-        }
-    }
-    next();
-});
-*/
-
 export default router

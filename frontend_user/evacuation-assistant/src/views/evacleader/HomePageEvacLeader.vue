@@ -27,7 +27,7 @@
       </ion-toolbar>
       <ion-list>
           <ion-item>
-              <ion-checkbox label-placement="end">Notify others of ongoing fire</ion-checkbox>
+              <ion-checkbox justify="start" label-placement="end">Notify others of ongoing fire</ion-checkbox>
           </ion-item>
           <ion-item>
               <ion-checkbox label-placement="end"></ion-checkbox>

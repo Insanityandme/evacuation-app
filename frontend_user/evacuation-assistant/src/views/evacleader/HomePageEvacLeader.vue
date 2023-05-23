@@ -25,17 +25,15 @@
         <ion-title color="default">Checklist</ion-title>
         </ion-header>
       </ion-toolbar>
-
-
-      <ion-item>
-        <ion-checkbox label-placement="end"></ion-checkbox>
-        <ion-label>Notify others of ongoing fire</ion-label>
-
-      </ion-item>
-      <ion-item>
-        <ion-checkbox label-placement="end"></ion-checkbox>
-        <ion-label>Put on safety vest (if in reach)</ion-label>
-      </ion-item>
+      <ion-list>
+          <ion-item>
+              <ion-checkbox label-placement="end">Notify others of ongoing fire</ion-checkbox>
+          </ion-item>
+          <ion-item>
+              <ion-checkbox label-placement="end"></ion-checkbox>
+              <ion-label>Put on safety vest (if in reach)</ion-label>
+          </ion-item>
+      </ion-list>
       <ion-item>
         <ion-checkbox label-placement="end"></ion-checkbox>
       <ion-label >Direct individuals to the nearest <br>available exit route</ion-label>

@@ -50,13 +50,3 @@ export const getAllUserPositionData = async () => {
 
     return CapacitorHttp.get(options);
 }
-
-export const getFloorAndZone = async (username: string) => {
-    const options = {
-        url: `${urlPositions}getUserPos/${username}`,
-        headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(username)
-    }
-
-    return CapacitorHttp.get(options);
-}

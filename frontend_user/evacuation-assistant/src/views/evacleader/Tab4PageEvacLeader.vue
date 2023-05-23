@@ -21,16 +21,16 @@
 
       <ion-list>
         <ion-item>
-          <ion-toggle></ion-toggle>
-          <ion-label>  Receive Push Notifications</ion-label>
+          <ion-toggle slot="start"></ion-toggle>
+          <ion-label>Receive Push Notifications</ion-label>
         </ion-item>
         <ion-item>
-          <ion-toggle></ion-toggle>
-          <ion-label>  Receive Emails</ion-label>
+          <ion-toggle slot="start"></ion-toggle>
+          <ion-label >Receive Emails</ion-label>
         </ion-item>
         <ion-item>
-          <ion-toggle></ion-toggle>
-          <ion-label>  Receive Text Messages</ion-label>
+          <ion-toggle slot="start"></ion-toggle>
+          <ion-label>Receive Text Messages</ion-label>
         </ion-item>
       </ion-list>
 

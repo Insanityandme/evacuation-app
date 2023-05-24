@@ -43,6 +43,19 @@ public class UserSensorPos {
         this.username = username;
     }
 
+    public UserSensorPos(LocalDateTime localDateTime, String username, boolean needsHelp) {
+        this.localDateTime = localDateTime;
+        this.username = username;
+        this.needsHelp = needsHelp;
+    }
+
+    public UserSensorPos(String sensorSetPos, LocalDateTime localDateTime, String username, boolean needsHelp) {
+        this.sensorSetPos = sensorSetPos;
+        this.localDateTime = localDateTime;
+        this.username = username;
+        this.needsHelp = needsHelp;
+    }
+
     public String getSensorSetPos() {
         return sensorSetPos;
     }

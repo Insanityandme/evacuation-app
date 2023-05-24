@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface UserHandicapRepository extends JpaRepository<UserHandicap, Long> {
 
     Optional<UserHandicap> findByuserId(long id);
+
+    boolean existsByuserId(long id);
 }

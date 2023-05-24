@@ -7,7 +7,8 @@
         </ion-header>
         <ion-content :fullscreen="true">
             <div id="incoming">
-                <ion-card v-for="(user, index) in userPositions" :key="user">
+                <ion-card v-for="(user) in getUserPositions()" :key="user"
+                          :style="{ backgroundColor: user.needsHelp ? '#36454F' : ''}">
                     <ion-card-header>
                         <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
                             of assistance
@@ -17,8 +18,10 @@
                         A person is {{ user.position }} with handicap: {{ user.handicap }},
                         {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
                     </ion-card-content>
-                    <ion-button fill="clear" color="success" @click="getUserHelped(user, index)">I'll help</ion-button>
-                    <ion-button fill="clear">Not available</ion-button>
+                    <ion-button fill="clear" :color="user.needsHelp ? '' : 'success'"
+                                @click="getUserHelped(user)">
+                        {{ user.needsHelp ? 'Sent' : 'Send to deputy' }}
+                    </ion-button>
                 </ion-card>
             </div>
         </ion-content>
@@ -31,49 +34,43 @@ import {
     IonCardTitle, IonButton
 } from '@ionic/vue';
 
-import {getAllUserPositionData, resetUserPosition, setHelpedToTrue, UserName} from "@/data/user";
+import {getAllUserPositionData, setHelpedToTrue} from "@/data/user";
 import {ref} from "vue";
-import {decrementCounter, incrementCounter} from "@/services/notificationCounter";
+import {setCounter} from "@/services/notificationCounter";
 
-const userPositions: any = ref([]);
+const userPositions: any = ref({})
 
-const getUserPositions = async () => {
+const getUserPositionsTest = async () => {
     setInterval(async () => {
-        const userPositionData = await getAllUserPositionData();
+        const recievedUserPositions = await getAllUserPositionData();
 
-        for (let i = 0; i < userPositionData.data.length; i++) {
-            const index = userPositions.value.findIndex((x: {
-                username: string | undefined;
-            }) => x.username == userPositionData.data[i].username);
-
-            if (index === -1 && userPositionData.data[i].floorName !== null) {
-                userPositions.value.push(userPositionData.data[i])
-                incrementCounter();
-            } else {
-                // fixa uppdatering av datan bruuh
+        for (const userPosition of recievedUserPositions.data) {
+            if (userPosition.floorName !== null) {
+                userPositions.value[userPosition.username] = userPosition;
             }
-
         }
 
-    }, 1000)
+        const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === false).length;
+        setCounter(notificationCounter);
+    }, 1000);
 }
 
-const getUserHelped = async (user: any, index: any) => {
-    const username: UserName = {username: user.username}
-    console.log(user.username)
-    if (userPositions.value[index] === user) {
-        await setHelpedToTrue(username.username)
-        /*
-        await resetUserPosition(username);
-        userPositions.value.splice(index, 1)
-         */
-        decrementCounter();
-    } else {
-        const found = userPositions.value.indexOf(user)
-        userPositions.value.indexOf(found, 1)
+getUserPositionsTest()
+
+const getUserHelped = async (user: any) => {
+    // TODO: if the user has been given help, don't do anything
+    if (user.needsHelp) {
+        return;
     }
+
+    await setHelpedToTrue(user.username);
+    userPositions.value[user.username].needsHelp = false;
+
+    const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === false).length;
+    setCounter(notificationCounter);
 }
 
-getUserPositions()
-
+function getUserPositions() {
+    return Object.values(userPositions.value).sort((a: any, b: any) => Number(a.needsHelp) - Number(b.needsHelp));
+}
 </script>

@@ -104,7 +104,7 @@ async function getUserInfo() {
     // Call the read method to retrieve the user data
     const userData = await store.read('user');
 
-    if (userData !== null) {
+    if (userData.value !== null) {
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
         userInfo.userName = userDataParsed.username;
@@ -196,5 +196,4 @@ function checkFloor(floor: string) {
     }
     return floor;
 }
-
 </script>

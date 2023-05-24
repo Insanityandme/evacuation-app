@@ -2,7 +2,11 @@ import { ref } from "vue";
 const data = ref();
 data.value = 0;
 
-export function incrementCounter(){
+export function setCounter(count: number) {
+    data.value = count;
+}
+
+export function incrementCounter() {
     data.value += 1;
 }
 

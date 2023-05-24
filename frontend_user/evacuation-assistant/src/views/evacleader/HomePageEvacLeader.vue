@@ -11,12 +11,20 @@
           <ion-title size="large" email="wow">Welcome!</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-      <ion-item>
-        <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Assigned floor: {{ userInfo.floor }}, zone: {{ userInfo.zoneArray.toString() }}</ion-label>
+      <!---
+       <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+
+       <ion-item>
+         <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
+       </ion-item>
+         --->
+
+
+
+
+
+      <ion-item class="ion-padding">
+        <ion-label class="ion-padding">Assigned floor: {{ userInfo.floor }} <br><br>Zone: {{ userInfo.zoneArray.toString() }}</ion-label>
       </ion-item>
 
       <ion-accordion-group :multiple="true" :value="['first', 'third']">
@@ -47,12 +55,6 @@
             <ion-button fill="clear" expand="block">I'm no longer available</ion-button>
           </div>
         </ion-accordion>
-        <ion-accordion value="third">
-          <ion-item slot="header" color="light">
-            <ion-label class="ion-padding">Third Accordion</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">Third Content</div>
-        </ion-accordion>
       </ion-accordion-group>
 
 
@@ -62,8 +64,10 @@
       <ion-alert
           trigger="report"
           header="Please enter your info"
+          sub-header="Important message"
+          message="This is an alert!"
           :buttons="alertButtons"
-          :inputs="alertInputs"
+          @didDismiss="setOpen(false)"
       ></ion-alert>
 
 
@@ -135,8 +139,6 @@
 
 
 
-
-      /* eslint-disable */
       const store = new StorageService();
 
       // Define reactive variables

@@ -7,19 +7,15 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense"> </ion-header>
+      <ion-header collapse="condense"></ion-header>
 
-     
-          <ion-toolbar>
-            <ion-header>
-              <ion-title class="ion-padding" color="default"></ion-title>
-            </ion-header>
-          </ion-toolbar>
-
-
-      <ion-item>
-        <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label> 
+      <ion-label class="ion-padding"></ion-label>
+      <ion-item class="ion-padding">
+        <ion-label class="ion-padding">Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
       </ion-item>
+      <ion-label class="ion-padding"></ion-label>
+
+
 
       <ion-list>
         <ion-item>
@@ -32,11 +28,20 @@
         </ion-item>
         <ion-item>
           <ion-toggle slot="start"></ion-toggle>
-          <ion-label class="ion-padding">Receive Text Messages</ion-label>
+          <ion-label class="ion-padding">Receive Reported Incidents</ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+      <ion-toolbar>
+        <ion-header>
+          <ion-title class="ion-padding" color="default"></ion-title>
+        </ion-header>
+      </ion-toolbar>
+
+      <ion-toolbar>
+        <ion-button expand="block" router-link="/login" router-direction="back" @click="store.clear()">Logout
+        </ion-button>
+      </ion-toolbar>
 
     </ion-content>
   </ion-page>

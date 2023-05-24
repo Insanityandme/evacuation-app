@@ -103,6 +103,37 @@
       </ion-grid>
     </ion-content>
   </ion-page>
+
+
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-subtitle>Danger</ion-card-subtitle>
+      <ion-card-title>Fire</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      Floor 2, Zone A.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card color="warning">
+    <ion-card-header>
+      <ion-card-subtitle>Blockage</ion-card-subtitle>
+      <ion-card-title>Blocked Exit</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      Floor 5, Zone C.
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-infinite-scroll @ionInfinite="ionInfinite">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+
 </template>
 
 <script setup lang="ts">

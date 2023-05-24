@@ -1,43 +1,116 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <h1>Communication</h1>
-                <ion-title>Communication</ion-title>
-            </ion-toolbar>
-        </ion-header>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <h1>Communication</h1>
+        <ion-title>Communication</ion-title>
+        <ion-buttons slot="end">
+          <ion-button color="danger" @click="startCounter()"><ion-icon :icon="warning"/>Start Counter</ion-button>
+          <ion-button color="tertiary" @click="resetCounter()"><ion-icon :icon="layersOutline"/>Restart Counter</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-        <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
-                <ion-toolbar>
-                    <ion-item>
-                        <ion-label>You are logged in as [Username] - [Role]</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
-                    </ion-item>
-                </ion-toolbar>
-            </ion-header>
-        </ion-content>
+    <!--
+    <ion-content :fullscreen="true">
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-item>
+            <ion-label>You are logged in as [Username] - [Role]</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
+          </ion-item>
+        </ion-toolbar>
+      </ion-header>
+    </ion-content>
+    -->
 
-        <ion-content>
-          <ion-list>
-            <ion-item>Floor 6 --> {{floorCounters[5]}}</ion-item>
-            <ion-item>Floor 5 --> {{floorCounters[4]}}</ion-item>
-            <ion-item>Floor 4 --> {{floorCounters[3]}}</ion-item>
-            <ion-item>Floor 3 --> {{floorCounters[2]}}</ion-item>
-            <ion-item>Floor 2 --> {{floorCounters[1]}}</ion-item>
-            <ion-item>Floor 1 --> {{floorCounters[0]}}</ion-item>
-          </ion-list>
-        </ion-content>
-    </ion-page>
+    <ion-content no-padding>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 6</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[5]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 5</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[4]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 4</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[3]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 3</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[2]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 2</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[1]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-card color="warning">
+              <ion-card-header>
+                <ion-card-title>Floor 1</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>People: {{floorCounters[0]}}</ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
-import {floorCounter, floorCounters, startCounter} from "@/data/floorCounter";
+import {floorCounter, floorCounters, resetCounter, startCounter} from "@/data/floorCounter";
+import {floor} from "colord/helpers";
+import {layersOutline, warning} from "ionicons/icons";
 
-startCounter();
 
 
 </script>

@@ -1,1 +1,1 @@
-export const resourceUrl = 'http://10.20.32.111:8081'; //This will be frequently changed depending on the network
+export const resourceUrl = 'http://192.168.0.72:8081'; //This will be frequently changed depending on the network

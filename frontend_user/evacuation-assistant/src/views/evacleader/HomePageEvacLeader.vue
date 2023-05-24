@@ -58,20 +58,6 @@
       </ion-accordion-group>
 
 
-
-
-
-      <ion-alert
-          trigger="report"
-          header="Please enter your info"
-          sub-header="Important message"
-          message="This is an alert!"
-          :buttons="alertButtons"
-          @didDismiss="setOpen(false)"
-      ></ion-alert>
-
-
-
       <!--
             <ion-toolbar>
               <ion-header>

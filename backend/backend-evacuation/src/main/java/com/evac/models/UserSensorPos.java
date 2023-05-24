@@ -25,6 +25,9 @@ public class UserSensorPos {
     @Column
     private LocalDateTime localDateTime;
 
+    @Column
+    private boolean needsHelp = false;
+
     public UserSensorPos(String sensorSetPos, LocalDateTime localDateTime, String username){
         this.sensorSetPos = sensorSetPos;
         this.localDateTime = localDateTime;
@@ -38,6 +41,19 @@ public class UserSensorPos {
     public UserSensorPos(LocalDateTime localDateTime, String username) {
         this.localDateTime = localDateTime;
         this.username = username;
+    }
+
+    public UserSensorPos(LocalDateTime localDateTime, String username, boolean needsHelp) {
+        this.localDateTime = localDateTime;
+        this.username = username;
+        this.needsHelp = needsHelp;
+    }
+
+    public UserSensorPos(String sensorSetPos, LocalDateTime localDateTime, String username, boolean needsHelp) {
+        this.sensorSetPos = sensorSetPos;
+        this.localDateTime = localDateTime;
+        this.username = username;
+        this.needsHelp = needsHelp;
     }
 
     public String getSensorSetPos() {
@@ -62,5 +78,19 @@ public class UserSensorPos {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setNeedsHelpTrue() {
+        if(!needsHelp){
+            needsHelp = true;
+        }
+    }
+    public void setNeedsHelpFalse() {
+        if(needsHelp){
+            needsHelp = false;
+        }
+    }
+    public boolean getNeedshelp() {
+        return needsHelp;
     }
 }

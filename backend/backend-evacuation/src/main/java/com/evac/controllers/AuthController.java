@@ -261,16 +261,130 @@ public class AuthController {
      * @return the user with updated username
      */
     @PutMapping("/changeUserNameById/{UserId}")
-    public Optional<User> changeUserNameById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
+    public ResponseEntity<?> changeUserNameById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
         User oldUserWithNewUserName;
-        if (this.userRepository.findById(userId).isPresent()) {
+        if ((this.userRepository.findById(userId).isPresent())
+                && !(this.userRepository.existsByUsername(updatedUser.getUsername()))) {
             oldUserWithNewUserName = this.userRepository.findById(userId).get();
+            String oldUsername = oldUserWithNewUserName.getUsername();
             oldUserWithNewUserName.setUsername(updatedUser.getUsername());
+            userRepository.findById(userId)
+                    .map(newUser -> this.userRepository.save(oldUserWithNewUserName));
+            return ResponseEntity.ok("user with id: " + userId + " username changed from: " +
+                    oldUsername + ", changed to: " +
+                    updatedUser.getUsername());
         } else {
-            oldUserWithNewUserName = null;
+            return ResponseEntity.badRequest().body("No user with this id, or user with new username alrdy in db ");
         }
-        return this.userRepository.findById(userId)
-                .map(currentUser -> this.userRepository.save(oldUserWithNewUserName));
+
+    }
+    @PutMapping("/changeEmailById/{UserId}")
+    public ResponseEntity<?> changeEmailById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
+        User oldUserWithNewEmail;
+        if (userRepository.findById(userId).isPresent()) {
+            oldUserWithNewEmail = this.userRepository.findById(userId).get();
+            String oldEmail = oldUserWithNewEmail.getEmail();
+            oldUserWithNewEmail.setEmail(updatedUser.getEmail());
+            userRepository.findById(userId)
+                    .map(newUser -> this.userRepository.save(oldUserWithNewEmail));
+            return ResponseEntity.ok("user with id: " + userId + " email changed from: " +
+                    oldEmail + ", changed to: " +
+                    updatedUser.getEmail());
+        } else {
+            return ResponseEntity.badRequest().body("No user with this id ");
+        }
+    }
+    
+    @PutMapping("/changePasswordById/{userId}")
+    public ResponseEntity<?> changePasswordById(@PathVariable("userId") Long userId, @RequestBody User updatedUser) {
+        User oldUserWithNewPassword;
+        if(userRepository.findById(userId).isPresent()) {
+            oldUserWithNewPassword = this.userRepository.findById(userId).get();
+            String oldPassword = oldUserWithNewPassword.getPassword();
+            oldUserWithNewPassword.setPassword(encoder.encode(updatedUser.getPassword()));
+            userRepository.findById(userId)
+                    .map(newUser -> this.userRepository.save(oldUserWithNewPassword));
+            return ResponseEntity.ok("user with id: " + userId + " password change from: " +
+                    oldPassword + ", changed to: " + updatedUser.getPassword());
+        } else {
+            return ResponseEntity.badRequest().body("No user with this id");
+        }
+
+    }
+
+    @PutMapping("/changeRoleById/{userId}")
+    public ResponseEntity<?> changeRoleById(@PathVariable("userId") Long userId, @RequestBody SignupRequest signupRequest) {
+        User oldUserWithNewRole;
+        if(userRepository.findById(userId).isPresent()) {
+            oldUserWithNewRole = this.userRepository.findById(userId).get();
+            Set<Role> oldRole = oldUserWithNewRole.getRoles();
+            Set<String> strRoles = signupRequest.getRole();
+            System.out.println(strRoles);
+            Set<Role> roles = new HashSet<>();
+            if (strRoles == null) {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            } else {
+                strRoles.forEach(role -> {
+                    switch (role) {
+
+                        case "admin":
+                            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(adminRole);
+
+                            break;
+
+                        case "deputy":
+                            Role modRole = roleRepository.findByName(ERole.ROLE_DEPUTYLEADER)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(modRole);
+                        /*
+                         the two lines below adds a row to the table deputies with
+                         a username from the user registered, and a boolean isActive
+                         It is added here because only deputy leaders should be in this table.
+                         */
+
+                            //User with deputy-role will be added to the deputy table in the database
+                            Deputy deputy = new Deputy(oldUserWithNewRole.getUsername());
+                            deputyRepository.save(deputy);
+                            break;
+
+                        case "evac":
+                            Role evacRole = roleRepository.findByName(ERole.ROLE_EVACLEADER)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(evacRole);
+
+                            EvacActive evacActive = new EvacActive(oldUserWithNewRole.getUsername());
+                            evacActiveRepository.save(evacActive);
+                            break;
+
+                        default:
+                            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(userRole);
+                            String username = oldUserWithNewRole.getUsername();
+                            if(userSensorPosRepository.existsByUsername(username)) {
+                                userSensorPosRepository.deleteByUsername(username);
+                            }
+                            LocalDateTime localDateTime = LocalDateTime.now();
+                            UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
+                            userSensorPosRepository.save(userSensorPos);
+
+                    }
+                });
+            }
+
+            oldUserWithNewRole.setRoles(roles);
+
+            userRepository.findById(userId)
+                    .map(newUser -> this.userRepository.save(oldUserWithNewRole));
+            return ResponseEntity.ok(oldUserWithNewRole.getRoles());
+
+        }
+        return ResponseEntity.badRequest().body("bad!");
+
     }
 
 }

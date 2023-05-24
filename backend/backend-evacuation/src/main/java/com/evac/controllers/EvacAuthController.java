@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.evac.security.jwt.JwtUtils;
 
+import javax.transaction.Transactional;
+
 /**
  * this class is a RestController responsible for managing the HTTP requests sent by users
  * for managing delegations of floor/zones and setting priorities to evacuation-leaders.
@@ -53,6 +55,7 @@ public class EvacAuthController {
      * there is no evacleader matching the id.
      */
     @PostMapping("/delegateById/{userId}")
+    @Transactional
     public ResponseEntity<?> addDelegate(@PathVariable("userId") Long userId,
                                          @RequestBody DelegationRequest delegationRequest) {
 
@@ -95,10 +98,30 @@ public class EvacAuthController {
                         .badRequest()
                         .body("Invalid role");
             } else {
-                user = null;
+                delegationRepository.deleteByUsername(username);
+                for (Role role : user.get().getRoles()) {
+                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+
+                        System.out.println("hej");
+                        for (String zone : strZones) {
+
+                            if (zoneRepository.existsByName(zone)) {
+                                Delegation delegation = new Delegation(
+                                        user.get().getUsername(), floorName, zone);
+                                delegationRepository.save(delegation);
+
+                            }
+
+                        }
+                        return ResponseEntity.ok(user.get().getUsername() + " delegated to floor : " +
+                                floorName + " and zones: " + strZones);
+
+                    }
+                }
+
                 return ResponseEntity
                         .badRequest()
-                        .body("Evacuation leader already in delegation database");
+                        .body("Invalid role");
             }
         } else {
             user = null;
@@ -175,23 +198,42 @@ public class EvacAuthController {
                         .body("Invalid priority!");
             } else {
                 user = userRepository.findById(leaderId);
+                if (!evacLeaderPriorityRepository.existsById(leaderId)) {
+                    for (Role role : user.get().getRoles()) {
 
-                for (Role role : user.get().getRoles()) {
+                        if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                            EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
+                            this.evacLeaderPriorityRepository.save(leaderPriority);
 
-                    if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
-                        EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
-                        this.evacLeaderPriorityRepository.save(leaderPriority);
+                            return ResponseEntity.ok("Priority set to evacuation leader!");
+                        }
+                    }
 
-                        return ResponseEntity.ok("Priority set to evacuation leader!");
+                    return ResponseEntity
+                            .badRequest()
+                            .body("Invalid role");
+
+                } else {
+                    evacLeaderPriorityRepository.deleteById(leaderId);
+                    for (Role role : user.get().getRoles()) {
+
+                        if (role.getName().equals(ERole.ROLE_EVACLEADER)) {
+                            EvacLeaderPriority leaderPriority = new EvacLeaderPriority(leaderId, evacLeaderPriority.getpriority());
+                            this.evacLeaderPriorityRepository.save(leaderPriority);
+
+                            return ResponseEntity.ok("Priority set to evacuation leader!");
+                        }
+                        return ResponseEntity
+                                .badRequest()
+                                .body("Invalid role");
                     }
                 }
 
-                return ResponseEntity
-                        .badRequest()
-                        .body("Invalid role");
 
             }
+            return ResponseEntity.badRequest().body("no evacleader with given id");
         }
+
     }
 
     /**

@@ -22,7 +22,7 @@
       <ion-accordion-group :multiple="true" :value="['first', 'third']">
         <ion-accordion value="first">
           <ion-item slot="header" color="light">
-            <ion-label>What to do</ion-label>
+            <ion-label class="ion-padding">What to do</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">Notify others of ongoing fire</div>
           <div class="ion-padding" slot="content">Put on safety vest (if in reach)</div>
@@ -31,10 +31,10 @@
         </ion-accordion>
         <ion-accordion value="second">
           <ion-item slot="header" color="light">
-            <ion-label>Report to Deputy leader</ion-label>
+            <ion-label class="ion-padding">Report to Deputy leader</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
-            <ion-button color="primary" expand="block">Report hazard</ion-button>
+            <ion-button id="report" color="primary" expand="block">Report hazard</ion-button>
           </div>
           <div class="ion-padding" slot="content">
             <ion-button color="primary" expand="block">Ask for assistance</ion-button>
@@ -49,11 +49,24 @@
         </ion-accordion>
         <ion-accordion value="third">
           <ion-item slot="header" color="light">
-            <ion-label>Third Accordion</ion-label>
+            <ion-label class="ion-padding">Third Accordion</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">Third Content</div>
         </ion-accordion>
       </ion-accordion-group>
+
+
+
+
+
+      <ion-alert
+          trigger="report"
+          header="Please enter your info"
+          :buttons="alertButtons"
+          :inputs="alertInputs"
+      ></ion-alert>
+
+
 
       <!--
             <ion-toolbar>
@@ -100,6 +113,8 @@
       </template>
 
       <script setup lang="ts">
+
+
       import {
         IonButton,
         IonContent,
@@ -112,10 +127,14 @@
         IonCheckbox,
         IonAccordion,
         IonAccordionGroup,
+          IonAlert,
       } from '@ionic/vue';
       import {StorageService} from '@/services/storage.service';
       import {reactive, ref} from "vue";
       import {getFloorAndZone} from "@/data/user";
+
+
+
 
       /* eslint-disable */
       const store = new StorageService();
@@ -232,5 +251,6 @@
         }
         return floor;
       }
+
 
       </script>

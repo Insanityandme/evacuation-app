@@ -14,7 +14,7 @@
                         </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                        A person is {{ user.position }},
+                        A person is {{ user.position }} with handicap: {{ user.handicap }},
                         {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
                     </ion-card-content>
                     <ion-button fill="clear" color="success" @click="getUserHelped(user, index)">I'll help</ion-button>
@@ -31,7 +31,7 @@ import {
     IonCardTitle, IonButton
 } from '@ionic/vue';
 
-import {getAllUserPositionData, resetUserPosition, UserName} from "@/data/user";
+import {getAllUserPositionData, resetUserPosition, setHelpedToTrue, UserName} from "@/data/user";
 import {ref} from "vue";
 import {decrementCounter, incrementCounter} from "@/services/notificationCounter";
 
@@ -62,6 +62,7 @@ const getUserHelped = async (user: any, index: any) => {
     const username: UserName = {username: user.username}
     console.log(user.username)
     if (userPositions.value[index] === user) {
+        await setHelpedToTrue(username.username)
         /*
         await resetUserPosition(username);
         userPositions.value.splice(index, 1)

@@ -84,3 +84,13 @@ export const getFloorAndZone = async (userName: string) => {
     return CapacitorHttp.get(options);
 }
 
+export const setHelpedToTrue = async (username: string) => {
+    const options = {
+        url: `${urlPositions}updateNeedsHelpTrue/${username}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(username)
+    }
+
+    return CapacitorHttp.post(options);
+}
+

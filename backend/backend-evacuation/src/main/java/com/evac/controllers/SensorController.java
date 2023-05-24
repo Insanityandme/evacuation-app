@@ -1,13 +1,9 @@
 package com.evac.controllers;
 
-import com.evac.models.SensorSet;
-import com.evac.models.SensorSetPos;
-import com.evac.models.UserSensorPos;
+import com.evac.models.*;
 import com.evac.payload.request.AllUserPosRequest;
 import com.evac.payload.request.UserSensorPosRequest;
-import com.evac.repository.SensorSetPosRepository;
-import com.evac.repository.SensorSetRepository;
-import com.evac.repository.UserSensorPosRepository;
+import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +23,12 @@ public class SensorController {
     private SensorSetRepository sensorSetRepository;
     @Autowired
     private UserSensorPosRepository userSensorPosRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserHandicapRepository userHandicapRepository;
+    @Autowired
+    private HandicapRepository handicapRepository;
 
     @PostMapping ("/addSensor")
     public ResponseEntity<?> addSensor(@RequestBody SensorRequest sensorRequest) {
@@ -125,8 +127,18 @@ public class SensorController {
     public List<AllUserPosRequest> getAllUserPos() {
         List<UserSensorPos> userSensorPosList = userSensorPosRepository.findAll();
         List<AllUserPosRequest> userPosRequests= new ArrayList<>();
+
         for (UserSensorPos userSensorPos : userSensorPosList) {
             String username = userSensorPos.getUsername();
+            User user = userRepository.findByUsername(username).get();
+            long id = user.getId();
+            UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
+            Long handicapId = userHandicap.getHandicapId();
+            Handicap handicap = handicapRepository.findById(handicapId).get();
+            String handicapName = handicap.getName();
+
+
+
             LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
 
             String sensorSetPos = userSensorPos.getSensorSetPos();
@@ -136,7 +148,7 @@ public class SensorController {
                 String zoneName = setPos.getZoneName();
                 boolean needsHelp = userSensorPos.getNeedshelp();
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp);
+                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp, handicapName);
                 userPosRequests.add(request);
 
             } else {

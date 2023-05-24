@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @JsonSerialize
 public class AllUserPosRequest {
+    private  String handicap;
     private boolean needsHelp;
     @NotBlank
     private String username;
@@ -22,13 +23,15 @@ public class AllUserPosRequest {
 
     private String zoneName;
 
-    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName, boolean needsHelp) {
+    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName, boolean needsHelp, String handicap) {
         this.username = username;
         this.position = sensorSetPos;
         this.localDateTime = localDateTime;
         this.floorName = floorName;
         this.zoneName = zoneName;
         this.needsHelp = needsHelp;
+        this.handicap = handicap;
+
     }
     public AllUserPosRequest() {
 
@@ -81,5 +84,9 @@ public class AllUserPosRequest {
 
     public boolean isNeedsHelp() {
         return needsHelp;
+    }
+
+    public String getHandicap() {
+        return handicap;
     }
 }

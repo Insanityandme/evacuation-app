@@ -31,8 +31,7 @@
                 <ion-checkbox justify="start" label-placement="end">Notify others of ongoing fire</ion-checkbox>
             </ion-item>
             <ion-item>
-                <ion-checkbox slot="start" label-placement="end"></ion-checkbox>
-                <ion-label>Put on safety vest (if in reach)</ion-label>
+                <ion-checkbox justify="start" label-placement="end">Put on safety vest (if in reach)</ion-checkbox>
             </ion-item>
             <ion-item>
                 <ion-checkbox slot="start" label-placement="end"></ion-checkbox>

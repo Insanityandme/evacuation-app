@@ -49,15 +49,8 @@ const getUserPositions = async () => {
             if (index === -1 && userPositionData.data[i].floorName !== null) {
                 userPositions.value.push(userPositionData.data[i])
                 incrementCounter();
-
             } else {
-                if (userPositionData.data[i]?.userName == userPositions.value[i]?.username) {
-                    if (userPositionData.data[i]?.floorName != userPositions.value[i]?.floorName) {
-                        userPositions.value[i].position = userPositionData.data[i].position
-                        userPositions.value[i].floorName = userPositionData.data[i].floorName
-                        userPositions.value[i].zoneName = userPositionData.data[i].zoneName
-                    }
-                }
+                // fixa uppdatering av datan bruuh
             }
 
         }

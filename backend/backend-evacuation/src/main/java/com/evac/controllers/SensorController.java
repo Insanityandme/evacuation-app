@@ -64,13 +64,16 @@ public class SensorController {
         Long sensorSetId = userSensorPosRequest.getId();
         SensorSetPos sensorSetPos = sensorSetPosRepository.findById(sensorSetId).get();
         String position = sensorSetPos.getPosition();
+        boolean needsHelp = false;
 
         if(userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos userSensorPos = userSensorPosRepository.findByUsername(username).get();
+            needsHelp = userSensorPos.getNeedshelp();
             userSensorPosRepository.deleteByUsername(username);
         }
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        UserSensorPos userSensorPos = new UserSensorPos(position, localDateTime, username);
+        UserSensorPos userSensorPos = new UserSensorPos(position, localDateTime, username, needsHelp);
         userSensorPosRepository.save(userSensorPos);
 
         return ResponseEntity.ok("users position updated");
@@ -81,6 +84,7 @@ public class SensorController {
     public ResponseEntity<?> updateDefaultUserPos(@RequestBody UserSensorPosRequest userSensorPosRequest) {
         String username = userSensorPosRequest.getUsername();
         LocalDateTime localDateTime = LocalDateTime.now();
+
         if(userSensorPosRepository.existsByUsername(username)) {
             userSensorPosRepository.deleteByUsername(username);
         }
@@ -94,6 +98,8 @@ public class SensorController {
         if(userSensorPosRepository.existsByUsername(username)) {
             UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
             user.setNeedsHelpFalse();
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
             return user;
         }
         return null;
@@ -103,6 +109,8 @@ public class SensorController {
         if(userSensorPosRepository.existsByUsername(username)) {
             UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
             user.setNeedsHelpTrue();
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
             return user;
         }
         return null;
@@ -129,9 +137,7 @@ public class SensorController {
         List<AllUserPosRequest> userPosRequests= new ArrayList<>();
 
         for (UserSensorPos userSensorPos : userSensorPosList) {
-
-
-
+            boolean needsHelp = userSensorPos.getNeedshelp();
 
             LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
             String username = userSensorPos.getUsername();
@@ -152,25 +158,25 @@ public class SensorController {
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
-                boolean needsHelp = userSensorPos.getNeedshelp();
+
                 AllUserPosRequest request = new AllUserPosRequest(
                         username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp, handicapName);
                 userPosRequests.add(request);
 
             } else if ((sensorSetPos == null) && (handicap != null)){
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, localDateTime, handicapName);
+                        username, localDateTime, handicapName, needsHelp);
                 userPosRequests.add(request);
             } else if ((sensorSetPos == null) && (handicap == null)) {
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, localDateTime);
+                        username, localDateTime, needsHelp);
                 userPosRequests.add(request);
 
             } else if ((sensorSetPos != null) && (handicap == null)) {
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
-                boolean needsHelp = userSensorPos.getNeedshelp();
+
                 AllUserPosRequest request = new AllUserPosRequest(
                         username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp);
                 userPosRequests.add(request);

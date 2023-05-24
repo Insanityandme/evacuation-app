@@ -87,6 +87,26 @@ public class SensorController {
         return ResponseEntity.ok("username added to userSensorPos without position");
     }
 
+    @PostMapping("/updateNeedsHelpFalse/{username}")
+    public UserSensorPos updateNeedsHelpFalse(@PathVariable("username") String username) {
+        if(userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
+            user.setNeedsHelpFalse();
+            return user;
+        }
+        return null;
+    }
+    @PostMapping("/updateNeedsHelpTrue/{username}")
+    public UserSensorPos updateNeedsHelpTrue(@PathVariable("username") String username) {
+        if(userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
+            user.setNeedsHelpTrue();
+            return user;
+        }
+        return null;
+    }
+
+
 
 
     @GetMapping("/getUserPos/{username}")
@@ -114,8 +134,9 @@ public class SensorController {
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
+                boolean needsHelp = userSensorPos.getNeedshelp();
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, sensorSetPos, localDateTime, floorName, zoneName);
+                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp);
                 userPosRequests.add(request);
 
             } else {
@@ -127,5 +148,7 @@ public class SensorController {
 
         return userPosRequests;
     }
+
+
 
 }

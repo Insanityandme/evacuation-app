@@ -134,16 +134,21 @@ public class SensorController {
 
 
             LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
-
+            String username = userSensorPos.getUsername();
+            User user = userRepository.findByUsername(username).get();
+            long id = user.getId();
+            UserHandicap userHandicap;
+            Long handicapId;
+            Handicap handicap = null;
+            String handicapName = null;
+            if(userHandicapRepository.existsByuserId(id)) {
+                userHandicap = userHandicapRepository.findByuserId(id).get();
+                handicapId = userHandicap.getHandicapId();
+                handicap = handicapRepository.findById(handicapId).get();
+                handicapName = handicap.getName();
+            }
             String sensorSetPos = userSensorPos.getSensorSetPos();
-            if(sensorSetPos != null) {
-                String username = userSensorPos.getUsername();
-                User user = userRepository.findByUsername(username).get();
-                long id = user.getId();
-                UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
-                Long handicapId = userHandicap.getHandicapId();
-                Handicap handicap = handicapRepository.findById(handicapId).get();
-                String handicapName = handicap.getName();
+            if((sensorSetPos != null) &&  (handicap != null)){
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
@@ -152,16 +157,22 @@ public class SensorController {
                         username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp, handicapName);
                 userPosRequests.add(request);
 
-            } else {
-                String username = userSensorPos.getUsername();
-                User user = userRepository.findByUsername(username).get();
-                long id = user.getId();
-                UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
-                Long handicapId = userHandicap.getHandicapId();
-                Handicap handicap = handicapRepository.findById(handicapId).get();
-                String handicapName = handicap.getName();
+            } else if ((sensorSetPos == null) && (handicap != null)){
                 AllUserPosRequest request = new AllUserPosRequest(
                         username, localDateTime, handicapName);
+                userPosRequests.add(request);
+            } else if ((sensorSetPos == null) && (handicap == null)) {
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, localDateTime);
+                userPosRequests.add(request);
+
+            } else if ((sensorSetPos != null) && (handicap == null)) {
+                SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
+                String floorName = setPos.getFloorName();
+                String zoneName = setPos.getZoneName();
+                boolean needsHelp = userSensorPos.getNeedshelp();
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp);
                 userPosRequests.add(request);
             }
         }

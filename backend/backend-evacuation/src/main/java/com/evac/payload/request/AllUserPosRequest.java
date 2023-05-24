@@ -49,6 +49,15 @@ public class AllUserPosRequest {
         this.handicap = handicap;
     }
 
+    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName, boolean needsHelp) {
+        this.username = username;
+        this.position = sensorSetPos;
+        this.localDateTime = localDateTime;
+        this.floorName = floorName;
+        this.zoneName = zoneName;
+        this.needsHelp = needsHelp;
+    }
+
     public String getUsername() {
         return username;
     }

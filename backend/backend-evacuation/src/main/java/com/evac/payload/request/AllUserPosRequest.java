@@ -1,5 +1,6 @@
 package com.evac.payload.request;
 
+import com.evac.models.Handicap;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.validation.constraints.NotBlank;
@@ -40,6 +41,12 @@ public class AllUserPosRequest {
     public AllUserPosRequest(String username, LocalDateTime localDateTime) {
         this.username = username;
         this.localDateTime = localDateTime;
+    }
+
+    public AllUserPosRequest(String username, LocalDateTime localDateTime, String handicap) {
+        this.username = username;
+        this.localDateTime = localDateTime;
+        this.handicap = handicap;
     }
 
     public String getUsername() {

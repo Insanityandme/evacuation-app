@@ -129,13 +129,7 @@ public class SensorController {
         List<AllUserPosRequest> userPosRequests= new ArrayList<>();
 
         for (UserSensorPos userSensorPos : userSensorPosList) {
-            String username = userSensorPos.getUsername();
-            User user = userRepository.findByUsername(username).get();
-            long id = user.getId();
-            UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
-            Long handicapId = userHandicap.getHandicapId();
-            Handicap handicap = handicapRepository.findById(handicapId).get();
-            String handicapName = handicap.getName();
+
 
 
 
@@ -143,6 +137,13 @@ public class SensorController {
 
             String sensorSetPos = userSensorPos.getSensorSetPos();
             if(sensorSetPos != null) {
+                String username = userSensorPos.getUsername();
+                User user = userRepository.findByUsername(username).get();
+                long id = user.getId();
+                UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
+                Long handicapId = userHandicap.getHandicapId();
+                Handicap handicap = handicapRepository.findById(handicapId).get();
+                String handicapName = handicap.getName();
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
@@ -152,8 +153,15 @@ public class SensorController {
                 userPosRequests.add(request);
 
             } else {
+                String username = userSensorPos.getUsername();
+                User user = userRepository.findByUsername(username).get();
+                long id = user.getId();
+                UserHandicap userHandicap = userHandicapRepository.findByuserId(id).get();
+                Long handicapId = userHandicap.getHandicapId();
+                Handicap handicap = handicapRepository.findById(handicapId).get();
+                String handicapName = handicap.getName();
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, localDateTime);
+                        username, localDateTime, handicapName);
                 userPosRequests.add(request);
             }
         }

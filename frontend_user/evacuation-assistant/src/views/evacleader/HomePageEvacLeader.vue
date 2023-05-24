@@ -19,14 +19,15 @@
                 <ion-label>Assigned floor: {{ userInfo.floor }}, zone: {{ userInfo.zoneArray.toString() }}</ion-label>
             </ion-item>
 
-
             <ion-toolbar>
                 <ion-header>
                     <ion-title color="default">Checklist</ion-title>
                 </ion-header>
             </ion-toolbar>
 
-
+            <ion-item>
+                <ion-checkbox justify="start" label-placement="end">Notify others of ongoing fire</ion-checkbox>
+            </ion-item>
             <ion-item>
                 <ion-checkbox justify="start" label-placement="end">Notify others of ongoing fire</ion-checkbox>
             </ion-item>

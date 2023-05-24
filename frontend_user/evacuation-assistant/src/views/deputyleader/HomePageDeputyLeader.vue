@@ -14,11 +14,9 @@
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-grid>
                 <ion-item>
-                    <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
+                  <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-label>Assigned floor: {{ floor }} and zone: {{ zone }}</ion-label>
-                </ion-item>
+
             </ion-grid>
         </ion-content>
     </ion-page>
@@ -28,12 +26,11 @@
 import {IonButton, IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
 
+
 const store = new StorageService();
 
 let userName = '';
 let role = '';
-let floor = '';
-let zone = '';     //TODO: Gör om denna till en array för flera zoner
 
 getUserInfo();
 
@@ -45,12 +42,22 @@ async function getUserInfo() {
         // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
-        userName = userDataParsed.name;
+        userName = userDataParsed.username;
         role = userDataParsed.roles[0];
-        floor = userDataParsed;    //TODO: Användaren måste först få en assigned floor och zone - sen hur hämta?
-        zone = userDataParsed.zone;
+        checkRole();
         console.log("Sparat användarinfo");
     }
     return role
 }
+
+    function checkRole() {
+      if (role.includes('ROLE_DEPUTYLEADER')) {
+        role = 'Deputy leader'
+      } else if (role.includes('ROLE_EVACLEADER')) {
+        role = 'Evacuation leader'
+      } else if (role.includes('ROLE_USER')) {
+        role = 'User'
+      }
+    }
+
 </script>

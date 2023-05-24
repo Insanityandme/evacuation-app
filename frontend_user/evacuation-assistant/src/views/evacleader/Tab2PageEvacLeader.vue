@@ -2,55 +2,25 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <h1>Communication</h1>
-                <ion-title>Communication</ion-title>
+                <ion-title>Notifications - Users</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
-                <ion-toolbar>
-                    <ion-item>
-                        <ion-label>You are logged in as [Username] - [Role]</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
-                    </ion-item>
-                </ion-toolbar>
-            </ion-header>
-
-
             <div id="incoming">
-                <ion-card>
+                <ion-card v-for="(user, index) in userPositions" :key="user">
                     <ion-card-header>
-                        <ion-card-subtitle>Need of assistans</ion-card-subtitle>
-                        <ion-card-title>Please help</ion-card-title>
+                        <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
+                            of assistance
+                        </ion-card-title>
                     </ion-card-header>
-
                     <ion-card-content>
-                        A person in a wheel chair and with severe anxiety is stuck on Floor 4, Zone B.
-                        Can you help?
+                        A person is {{ user.position }},
+                        {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
                     </ion-card-content>
-
-                    <ion-button fill="clear">Sure, I'll help</ion-button>
-                    <ion-button fill="clear">Nah</ion-button>
+                    <ion-button fill="clear" color="success" @click="getUserHelped(user, index)">I'll help</ion-button>
+                    <ion-button fill="clear">Not available</ion-button>
                 </ion-card>
             </div>
-
-            <div id="button">
-                <ion-item>
-                    <ion-button color="danger">Report hazard</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="dark">Not available</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="secondary">Help me</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button color="success">Done</ion-button>
-                </ion-item>
-            </div>
-
         </ion-content>
     </ion-page>
 </template>
@@ -58,6 +28,58 @@
 <script setup lang="ts">
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
-    IonCardTitle, IonCardSubtitle, IonButton, IonLabel, IonItem
+    IonCardTitle, IonButton
 } from '@ionic/vue';
+
+import {getAllUserPositionData, resetUserPosition, UserName} from "@/data/user";
+import {ref} from "vue";
+import {decrementCounter, incrementCounter} from "@/services/notificationCounter";
+
+const userPositions: any = ref([]);
+
+const getUserPositions = async () => {
+    setInterval(async () => {
+        const userPositionData = await getAllUserPositionData();
+
+        for (let i = 0; i < userPositionData.data.length; i++) {
+            const index = userPositions.value.findIndex((x: {
+                username: string | undefined;
+            }) => x.username == userPositionData.data[i].username);
+
+            if (index === -1 && userPositionData.data[i].floorName !== null) {
+                userPositions.value.push(userPositionData.data[i])
+                incrementCounter();
+
+            } else {
+                if (userPositionData.data[i]?.userName == userPositions.value[i]?.username) {
+                    if (userPositionData.data[i]?.floorName != userPositions.value[i]?.floorName) {
+                        userPositions.value[i].position = userPositionData.data[i].position
+                        userPositions.value[i].floorName = userPositionData.data[i].floorName
+                        userPositions.value[i].zoneName = userPositionData.data[i].zoneName
+                    }
+                }
+            }
+
+        }
+
+    }, 1000)
+}
+
+const getUserHelped = async (user: any, index: any) => {
+    const username: UserName = {username: user.username}
+    console.log(user.username)
+    if (userPositions.value[index] === user) {
+        /*
+        await resetUserPosition(username);
+        userPositions.value.splice(index, 1)
+         */
+        decrementCounter();
+    } else {
+        const found = userPositions.value.indexOf(user)
+        userPositions.value.indexOf(found, 1)
+    }
+}
+
+getUserPositions()
+
 </script>

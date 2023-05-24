@@ -6,23 +6,30 @@
                 <ion-title>Communication</ion-title>
             </ion-toolbar>
         </ion-header>
-        <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
-                <ion-toolbar>
-                    <ion-item>
-                        <ion-label>You are logged in as [Username] - [Role]</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Assigned floor: [Floor nbr] and zone: [Zone]</ion-label>
-                    </ion-item>
-                </ion-toolbar>
-            </ion-header>
 
 
+
+        <ion-content>
+          <ion-list>
+            <ion-item>Floor 6 --> {{floorCounters[5]}}</ion-item>
+            <ion-item>Floor 5 --> {{floorCounters[4]}}</ion-item>
+            <ion-item>Floor 4 --> {{floorCounters[3]}}</ion-item>
+            <ion-item>Floor 3 --> {{floorCounters[2]}}</ion-item>
+            <ion-item>Floor 2 --> {{floorCounters[1]}}</ion-item>
+            <ion-item>Floor 1 --> {{floorCounters[0]}}</ion-item>
+          </ion-list>
         </ion-content>
     </ion-page>
 </template>
 
+<script setup lang="ts">
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
+import {floorCounter, floorCounters, startCounter} from "@/data/floorCounter";
+
+startCounter();
+
+
+</script>
 <!--
 
 <div id="incoming">
@@ -57,6 +64,3 @@
 </ion-item>
 </div>
 -->
-<script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
-</script>

@@ -20,7 +20,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/UsersManagerPage.vue'),
       },
       {
-        path: 'UsersManager/edit/:id',
+        name: 'editPage',
+        path: 'UsersManager/edit/:id,:username,:email,:role,:floorName,:zones,:priority,:handicap',
         component: () => import('@/views/EditUserPage.vue')
       },
       {

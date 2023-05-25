@@ -162,14 +162,8 @@ const users = ref([]);
 const fetchUserId = async (username: string, email: string) => {
     // POST request to our backend API
     const response = await getAllUsers();
-    //console.log(response.data[0].username);
     users.value = response.data;
-    /*
-    const zonesArray: string[] = [];
-    for (let i = 0; i < state.zone.length; i++) {
-        zonesArray.push(state.zone[i]);
-    }
-     */
+
     for (const user of response.data) {
         if (user.username === username && user.email === email) {
             const userId: number = user.id;
@@ -201,6 +195,7 @@ const completeOtherHandicapRegistration = async (username: string, email: string
     for (const user of fetchedUsers.data) {
         if (user.username === username && user.email === email) {
             userId = user.id;
+            break;
         }
     }
 

@@ -31,16 +31,16 @@ import {
     IonPage, IonTitle, IonToolbar, alertController,
     IonCard, IonCardHeader, IonCardContent, IonCardTitle
 } from '@ionic/vue';
-import {StorageService} from "@/services/storage.service";
-import {ref} from "vue";
-import {sendPositionData, UserPosition} from "@/data/user";
+import { StorageService } from "@/services/storage.service";
+import { ref } from "vue";
+import { getAllSensors, sendPositionData, UserPosition } from "@/data/user";
+import {devices, startScan, stopScan} from "@/services/scanner";
 
 const storage = new StorageService();
 const username = ref('');
 
 const getUserName = async () => {
     const userData = await storage.read('user');
-
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     username.value = userDataParsed.username;
@@ -49,20 +49,29 @@ const getUserName = async () => {
 getUserName();
 
 const sendData = async () => {
+    await startScan();
+
+    setInterval(async () => {
+        await stopScan();
+    }, 3000)
+
+    console.log(devices.value);
+    const allSensorPosition = await getAllSensors();
+    console.log(allSensorPosition);
     const userPos: UserPosition = {
         id: 1, // FAKE DATA!!!
         username: username.value
     }
+    // const userData = await sendPositionData(userPos);
 
-    const userData = await sendPositionData(userPos);
-
+    /*
     if (userData.status == 200) {
         console.log("successfully sent data");
         await presentAlert('Please wait where you are, help is coming shortly');
-        // await presentToast('middle');
     } else {
         await presentAlert('No connection, try again')
     }
+     */
 }
 
 const presentAlert = async (message: string) => {

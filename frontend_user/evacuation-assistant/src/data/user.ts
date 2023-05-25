@@ -99,3 +99,12 @@ export const setHelpedToFalse = async (username: string) => {
 
     return CapacitorHttp.post(options);
 }
+
+export const getAllSensors = async() => {
+    const options = {
+        url: `${urlPositions}getAllSensors`,
+        headers: {"Content-Type": "application/json"},
+    }
+
+    return CapacitorHttp.get(options);
+}

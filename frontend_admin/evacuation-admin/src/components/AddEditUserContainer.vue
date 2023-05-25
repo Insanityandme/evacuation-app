@@ -176,6 +176,7 @@ const getAllHandicapsForUsers = async() => {
     handicapsForUsers.value = response.data;
     handicaps.value = response.data;
 }
+
 getAllHandicapsForUsers();
 
 const completeOtherHandicapRegistration = async (username: string, email: string) => {
@@ -184,8 +185,6 @@ const completeOtherHandicapRegistration = async (username: string, email: string
     let response = await getAllHandicaps();
     handicaps.value = response.data;
     let foundHandicap = false;
-    console.log(state);
-
     let userId = 0;
 
     for (const user of fetchedUsers.data) {
@@ -196,8 +195,6 @@ const completeOtherHandicapRegistration = async (username: string, email: string
     }
 
     for (const handicap of response.data) {
-        console.log(handicap.name);
-        console.log(state.handicap);
         if (handicap.name === state.handicap) {
             await setHandicapByID(userId, handicap.id);
             foundHandicap = true;

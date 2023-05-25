@@ -5,8 +5,11 @@ import {BleClient} from "@capacitor-community/bluetooth-le";
 
 // identifier for all the beacons that are in use for this project.
 const BEACON_SERVICES = '0000feaa-0000-1000-8000-00805f9b34fb';
+const WINDOW_SIZE = 20;
+const CUT_OFF_PERCENTAGE = 10;
+const AMOUNT_OF_DEVICES_TO_SCAN = 3;
 
-const filter = new MovingAverageFilter(20, 10);
+const filter = new MovingAverageFilter(WINDOW_SIZE, CUT_OFF_PERCENTAGE);
 export const devices: any = ref([])
 
 export async function startScan() {
@@ -20,9 +23,7 @@ export async function startScan() {
             scanMode: 2,
             allowDuplicates: true
         }, (result) => {
-            console.log(result);
-
-            if (devices.value.length < 1) {
+            if (devices.value.length < AMOUNT_OF_DEVICES_TO_SCAN) {
                 if (result.rssi != null) {
                     const index = devices.value.findIndex((x: {
                         name: string | undefined;
@@ -48,6 +49,14 @@ export async function startScan() {
                 })
             }
         });
+
+        setTimeout(async () => {
+            devices.value.sort((a: any, b: any) => {
+                return a.filtered - b.filtered
+            });
+            console.log(devices.value[0]);
+            await stopScan();
+        }, 3000)
 
     } catch (error) {
         console.log(error);

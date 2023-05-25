@@ -1,5 +1,4 @@
 import {ref} from "vue";
-import {fireLifecycle} from "@ionic/vue/dist/types/utils";
 
 export const counter1 = ref(0);
 export const counter2 = ref(0);
@@ -42,9 +41,7 @@ export const resetCounter = async () => {
 }
 
 export const startCounter = async () => {
-
-    interval = setInterval(floorCounter, 100);
-
+    interval = setInterval(floorCounter, 400);
 }
 
 

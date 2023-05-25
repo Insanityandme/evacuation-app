@@ -97,7 +97,7 @@ const routes: Array<RouteRecordRaw> = [
             // Deputy Leader
             {
                 path: 'tab2/deputyleader',
-                component: () => import('@/views/deputyleader/Tab2PageDeputyLeader.vue'),
+                component: () => import('@/views/deputyleader/NotificationsPage.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -127,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'tab4/deputyleader',
-                component: () => import('@/views/deputyleader/Tab4PageDeputyLeader.vue'),
+                component: () => import('@/views/deputyleader/SettingsPage.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();

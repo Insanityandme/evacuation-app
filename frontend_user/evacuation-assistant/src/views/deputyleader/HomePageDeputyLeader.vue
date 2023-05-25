@@ -11,7 +11,9 @@
                     <ion-title size="large" email="wow">Welcome!</ion-title>
                 </ion-toolbar>
             </ion-header>
+
             <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+
             <ion-grid>
                 <ion-item>
                   <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>

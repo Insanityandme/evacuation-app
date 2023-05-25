@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, PropType, reactive, ref, watch} from "vue";
+import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {
@@ -112,8 +112,6 @@ import {
 import {IonButton, IonList, IonItem, IonInput,} from '@ionic/vue';
 import {useRouter} from "vue-router";
 
-const selectedOption = ref(null);
-
 const state = reactive({
     username: '',
     email: '',
@@ -124,8 +122,6 @@ const state = reactive({
     priority: 0,
     handicap: ''
 })
-
-const selectedHandicap = ref('');
 
 const rules = {
     username: {required},

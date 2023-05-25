@@ -66,7 +66,7 @@ const getUserHelped = async (user: any) => {
     await setHelpedToTrue(user.username);
     userPositions.value[user.username].needsHelp = false;
 
-    const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === false).length;
+    const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === true).length;
     setCounter(notificationCounter);
 }
 

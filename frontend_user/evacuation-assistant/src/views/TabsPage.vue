@@ -11,7 +11,7 @@
                 <ion-tab-button tab="tab2" @click="()=> router.push('/tabs/tab2/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="megaphoneOutline"/>
                     <ion-label :key="tab">{{ tab.tab2}}</ion-label>
-                    <ion-badge v-if="evac" color="danger"> {{ getCounter() }}</ion-badge>
+                    <ion-badge v-if="leader" color="danger"> {{ getCounter() }}</ion-badge>
                 </ion-tab-button>
 
                 <ion-tab-button tab="tab4" @click="()=> router.push('/tabs/tab4/' + navigation)">
@@ -36,8 +36,8 @@ const store = new StorageService();
 let role = '';
 const navigation = ref('');
 const tab = ref({});
-const evac = ref();
-evac.value = false;
+const leader = ref();
+leader.value = false;
 
 getRole();
 
@@ -53,13 +53,14 @@ async function getRole() {
 
         if (role === 'ROLE_DEPUTYLEADER') {
             navigation.value = 'deputyleader';
+            leader.value = true;
             tab.value = {
                 tab1: 'Home',
-                tab2: 'Communications'
+                tab2: 'Notifications'
             }
         } else if (role === 'ROLE_EVACLEADER') {
             navigation.value = 'evacleader';
-            evac.value = true;
+            leader.value = true;
             tab.value = {
                 tab1: 'Home',
                 tab2: 'Notifications'

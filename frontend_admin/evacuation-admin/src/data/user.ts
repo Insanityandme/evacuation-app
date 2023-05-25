@@ -1,8 +1,7 @@
 import {CapacitorHttp} from "@capacitor/core";
 import {ref} from "vue";
+import {resourceUrl} from "@/data/resourceUrl";
 
-const resourceUrl = 'http://localhost:8081/';
-// const resourceUrl = 'https://ahmad.al-darraji.net/';
 const authUrl = 'api/auth';
 const evacAuthUrl = 'api/evacAuth';
 const userAuth = 'api/userAuth';
@@ -30,9 +29,7 @@ export interface Users {
 
 export interface Responsibility {
     floorname: string,
-    zone: [
-        zone: string
-    ],
+    zone: string[]
 }
 
 export interface Delegation {
@@ -102,6 +99,7 @@ export const getAllHandicaps = async () => {
 export const setHandicapByID = async (userId: number, handicapId: number) => {
     const handicapData = ref<HandicapID>({id:0});
     handicapData.value.id = handicapId;
+
     const options = {
         url: `${resourceUrl + userAuth}/setHandicapToUser/${userId}`,
         headers: {"Content-Type": "application/json"},

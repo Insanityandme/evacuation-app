@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import {
     IonImg, IonButton, IonContent, IonHeader, IonItem, IonLabel,
-    IonPage, IonTitle, IonToolbar, toastController, alertController,
+    IonPage, IonTitle, IonToolbar, alertController,
     IonCard, IonCardHeader, IonCardContent, IonCardTitle
 } from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
@@ -63,16 +63,6 @@ const sendData = async () => {
     } else {
         await presentAlert('No connection, try again')
     }
-}
-
-const presentToast = async (position: 'top' | 'middle' | 'bottom') => {
-    const toast = await toastController.create({
-        message: "Hello World",
-        duration: 1500,
-        position: position
-    });
-
-    await toast.present();
 }
 
 const presentAlert = async (message: string) => {

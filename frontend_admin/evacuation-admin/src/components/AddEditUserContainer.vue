@@ -2,67 +2,92 @@
     <div>
         <ion-list>
             <ion-item>
-                <ion-input :value="state.username" @input="state.username=$event.target.value" label="Enter Username" label-placement="floating" placeholder="e.g. JohnDoe"/>
+                <ion-input :value="state.username" @input="state.username=$event.target.value" label="Enter Username"
+                           label-placement="floating" placeholder="e.g. JohnDoe"/>
             </ion-item>
-
             <ion-item>
-                <ion-input :value="state.email" @input="state.email=$event.target.value" label="Enter Email Address" label-placement="floating" placeholder="john.doe@gmail.com"/>
+                <ion-input :value="state.email" @input="state.email=$event.target.value" label="Enter Email Address"
+                           label-placement="floating" placeholder="john.doe@gmail.com"/>
             </ion-item>
-
             <ion-item>
-                <ion-input type="password" :value="state.password" @input="state.password=$event.target.value" label="Enter Password" label-placement="floating" placeholder="********"/>
+                <ion-input type="password" :value="state.password" @input="state.password=$event.target.value"
+                           label="Enter Password" label-placement="floating" placeholder="********"/>
             </ion-item>
             <ion-item>
                 <ion-select
-                    aria-label="Select Role"
-                    label="Select Role"
-                    :interface-options="rolesOptions"
-                    interface="popover"
-                    label-placement="floating"
-                    @ionChange="state.role = $event.detail.value.value"
+                        aria-label="Select Role"
+                        label="Select Role"
+                        :interface-options="rolesOptions"
+                        interface="popover"
+                        label-placement="floating"
+                        @ionChange="state.role = $event.target.value"
                 >
-                    <ion-select-option v-for="role in roles" :key="role" :value="role">{{ role.text }}</ion-select-option>
+                    <ion-select-option v-for="role in roles" :key="role" :value="role.value">
+                        {{ role.text }}
+                    </ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.role === 'evac'">
                 <ion-select
-                    aria-label="Select Floor"
-                    label="Select Floor"
-                    :interface-options="floorsOptions"
-                    interface="popover"
-                    label-placement="floating"
-                    @ionChange="state.floorname = $event.detail.value.value"
+                        aria-label="Select Floor"
+                        label="Select Floor"
+                        :interface-options="floorsOptions"
+                        interface="popover"
+                        label-placement="floating"
+                        @ionChange="state.floorname = $event.target.value"
                 >
-                    <ion-select-option v-for="floor in floors" :key="floor" :value="floor">{{ floor.text }}</ion-select-option>
+                    <ion-select-option v-for="floor in floors" :key="floor" :value="floor.value">
+                        {{ floor.text }}
+                    </ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.floorname">
                 <ion-select
-                    aria-label="Select Zone(s)"
-                    label="Select Zone(s)"
-                    :interface-options="zonesOptions"
-                    interface="popover"
-                    label-placement="floating"
-                    :multiple="true"
-                    @ionChange="state.zone = $event.detail.value"
+                        aria-label="Select Zone(s)"
+                        label="Select Zone(s)"
+                        :interface-options="zonesOptions"
+                        interface="popover"
+                        label-placement="floating"
+                        :multiple="true"
+                        @ionChange="state.zone = $event.target.value"
                 >
-                    <ion-select-option v-for="zone in zones" :key="zone" :value="zone">{{ zone.text }}</ion-select-option>
+                    <ion-select-option v-for="zone in zones" :key="zone" :value="zone.value">
+                        {{ zone.text }}
+                    </ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.floorname">
                 <ion-select
-                    aria-label="Select Priority"
-                    label="Select Priority"
-                    :interface-options="prioritiesOptions"
-                    interface="popover"
-                    label-placement="floating"
-                    @ionChange="state.priority = $event.detail.value.value"
+                        aria-label="Select Priority"
+                        label="Select Priority"
+                        :interface-options="prioritiesOptions"
+                        interface="popover"
+                        label-placement="floating"
+                        @ionChange="state.priority = $event.target.value"
                 >
-                    <ion-select-option v-for="priority in priorities" :key="priority" :value="priority">{{ priority.text }}</ion-select-option>
+                    <ion-select-option v-for="priority in priorities" :key="priority" :value="priority.value">
+                        {{ priority.text }}
+                    </ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item v-if="state.role === 'other'">
-                <ion-input :value="state.handicap" @input="state.handicap=$event.target.value" label="Enter Special Needs details" label-placement="floating" placeholder="e.g. Immobile, Wheelchair user"/>
+                <ion-input :value="state.handicap" @input="state.handicap=$event.target.value"
+                           label="Enter Special Needs details" label-placement="floating"
+                           placeholder="e.g. Immobile, Wheelchair user"/>
+            </ion-item>
+            <ion-item v-if="state.role === 'special-needs-user'">
+                <ion-select
+                    aria-label="Select Handicap"
+                    label="Select Handicap"
+                    :interface-options="handicapsForUsers"
+                    interface="popover"
+                    label-placement="floating"
+                    @ionChange="state.handicap = $event.target.value"
+                >
+                    <ion-select-option  v-for="handicap in handicapsForUsers" :key="handicap" :value="handicap.name">
+                        {{ handicap.name }}
+                    </ion-select-option>
+                </ion-select>
             </ion-item>
         </ion-list>
         <ion-button expand="block" shape="round" size="large" @click="submitForm()">Save</ion-button>
@@ -70,9 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import {add} from "ionicons/icons";
-import {onMounted, PropType, reactive, ref, watch} from "vue";
-import {CapacitorHttp} from "@capacitor/core";
+import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {
@@ -85,13 +108,9 @@ import {
     signUpUser,
     User, Users
 } from "@/data/user";
-import {IonButton, IonList, IonLabel, IonItem, IonInput, pickerController, IonPopover} from '@ionic/vue';
-//import router from "@/router";
+
+import {IonButton, IonList, IonItem, IonInput,} from '@ionic/vue';
 import {useRouter} from "vue-router";
-
-
-
-const selectedOption = ref(null);
 
 const state = reactive({
     username: '',
@@ -99,7 +118,7 @@ const state = reactive({
     password: '',
     role: '',
     floorname: '',
-    zone: '',
+    zone: [],
     priority: 0,
     handicap: ''
 })
@@ -115,17 +134,10 @@ const rules = {
     handicap: {}
 }
 const v$ = useVuelidate(rules, state);
-
 const router = useRouter();
+
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
-    //console.log(state.username);
-    //console.log(state.email);
-    //console.log(state.password);
-    //console.log(state.role);
-    //console.log(state.floorname);
-    //console.log(state.zone);
-    //console.log(state);
 
     if (isFormCorrect) {
         await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
@@ -135,53 +147,73 @@ const submitForm = async () => {
             await fetchUserId(state.username, state.email);
         } else if (state.role === 'other') {
             await completeOtherHandicapRegistration(state.username, state.email);
+        } else if  (state.role === 'special-needs-user') {
+            await completeOtherHandicapRegistration(state.username, state.email);
         }
 
         await router.push('/tabs/UsersManager');
     }
 }
 const users = ref([]);
-const fetchUserId = async(username: string, email: string) => {
+const fetchUserId = async (username: string, email: string) => {
     // POST request to our backend API
     const response = await getAllUsers();
-    //console.log(response.data[0].username);
     users.value = response.data;
-    const zonesArray = Array<string>();
-    for (let i = 0; i < state.zone.length; i++) {
-        zonesArray.push(state.zone[i].value);
-    }
-    //console.log(zonesArray[0]);
-    //console.log(zonesArray[1]);
+
     for (const user of response.data) {
         if (user.username === username && user.email === email) {
             const userId: number = user.id;
-
-            await setDelegationByID(userId, {floorname: state.floorname, zone: zonesArray});
-            await setPriorityByID(userId, {priority:state.priority});
+            await setDelegationByID(userId, {floorname: state.floorname, zone: state.zone});
+            await setPriorityByID(userId, {priority: state.priority});
         }
     }
 }
+
 const handicaps = ref<Handicap>();
-const completeOtherHandicapRegistration = async(username: string, email: string) => {
+const handicapsForUsers = ref('');
+const getAllHandicapsForUsers = async() => {
+    const response = await getAllHandicaps();
+    handicapsForUsers.value = response.data;
+    handicaps.value = response.data;
+}
+getAllHandicapsForUsers();
+
+const completeOtherHandicapRegistration = async (username: string, email: string) => {
     // POST request to our backend API
     const fetchedUsers = await getAllUsers();
-    const response = await getAllHandicaps();
-    //console.log(response.data[0].username);
+    let response = await getAllHandicaps();
     handicaps.value = response.data;
-    //console.log(zonesArray[0]);
-    //console.log(zonesArray[1]);
+    let foundHandicap = false;
+    console.log(state);
+
+    let userId = 0;
+
     for (const user of fetchedUsers.data) {
         if (user.username === username && user.email === email) {
-            const userId: number = user.id;
+            userId = user.id;
+            break;
+        }
+    }
 
-            for (const handicap of response.data) {
-                if (handicap.name === state.handicap) {
-                    const handicapId: number = handicap.id;
-                    await setHandicapByID(userId, handicapId);
-                } else {
-                    await addHandicap(state.handicap);
-                    //await completeOtherHandicapRegistration(username,email);
-                }
+    for (const handicap of response.data) {
+        console.log(handicap.name);
+        console.log(state.handicap);
+        if (handicap.name === state.handicap) {
+            await setHandicapByID(userId, handicap.id);
+            foundHandicap = true;
+            break;
+        }
+    }
+
+    if (!foundHandicap) {
+        await addHandicap(state.handicap.toLowerCase());
+        response = await getAllHandicaps();
+        handicaps.value = response.data;
+
+        for (const handicap of response.data) {
+            if (handicap.name === state.handicap.toLowerCase()) {
+                await setHandicapByID(userId, handicap.id);
+                break;
             }
         }
     }
@@ -334,7 +366,7 @@ const props = defineProps({
     state.zone = zone;
     state.priority = priority;
     state.handicap = handicap;*/
-    /*console.log("true");
+/*console.log("true");
 }*/
 
 /*onMounted(() => {
@@ -342,7 +374,6 @@ const props = defineProps({
         //fetchAllUsers();
     }
 })*/
-
 
 
 </script>
@@ -354,11 +385,13 @@ ion-item {
     --highlight-color-valid: #6f58d8;
     --highlight-color-invalid: #ff46be;
 }
+
 .clickable:hover {
     cursor: pointer;
 }
+
 .my-picker {
-    --max-width:1200px;
+    --max-width: 1200px;
 }
 
 </style>

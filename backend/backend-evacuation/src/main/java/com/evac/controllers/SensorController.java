@@ -1,6 +1,7 @@
 package com.evac.controllers;
 
 import com.evac.models.*;
+import com.evac.payload.request.AllSensorRequest;
 import com.evac.payload.request.AllUserPosRequest;
 import com.evac.payload.request.UserSensorPosRequest;
 import com.evac.repository.*;
@@ -47,6 +48,27 @@ public class SensorController {
             sensorSetRepository.save(sensorSet);
         }
         return ResponseEntity.ok("goodie");
+    }
+
+    @GetMapping("/getAllSensors")
+    public List<AllSensorRequest> getAllSensors() {
+        List<SensorSet> sensorSets = sensorSetRepository.findAll();
+        List<AllSensorRequest> allSensorRequests = new ArrayList<>();
+        for (SensorSet set : sensorSets
+             ) { String name = set.getSensorName();
+                SensorSetPos sensorSetPos = set.getSensorSetPos();
+                Long id = sensorSetPos.getId();
+                String position = sensorSetPos.getPosition();
+                String floorName = sensorSetPos.getFloorName();
+                String zoneName = sensorSetPos.getZoneName();
+                AllSensorRequest allSensorRequest = new AllSensorRequest(
+                        name, id, position, floorName, zoneName
+                );
+                allSensorRequests.add(allSensorRequest);
+
+
+        }
+        return allSensorRequests;
     }
 
     /**

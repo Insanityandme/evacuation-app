@@ -11,7 +11,6 @@
                     <ion-title size="large" email="wow">Welcome!</ion-title>
                 </ion-toolbar>
             </ion-header>
-            <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
             <ion-item>
                 <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
             </ion-item>
@@ -66,22 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonLabel,
-    IonCheckbox
-} from '@ionic/vue';
-import {StorageService} from '@/services/storage.service';
-import {reactive, ref} from "vue";
-import {getFloorAndZone} from "@/data/user";
+import { IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel, IonCheckbox } from '@ionic/vue';
+import { StorageService } from '@/services/storage.service';
+import { reactive, ref } from "vue";
+import { getFloorAndZone } from "@/data/user";
 
-/* eslint-disable */
 const store = new StorageService();
 
 // Define reactive variables
@@ -92,7 +80,6 @@ const userInfo = reactive({
     floor: '',
     zoneArray: [] as string[]
 });
-
 
 getUserInfo();
 
@@ -105,6 +92,7 @@ async function getUserInfo() {
     const userData = await store.read('user');
 
     if (userData.value !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
         userInfo.userName = userDataParsed.username;

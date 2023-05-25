@@ -174,7 +174,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'tab4/evacleader',
-                component: () => import('@/views/evacleader/Tab4PageEvacLeader.vue'),
+                component: () => import('@/views/evacleader/SettingsPage.vue'),
                 meta: {role: 'ROLE_EVACLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();

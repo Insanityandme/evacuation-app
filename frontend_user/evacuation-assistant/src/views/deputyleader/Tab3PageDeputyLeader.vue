@@ -36,10 +36,9 @@
 
 <script setup lang="ts">
 import {
-    IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList,
-    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon,
+    IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+    IonInfiniteScroll, IonInfiniteScrollContent
 } from '@ionic/vue';
-import {flameOutline, skullOutline, alertCircleOutline} from 'ionicons/icons';
 import {ref} from "vue";
 
 const ionInfinite = ref();

@@ -9,7 +9,7 @@
         <ion-content :fullscreen="true">
             <div id="incoming">
                 <ion-card v-for="(user) in getUserPositions()" :key="user"
-                          :style="{ backgroundColor: !user.needsHelp ? '#36454F' : ''}">
+                          :style="{ backgroundColor: !user.needsHelp ? '#93bdd9' : ''}">
                     <ion-card-header>
                         <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
                             of assistance
@@ -28,11 +28,11 @@
 <script setup lang="ts">
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCardHeader,
-    IonCardContent, IonCard, IonCardTitle, IonButton
+    IonCardContent, IonCard, IonCardTitle,
 } from '@ionic/vue';
-import {getAllUserPositionData, resetUserPosition, setHelpedToFalse} from "@/data/user";
+import { getAllUserPositionData } from "@/data/user";
 import { setCounter } from "@/services/notificationCounter";
-import {ref} from "vue";
+import { ref } from "vue";
 const userPositions: any = ref({})
 
 const getUserPositionsTest = async () => {
@@ -51,16 +51,6 @@ const getUserPositionsTest = async () => {
 }
 
 getUserPositionsTest()
-
-const getUserHelped = async (user: any) => {
-    // TODO: if the user has been given help, don't do anything
-    if (!user.needsHelp) {
-        return;
-    }
-
-    // await setHelpedToFalse(user.username);
-    // userPositions.value[user.username].needsHelp = false;
-}
 
 function getUserPositions() {
     return Object.values(userPositions.value).sort((a: any, b: any) => Number(!a.needsHelp) - Number(!b.needsHelp));

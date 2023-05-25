@@ -8,14 +8,15 @@
         <ion-content :fullscreen="true">
             <div id="incoming">
                 <ion-card v-for="(user) in getUserPositions()" :key="user"
-                          :style="{ backgroundColor: user.needsHelp ? '#36454F' : ''}">
+                          :style="{ backgroundColor: user.needsHelp ? '#93bdd9' : ''}">
                     <ion-card-header>
                         <ion-card-title>{{ user.username.slice(0, 1).toUpperCase() + user.username.slice(1) }} in need
                             of assistance
                         </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                        A person is {{ user.position }} with handicap: {{ user.handicap }},
+                        <p>test</p>
+                        A person is {{ user.position }} with Handicap: {{ user.handicap }},
                         {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
                     </ion-card-content>
                     <ion-button fill="clear" :color="user.needsHelp ? '' : 'success'"

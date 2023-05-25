@@ -13,10 +13,6 @@ export interface User {
     password: string
 }
 
-export interface UserName {
-    username: string
-}
-
 export interface UserPosition {
     id: number
     username: string,
@@ -65,11 +61,11 @@ export const getAllUserPositionData = async () => {
     return CapacitorHttp.get(options);
 }
 
-export const resetUserPosition = async (username: UserName) => {
+export const resetUserPosition = async (username: string) => {
     const options = {
         url: `${urlPositions}updateDefaultUserPos`,
         headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(username)
+        data: JSON.stringify({username: username})
     }
 
     return CapacitorHttp.post(options);
@@ -94,3 +90,12 @@ export const setHelpedToTrue = async (username: string) => {
     return CapacitorHttp.post(options);
 }
 
+export const setHelpedToFalse = async (username: string) => {
+    const options = {
+        url: `${urlPositions}updateNeedsHelpFalse/${username}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(username)
+    }
+
+    return CapacitorHttp.post(options);
+}

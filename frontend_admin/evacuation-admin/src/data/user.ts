@@ -30,9 +30,7 @@ export interface Users {
 
 export interface Responsibility {
     floorname: string,
-    zone: [
-        zone: string
-    ],
+    zone: string[]
 }
 
 export interface Delegation {
@@ -102,6 +100,7 @@ export const getAllHandicaps = async () => {
 export const setHandicapByID = async (userId: number, handicapId: number) => {
     const handicapData = ref<HandicapID>({id:0});
     handicapData.value.id = handicapId;
+
     const options = {
         url: `${resourceUrl + userAuth}/setHandicapToUser/${userId}`,
         headers: {"Content-Type": "application/json"},

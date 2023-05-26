@@ -1,7 +1,11 @@
 import {MovingAverageFilter} from "@/services/movingAverageFilter";
 import {measuredDistance} from "@/services/measuredDistance";
-import { ref } from "vue";
+import {ref} from "vue";
 import {BleClient} from "@capacitor-community/bluetooth-le";
+import {getAllSensors, sendPositionData} from "@/data/user";
+import {StorageService} from "@/services/storage.service";
+
+const storage = new StorageService();
 
 // identifier for all the beacons that are in use for this project.
 const BEACON_SERVICES = '0000feaa-0000-1000-8000-00805f9b34fb';
@@ -11,7 +15,7 @@ const AMOUNT_OF_DEVICES_TO_SCAN = 3;
 
 const filter = new MovingAverageFilter(WINDOW_SIZE, CUT_OFF_PERCENTAGE);
 export const devices: any = ref([])
-export const closestDevice: any = ref();
+export const statusCode = ref();
 
 export async function startScan() {
     devices.value = [];
@@ -52,17 +56,32 @@ export async function startScan() {
         });
 
         setTimeout(async () => {
-            devices.value.sort((a: any, b: any) => {
-                return a.distance - b.distance
-            });
-            console.log(devices.value[0]);
-            closestDevice.value = devices.value[0];
-
-            await stopScan();
+            await sendPositionalData();
         }, 3000)
 
     } catch (error) {
         console.log(error);
+    }
+}
+
+async function sendPositionalData() {
+    const allSensorPosition = await getAllSensors();
+
+    devices.value.sort((a: any, b: any) => {
+        return a.distance - b.distance
+    });
+
+    for (const sensor of allSensorPosition.data) {
+        if (devices.value[0].name === sensor.sensorName) {
+            const userData = await storage.read('user');
+
+            // eslint-disable-next-line
+            const userDataParsed = JSON.parse(userData.value!);
+            const sentData = await sendPositionData(sensor.id, userDataParsed.username);
+
+            statusCode.value = sentData.status;
+            await stopScan();
+        }
     }
 }
 

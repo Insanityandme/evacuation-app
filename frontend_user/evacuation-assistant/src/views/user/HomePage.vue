@@ -21,9 +21,6 @@
                 </ion-card-content>
                 <ion-button @click="sendData()">Request Assistance</ion-button>
             </ion-card>
-            <ion-item v-if="scanningComplete">
-                {{ closestDevice.name }}
-            </ion-item>
         </ion-content>
     </ion-page>
 </template>
@@ -34,17 +31,17 @@ import {
     IonPage, IonTitle, IonToolbar, alertController,
     IonCard, IonCardHeader, IonCardContent, IonCardTitle
 } from '@ionic/vue';
-import { StorageService } from "@/services/storage.service";
-import { ref } from "vue";
-import { getAllSensors, sendPositionData, UserPosition } from "@/data/user";
-import {closestDevice, devices, startScan, stopScan} from "@/services/scanner";
+import {ref} from "vue";
+import {startScan, statusCode} from "@/services/scanner";
+import {StorageService} from "@/services/storage.service";
 
-const storage = new StorageService();
 const username = ref('');
-const scanningComplete = ref();
+const storage = new StorageService();
 
 const getUserName = async () => {
+
     const userData = await storage.read('user');
+
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     username.value = userDataParsed.username;
@@ -55,38 +52,19 @@ getUserName();
 const sendData = async () => {
     await startScan();
 
-    if (closestDevice.value.name === 'evac-WtW3') {
-        closestDevice.value.name = 'Living Room';
-        scanningComplete.value = true;
-    } else if (closestDevice.value.name === 'evac-WtW4') {
-        closestDevice.value.name = 'Bedroom';
-        scanningComplete.value = true;
-    } else if (closestDevice.value.name === 'evac-WtW2') {
-        closestDevice.value.name = 'Kitchen';
-        scanningComplete.value = true;
-    }
-    const allSensorPosition = await getAllSensors();
-    console.log(allSensorPosition);
-    const userPos: UserPosition = {
-        id: 1, // FAKE DATA!!!
-        username: username.value
-    }
-    // const userData = await sendPositionData(userPos);
-
-    /*
-    if (userData.status == 200) {
-        console.log("successfully sent data");
-        await presentAlert('Please wait where you are, help is coming shortly');
-    } else {
-        await presentAlert('No connection, try again')
-    }
-     */
+    setTimeout(async () => {
+        if (statusCode.value === 200) {
+            await presentAlert('Successfully sent', 'Please wait where you are, help is coming shortly');
+        } else {
+            await presentAlert('Unsuccessful', 'No connection, try again')
+        }
+    }, 3500)
 }
 
-const presentAlert = async (message: string) => {
+const presentAlert = async (subHeader: string, message: string) => {
     const alert = await alertController.create({
         header: 'Alert',
-        subHeader: 'Successfully sent',
+        subHeader: subHeader,
         message: message,
         buttons: ['OK']
     });

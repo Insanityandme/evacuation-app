@@ -16,8 +16,13 @@
                         </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                        A person is {{ user.position }} with handicap: {{ user.handicap }},
-                        {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
+                        <b>Location:</b> {{ user.position }}
+                        <br>
+                        <b>Disability:</b> {{ user.handicap }}
+                        <br>
+                        <b>Floor:</b> {{ user.floorName }}, Zone {{ user.zoneName }}
+                        <br>
+                        Can you help?
                     </ion-card-content>
                 </ion-card>
             </div>

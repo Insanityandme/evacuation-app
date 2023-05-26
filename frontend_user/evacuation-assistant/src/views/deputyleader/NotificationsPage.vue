@@ -48,6 +48,9 @@ const getUserPositionsTest = async () => {
             if (userPosition.floorName !== null && userPosition.needsHelp == true) {
                 userPositions.value[userPosition.username] = userPosition;
             }
+            else {
+                delete userPositions.value[userPosition.username]
+            }
         }
 
         const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === true).length;

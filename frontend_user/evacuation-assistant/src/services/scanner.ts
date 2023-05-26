@@ -11,6 +11,7 @@ const AMOUNT_OF_DEVICES_TO_SCAN = 3;
 
 const filter = new MovingAverageFilter(WINDOW_SIZE, CUT_OFF_PERCENTAGE);
 export const devices: any = ref([])
+export const closestDevice: any = ref();
 
 export async function startScan() {
     devices.value = [];
@@ -52,9 +53,11 @@ export async function startScan() {
 
         setTimeout(async () => {
             devices.value.sort((a: any, b: any) => {
-                return a.filtered - b.filtered
+                return a.distance - b.distance
             });
             console.log(devices.value[0]);
+            closestDevice.value = devices.value[0];
+
             await stopScan();
         }, 3000)
 

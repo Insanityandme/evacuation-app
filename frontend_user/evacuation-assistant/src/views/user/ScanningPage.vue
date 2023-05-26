@@ -18,6 +18,9 @@
                 <ion-item>Device: {{ device.name }}, Rssi: {{ device.rssi }}</ion-item>
                 <ion-item>Distance (in m): {{ device.distance }}, Filtered: {{ device.filtered }}</ion-item>
             </ion-list>
+            <ion-item v-if="closestDevice !== undefined">
+                {{ closestDevice.name }}
+            </ion-item>
         </ion-content>
     </ion-page>
 </template>
@@ -25,7 +28,7 @@
 <script setup lang="ts">
 import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
 import {StorageService} from '@/services/storage.service';
-import {startScan, stopScan, devices} from "@/services/scanner";
+import {startScan, stopScan, devices, closestDevice} from "@/services/scanner";
 
 const store = new StorageService();
 </script>

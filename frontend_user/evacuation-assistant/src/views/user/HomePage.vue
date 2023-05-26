@@ -21,6 +21,9 @@
                 </ion-card-content>
                 <ion-button @click="sendData()">Request Assistance</ion-button>
             </ion-card>
+            <ion-item v-if="scanningComplete">
+                {{ closestDevice.name }}
+            </ion-item>
         </ion-content>
     </ion-page>
 </template>
@@ -34,10 +37,11 @@ import {
 import { StorageService } from "@/services/storage.service";
 import { ref } from "vue";
 import { getAllSensors, sendPositionData, UserPosition } from "@/data/user";
-import {devices, startScan, stopScan} from "@/services/scanner";
+import {closestDevice, devices, startScan, stopScan} from "@/services/scanner";
 
 const storage = new StorageService();
 const username = ref('');
+const scanningComplete = ref();
 
 const getUserName = async () => {
     const userData = await storage.read('user');
@@ -51,11 +55,16 @@ getUserName();
 const sendData = async () => {
     await startScan();
 
-    setInterval(async () => {
-        await stopScan();
-    }, 3000)
-
-    console.log(devices.value);
+    if (closestDevice.value.name === 'evac-WtW3') {
+        closestDevice.value.name = 'Living Room';
+        scanningComplete.value = true;
+    } else if (closestDevice.value.name === 'evac-WtW4') {
+        closestDevice.value.name = 'Bedroom';
+        scanningComplete.value = true;
+    } else if (closestDevice.value.name === 'evac-WtW2') {
+        closestDevice.value.name = 'Kitchen';
+        scanningComplete.value = true;
+    }
     const allSensorPosition = await getAllSensors();
     console.log(allSensorPosition);
     const userPos: UserPosition = {

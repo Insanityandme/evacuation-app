@@ -13,11 +13,6 @@ export interface User {
     password: string
 }
 
-export interface UserPosition {
-    id: number
-    username: string,
-}
-
 export interface EvacFloorAndZone {
     floorname: string,
     zone: [
@@ -40,11 +35,11 @@ export const signInUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
-export const sendPositionData = async (userPosition: UserPosition) => {
+export const sendPositionData = async (id: number, username: string) => {
     const options = {
         url: `${urlPositions}updateUserPos`,
         headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(userPosition)
+        data: JSON.stringify({id: id, username: username})
     }
 
     return CapacitorHttp.post(options);
@@ -98,4 +93,13 @@ export const setHelpedToFalse = async (username: string) => {
     }
 
     return CapacitorHttp.post(options);
+}
+
+export const getAllSensors = async() => {
+    const options = {
+        url: `${urlPositions}getAllSensors`,
+        headers: {"Content-Type": "application/json"},
+    }
+
+    return CapacitorHttp.get(options);
 }

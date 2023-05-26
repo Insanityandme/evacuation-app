@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar,} from '@ionic/vue';
-import {StorageService} from '@/services/storage.service';
-import {startScan, stopScan, devices} from "@/services/scanner";
+import { IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { StorageService } from '@/services/storage.service';
+import { startScan, stopScan, devices } from "@/services/scanner";
 
 const store = new StorageService();
 </script>

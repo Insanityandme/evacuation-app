@@ -15,9 +15,13 @@
                         </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                        <p>test</p>
-                        A person is {{ user.position }} with Handicap: {{ user.handicap }},
-                        {{ user.floorName }}, Zone {{ user.zoneName }}. Can you help?
+                        <b>Location:</b> {{ user.position }}
+                        <br>
+                        <b>Disability:</b> {{ user.handicap }}
+                        <br>
+                        <b>Floor:</b> {{ user.floorName }}, Zone {{ user.zoneName }}
+                        <br>
+                        Can you help?
                     </ion-card-content>
                     <ion-button fill="clear" :color="user.needsHelp ? '' : 'success'"
                                 @click="getUserHelped(user)">
@@ -49,8 +53,10 @@ const getUserPositionsTest = async () => {
             if (userPosition.floorName !== null) {
                 userPositions.value[userPosition.username] = userPosition;
             }
+            else {
+                delete userPositions.value[userPosition.username]
+            }
         }
-
         const notificationCounter = Object.values(userPositions.value).filter((user: any) => user.needsHelp === false).length;
         setCounter(notificationCounter);
     }, 1000);

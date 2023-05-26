@@ -31,14 +31,15 @@ import {
     IonPage, IonTitle, IonToolbar, alertController,
     IonCard, IonCardHeader, IonCardContent, IonCardTitle
 } from '@ionic/vue';
-import {StorageService} from "@/services/storage.service";
 import {ref} from "vue";
-import {sendPositionData, UserPosition} from "@/data/user";
+import {startScan, statusCode} from "@/services/scanner";
+import {StorageService} from "@/services/storage.service";
 
-const storage = new StorageService();
 const username = ref('');
+const storage = new StorageService();
 
 const getUserName = async () => {
+
     const userData = await storage.read('user');
 
     // eslint-disable-next-line
@@ -49,26 +50,21 @@ const getUserName = async () => {
 getUserName();
 
 const sendData = async () => {
-    const userPos: UserPosition = {
-        id: 1, // FAKE DATA!!!
-        username: username.value
-    }
+    await startScan();
 
-    const userData = await sendPositionData(userPos);
-
-    if (userData.status == 200) {
-        console.log("successfully sent data");
-        await presentAlert('Please wait where you are, help is coming shortly');
-        // await presentToast('middle');
-    } else {
-        await presentAlert('No connection, try again')
-    }
+    setTimeout(async () => {
+        if (statusCode.value === 200) {
+            await presentAlert('Successfully sent', 'Please wait where you are, help is coming shortly');
+        } else {
+            await presentAlert('Unsuccessful', 'No connection, try again')
+        }
+    }, 3500)
 }
 
-const presentAlert = async (message: string) => {
+const presentAlert = async (subHeader: string, message: string) => {
     const alert = await alertController.create({
         header: 'Alert',
-        subHeader: 'Successfully sent',
+        subHeader: subHeader,
         message: message,
         buttons: ['OK']
     });

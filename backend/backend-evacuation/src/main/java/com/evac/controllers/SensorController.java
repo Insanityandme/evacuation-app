@@ -90,13 +90,12 @@ public class SensorController {
 
         if(userSensorPosRepository.existsByUsername(username)) {
             UserSensorPos userSensorPos = userSensorPosRepository.findByUsername(username).get();
-            needsHelp = userSensorPos.getNeedshelp();
-            userSensorPosRepository.deleteByUsername(username);
+            userSensorPos.setSensorSetPos(position);
+            userSensorPos.setLocalDateTime(LocalDateTime.now());
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(userSensorPos));
         }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        UserSensorPos userSensorPos = new UserSensorPos(position, localDateTime, username, needsHelp);
-        userSensorPosRepository.save(userSensorPos);
 
         return ResponseEntity.ok("users position updated");
     }
@@ -112,7 +111,24 @@ public class SensorController {
         }
         UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
         userSensorPosRepository.save(userSensorPos);
-        return ResponseEntity.ok("username added to userSensorPos without position");
+        return ResponseEntity.ok(username + " added to userSensorPos without position");
+    }
+
+    @PostMapping("/allDefaultUserPos")
+    @Transactional
+    public ResponseEntity<?> allDefaultUserPos() {
+        List<UserSensorPos> userSensorPos = userSensorPosRepository.findAll();
+        for (UserSensorPos user : userSensorPos
+             ) {
+            user.setSensorSetPos(null);
+            user.setNeedsHelpFalse();
+            user.setLocalDateTime(LocalDateTime.now());
+            String username = user.getUsername();
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
+
+        }
+        return ResponseEntity.ok("all users set to default position");
     }
 
     @PostMapping("/updateNeedsHelpFalse/{username}")
@@ -131,6 +147,7 @@ public class SensorController {
         if(userSensorPosRepository.existsByUsername(username)) {
             UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
             user.setNeedsHelpTrue();
+            user.setLocalDateTime(LocalDateTime.now());
             userSensorPosRepository.findByUsername(username)
                     .map(newUser -> this.userSensorPosRepository.save(user));
             return user;

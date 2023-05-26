@@ -21,7 +21,6 @@ public class UserSensorPos {
     @Column
     private String sensorSetPos;
 
-    @Id
     @Column
     private LocalDateTime localDateTime;
 

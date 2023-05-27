@@ -99,6 +99,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/userAuth/**").permitAll()
             .antMatchers("/api/notification/**").permitAll()
             .antMatchers("/api/sensor/**").permitAll()
+            .antMatchers("/api/alarm/**").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

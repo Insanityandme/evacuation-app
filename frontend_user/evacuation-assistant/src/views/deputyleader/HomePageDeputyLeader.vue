@@ -25,7 +25,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col size="12">
-                        <ion-card color="">
+                        <ion-card color="warning">
                             <ion-card-header>
                                 <ion-card-title>Floor 6</ion-card-title>
                             </ion-card-header>

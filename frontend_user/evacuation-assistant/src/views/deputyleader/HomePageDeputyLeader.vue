@@ -11,89 +11,88 @@
                     <ion-title size="large" email="wow">Welcome!</ion-title>
                 </ion-toolbar>
             </ion-header>
+          <div class="userinfo-container">
             <ion-item>
                 <ion-label>Logged in as: {{ userName }} - {{ role }}</ion-label>
             </ion-item>
-            <ion-button size="small" color="danger" @click="startCounter()">
-                <ion-icon :icon="warning"/>
+          </div>
+          <div class="button-container">
+            <ion-button size="small" color="primary" @click="startCounter()">
                 Start Counter
             </ion-button>
-            <ion-button size="small" color="tertiary" @click="resetCounter()">
-                <ion-icon :icon="layersOutline"/>
+            <ion-button size="small" color="secondary" @click="resetCounter()">
                 Restart Counter
             </ion-button>
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
-                            <ion-card-header>
-                                <ion-card-title>Floor 6</ion-card-title>
-                            </ion-card-header>
+          </div>
 
-                            <ion-card-content>People: {{ floorCounters[5] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>People on each floor</ion-card-title>
+              <ion-card-subtitle>People Counter</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+
+            <ion-list>
+
+                        <ion-item>
                             <ion-card-header>
-                                <ion-card-title>Floor 5</ion-card-title>
+                                <ion-card-title>6</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>People: {{ floorCounters[5] }}</ion-card-content>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-card-header>
+                                <ion-card-title>5</ion-card-title>
                             </ion-card-header>
 
                             <ion-card-content>People: {{ floorCounters[4] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
+                        </ion-item>
 
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
+
+
+                        <ion-item>
                             <ion-card-header>
-                                <ion-card-title>Floor 4</ion-card-title>
+                                <ion-card-title>4</ion-card-title>
                             </ion-card-header>
 
                             <ion-card-content>People: {{ floorCounters[3] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
+                        </ion-item>
 
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
+
+
+                        <ion-item>
                             <ion-card-header>
-                                <ion-card-title>Floor 3</ion-card-title>
+                                <ion-card-title>3</ion-card-title>
                             </ion-card-header>
 
                             <ion-card-content>People: {{ floorCounters[2] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
+                        </ion-item>
 
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
+
+
+                        <ion-item>
                             <ion-card-header>
-                                <ion-card-title>Floor 2</ion-card-title>
+                                <ion-card-title>2</ion-card-title>
                             </ion-card-header>
 
                             <ion-card-content>People: {{ floorCounters[1] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
+                        </ion-item>
 
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-card color="warning">
+
+
+                        <ion-item>
                             <ion-card-header>
-                                <ion-card-title>Floor 1</ion-card-title>
+                                <ion-card-title>1</ion-card-title>
                             </ion-card-header>
 
                             <ion-card-content>People: {{ floorCounters[0] }}</ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+                        </ion-item>
+
+            </ion-list>
+            </ion-card-content>
+          </ion-card>
         </ion-content>
     </ion-page>
 </template>
@@ -106,6 +105,8 @@ import {StorageService} from '@/services/storage.service';
 import {ref} from "vue";
 import {floorCounters, resetCounter, startCounter} from "@/data/floorCounter";
 import {layersOutline, warning} from "ionicons/icons";
+
+
 
 const store = new StorageService();
 
@@ -135,3 +136,19 @@ function checkRole() {
 }
 
 </script>
+
+<style scoped>
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust the margin as needed */
+  margin-bottom: 20px;
+}
+
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust the margin as needed */
+  margin-bottom: 10px;
+}
+</style>

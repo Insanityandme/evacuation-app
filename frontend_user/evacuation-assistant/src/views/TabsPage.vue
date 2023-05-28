@@ -11,7 +11,7 @@
                 <ion-tab-button tab="tab2" @click="()=> router.push('/tabs/tab2/' + navigation)">
                     <ion-icon aria-hidden="true" :icon="megaphoneOutline"/>
                     <ion-label :key="tab">{{ tab.tab2}}</ion-label>
-                    <ion-badge v-if="leader" color="danger"> {{ getCounter() }}</ion-badge>
+                    <ion-badge v-if="leader && getCounter() > 0" color="danger"> {{ getCounter() }}</ion-badge>
                 </ion-tab-button>
 
                 <ion-tab-button tab="tab4" @click="()=> router.push('/tabs/tab4/' + navigation)">

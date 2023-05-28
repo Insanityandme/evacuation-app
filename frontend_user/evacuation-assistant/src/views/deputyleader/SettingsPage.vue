@@ -8,11 +8,13 @@
       <ion-content :fullscreen="true">
         <ion-header collapse="condense"></ion-header>
 
-        <ion-header>
-          <ion-item class="ion-padding">
-            <ion-label class="ion-padding">Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
+
+        <div class="userinfo-container">
+
+          <ion-item>
+            <ion-label>Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}</ion-label>
           </ion-item>
-        </ion-header>
+        </div>
 
 
         <ion-list>
@@ -89,3 +91,13 @@ function checkRole() {
 }
 
 </script>
+
+
+<style scoped>
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust the margin as needed */
+  margin-bottom: 10px;
+}
+</style>

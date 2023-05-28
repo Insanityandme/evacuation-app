@@ -6,7 +6,7 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-header collapse="condense"></ion-header>
+
             <ion-toolbar>
                 <ion-header>
 
@@ -91,3 +91,14 @@ function checkRole() {
   }
 }
 </script>
+
+<style scoped>
+
+
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust the margin as needed */
+  margin-bottom: 30px;
+}
+</style>

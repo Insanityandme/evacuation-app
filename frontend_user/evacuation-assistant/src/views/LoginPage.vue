@@ -26,6 +26,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import {StorageService} from '@/services/storage.service'
 import {signInUser, User} from '@/data/user';
 import {enablePushNotifications} from "@/data/notifications";
+import {enableLocalNotifications} from "@/data/localNotification";
 
 // boolean value for the toast component in vuejs
 const isOpenEmailOrPassword = ref(false);
@@ -57,11 +58,13 @@ const alreadySignedIn = async () => {
         console.log("Successfully used stored token to redirect to home page");
         //Navigate to the appropriate home page based on the user's role
         if (userDataParsed.roles[0] === 'ROLE_DEPUTYLEADER') {
-            ionRouter.push("/tabs/home/deputyleader/");
+            ionRouter.replace("/tabs/home/deputyleader/");
+            await enableLocalNotifications();
         } else if (userDataParsed.roles[0] === 'ROLE_EVACLEADER') {
-            ionRouter.push("/tabs/home/evacleader/");
+            ionRouter.replace("/tabs/home/evacleader/");
+            await enableLocalNotifications();
         } else if (userDataParsed.roles[0] === 'ROLE_USER') {
-            ionRouter.push("/tabs/home/user/");
+            ionRouter.replace("/tabs/home/user/");
         } else {
             console.log('Unknown role');
         }
@@ -91,16 +94,18 @@ const signIn = async (user: User) => {
 
         // navigate to the appropriate home page based on the user's role
         if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
-            ionRouter.push("/tabs/home/deputyleader/");
+            ionRouter.replace("/tabs/home/deputyleader/");
             await enablePushNotifications();
+            await enableLocalNotifications();
         } else if (response.data.roles.includes('ROLE_EVACLEADER')) {
-            ionRouter.push("/tabs/home/evacleader/");
+            ionRouter.replace("/tabs/home/evacleader/");
             // To make sure if you are logged in as an evac leader
             // you can get push notifications
             await enablePushNotifications();
+            await enableLocalNotifications();
             console.log("Successfully listening to push notifications")
         } else if (response.data.roles.includes('ROLE_USER')) {
-            ionRouter.push("/tabs/home/user/");
+            ionRouter.replace("/tabs/home/user/");
         } else {
             console.log('Unknown role:', response.data.roles);
         }

@@ -26,9 +26,14 @@ public class WebContentController {
         return ResponseEntity.ok().body("Alarm is deactivated");
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<?> getStatus(){
-        return ResponseEntity.ok().body(alarm.isActivated());
+    @GetMapping(value = "/status",produces = "application/json")
+    public ResponseEntity<String> getStatus(){
+        if (alarm.isActivated() == true) {
+            return ResponseEntity.ok().body("[{\"status\":true}]");
+        } else {
+            return ResponseEntity.ok().body("[{\"status\":false}]");
+            //return ResponseEntity.ok().body(alarm.isActivated());
+        }
     }
 
 

@@ -41,7 +41,7 @@ export const resetCounter = async () => {
 }
 
 export const startCounter = async () => {
-    interval = setInterval(floorCounter, 400);
+    interval = window.setInterval(floorCounter, 400); //Added window to solve an issue with "Type 'Timer' is not assignable to type 'number'."
 }
 
 

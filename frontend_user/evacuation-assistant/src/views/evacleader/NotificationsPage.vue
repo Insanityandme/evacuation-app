@@ -36,12 +36,14 @@
 <script setup lang="ts">
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent,
-    IonCardTitle, IonButton
+    IonCardTitle, IonButton, isPlatform
 } from '@ionic/vue';
 
 import {getAllUserPositionData, setHelpedToTrue} from "@/data/user";
 import {ref} from "vue";
 import {setCounter} from "@/services/notificationCounter";
+import {Alarm, getAlarmStatus, scheduleAdvanced} from "@/data/localNotification";
+import {alarm} from "ionicons/icons";
 
 const userPositions: any = ref({})
 
@@ -63,6 +65,23 @@ const getUserPositionsTest = async () => {
 }
 
 getUserPositionsTest()
+
+if (isPlatform("ios")) {
+    const alarmStatus = ref<[Alarm]>();
+    const checkIfAlarmIsActive = async () => {
+        const myInterval = setInterval(async () => {
+            const response = await getAlarmStatus();
+            alarmStatus.value = response.data;
+            if (alarmStatus.value !== undefined) {
+                if (alarmStatus.value[0].status === true) {
+                    await scheduleAdvanced();
+                    clearInterval(myInterval);
+                }
+            }
+        }, 1000);
+    }
+    checkIfAlarmIsActive();
+}
 
 const getUserHelped = async (user: any) => {
     // TODO: if the user has been given help, don't do anything

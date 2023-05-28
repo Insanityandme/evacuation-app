@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('@/views/LoginPage.vue')
+        component: () => import('@/views/LoginPage.vue'),
     },
     {
         path: '/tabs/',
@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'home/evacleader/note',
-                component: () => import('@/views/evacleader/NotificationPage.vue')
+                component: () => import('@/views/evacleader/EvacAvailabilityPage.vue')
             },
             {
                 path: 'home/evacleader',
@@ -79,7 +79,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'home/user',
-                component: () => import('@/views/user/HomePageUser.vue'),
+                component: () => import('@/views/user/HomePage.vue'),
                 meta: {role: 'ROLE_USER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -97,7 +97,7 @@ const routes: Array<RouteRecordRaw> = [
             // Deputy Leader
             {
                 path: 'tab2/deputyleader',
-                component: () => import('@/views/deputyleader/Tab2PageDeputyLeader.vue'),
+                component: () => import('@/views/deputyleader/NotificationsPage.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -127,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'tab4/deputyleader',
-                component: () => import('@/views/deputyleader/Tab4PageDeputyLeader.vue'),
+                component: () => import('@/views/deputyleader/SettingsPage.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -144,7 +144,7 @@ const routes: Array<RouteRecordRaw> = [
             //Evacuation Leader
             {
                 path: 'tab2/evacleader',
-                component: () => import('@/views/evacleader/Tab2PageEvacLeader.vue'),
+                component: () => import('@/views/evacleader/NotificationsPage.vue'),
                 meta: {role: 'ROLE_EVACLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -174,7 +174,7 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'tab4/evacleader',
-                component: () => import('@/views/evacleader/Tab4PageEvacLeader.vue'),
+                component: () => import('@/views/evacleader/SettingsPage.vue'),
                 meta: {role: 'ROLE_EVACLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -191,7 +191,7 @@ const routes: Array<RouteRecordRaw> = [
             // User
             {
                 path: 'tab2/user',
-                component: () => import('@/views/user/ScanningPageUser.vue'),
+                component: () => import('@/views/user/ScanningPage.vue'),
                 meta: {role: 'ROLE_USER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -207,7 +207,7 @@ const routes: Array<RouteRecordRaw> = [
 
             {
                 path: 'tab4/user',
-                component: () => import('@/views/user/Tab4PageUser.vue'),
+                component: () => import('@/views/user/SettingsPage.vue'),
                 meta: {role: 'ROLE_USER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();
@@ -224,26 +224,8 @@ const routes: Array<RouteRecordRaw> = [
     },
 ]
 
-
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
-
-/*
-router.beforeEach(async (to, from, next) => {
-    const userData = await store.read('user');
-    if (userData.value !== null) {
-        const userDataParsed = JSON.parse(userData.value!);
-        const userRole = userDataParsed.roles[0];
-        const routeRole = to.meta.role;
-        if (routeRole && routeRole !== userRole) {
-            return next('/');
-        }
-    }
-    next();
-});
-*/
-
 export default router

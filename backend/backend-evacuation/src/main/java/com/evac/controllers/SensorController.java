@@ -1,13 +1,10 @@
 package com.evac.controllers;
 
-import com.evac.models.SensorSet;
-import com.evac.models.SensorSetPos;
-import com.evac.models.UserSensorPos;
+import com.evac.models.*;
+import com.evac.payload.request.AllSensorRequest;
 import com.evac.payload.request.AllUserPosRequest;
 import com.evac.payload.request.UserSensorPosRequest;
-import com.evac.repository.SensorSetPosRepository;
-import com.evac.repository.SensorSetRepository;
-import com.evac.repository.UserSensorPosRepository;
+import com.evac.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +24,14 @@ public class SensorController {
     private SensorSetRepository sensorSetRepository;
     @Autowired
     private UserSensorPosRepository userSensorPosRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserHandicapRepository userHandicapRepository;
+    @Autowired
+    private HandicapRepository handicapRepository;
 
-    @PostMapping ("/addSensor")
+    @PostMapping("/addSensor")
     public ResponseEntity<?> addSensor(@RequestBody SensorRequest sensorRequest) {
 
         Set<String> strSensorNames = sensorRequest.getSensorName();
@@ -47,10 +50,32 @@ public class SensorController {
         return ResponseEntity.ok("goodie");
     }
 
+    @GetMapping("/getAllSensors")
+    public List<AllSensorRequest> getAllSensors() {
+        List<SensorSet> sensorSets = sensorSetRepository.findAll();
+        List<AllSensorRequest> allSensorRequests = new ArrayList<>();
+        for (SensorSet set : sensorSets) {
+            String name = set.getSensorName();
+            SensorSetPos sensorSetPos = set.getSensorSetPos();
+            Long id = sensorSetPos.getId();
+            String position = sensorSetPos.getPosition();
+            String floorName = sensorSetPos.getFloorName();
+            String zoneName = sensorSetPos.getZoneName();
+            AllSensorRequest allSensorRequest = new AllSensorRequest(
+                    name, id, position, floorName, zoneName
+            );
+            allSensorRequests.add(allSensorRequest);
+
+
+        }
+        return allSensorRequests;
+    }
+
     /**
      * updates userSensorPos table with
      * username, Id(of a sensor-set), and a position of the sensorset with given id.
      * Deletes previous entry in UserSensorPos table and writes new entry
+     *
      * @param userSensorPosRequest
      * @return
      */
@@ -62,14 +87,16 @@ public class SensorController {
         Long sensorSetId = userSensorPosRequest.getId();
         SensorSetPos sensorSetPos = sensorSetPosRepository.findById(sensorSetId).get();
         String position = sensorSetPos.getPosition();
+        boolean needsHelp = false;
 
-        if(userSensorPosRepository.existsByUsername(username)) {
-            userSensorPosRepository.deleteByUsername(username);
+        if (userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos userSensorPos = userSensorPosRepository.findByUsername(username).get();
+            userSensorPos.setSensorSetPos(position);
+            userSensorPos.setLocalDateTime(LocalDateTime.now());
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(userSensorPos));
         }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        UserSensorPos userSensorPos = new UserSensorPos(position, localDateTime, username);
-        userSensorPosRepository.save(userSensorPos);
 
         return ResponseEntity.ok("users position updated");
     }
@@ -79,14 +106,56 @@ public class SensorController {
     public ResponseEntity<?> updateDefaultUserPos(@RequestBody UserSensorPosRequest userSensorPosRequest) {
         String username = userSensorPosRequest.getUsername();
         LocalDateTime localDateTime = LocalDateTime.now();
-        if(userSensorPosRepository.existsByUsername(username)) {
+
+        if (userSensorPosRepository.existsByUsername(username)) {
             userSensorPosRepository.deleteByUsername(username);
         }
         UserSensorPos userSensorPos = new UserSensorPos(localDateTime, username);
         userSensorPosRepository.save(userSensorPos);
-        return ResponseEntity.ok("username added to userSensorPos without position");
+        return ResponseEntity.ok(username + " added to userSensorPos without position");
     }
 
+    @PostMapping("/allDefaultUserPos")
+    @Transactional
+    public ResponseEntity<?> allDefaultUserPos() {
+        List<UserSensorPos> userSensorPos = userSensorPosRepository.findAll();
+        for (UserSensorPos user : userSensorPos
+             ) {
+            user.setSensorSetPos(null);
+            user.setNeedsHelpFalse();
+            user.setLocalDateTime(LocalDateTime.now());
+            String username = user.getUsername();
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
+
+        }
+        return ResponseEntity.ok("all users set to default position");
+    }
+
+    @PostMapping("/updateNeedsHelpFalse/{username}")
+    public UserSensorPos updateNeedsHelpFalse(@PathVariable("username") String username) {
+        if (userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
+            user.setNeedsHelpFalse();
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
+            return user;
+        }
+        return null;
+    }
+
+    @PostMapping("/updateNeedsHelpTrue/{username}")
+    public UserSensorPos updateNeedsHelpTrue(@PathVariable("username") String username) {
+        if (userSensorPosRepository.existsByUsername(username)) {
+            UserSensorPos user = userSensorPosRepository.findByUsername(username).get();
+            user.setNeedsHelpTrue();
+            user.setLocalDateTime(LocalDateTime.now());
+            userSensorPosRepository.findByUsername(username)
+                    .map(newUser -> this.userSensorPosRepository.save(user));
+            return user;
+        }
+        return null;
+    }
 
 
     @GetMapping("/getUserPos/{username}")
@@ -104,28 +173,59 @@ public class SensorController {
     @GetMapping("/getAllUserPos")
     public List<AllUserPosRequest> getAllUserPos() {
         List<UserSensorPos> userSensorPosList = userSensorPosRepository.findAll();
-        List<AllUserPosRequest> userPosRequests= new ArrayList<>();
+        List<AllUserPosRequest> userPosRequests = new ArrayList<>();
+
         for (UserSensorPos userSensorPos : userSensorPosList) {
-            String username = userSensorPos.getUsername();
+            boolean needsHelp = userSensorPos.getNeedshelp();
+
             LocalDateTime localDateTime = userSensorPos.getLocalDateTime();
+            String username = userSensorPos.getUsername();
+            User user = userRepository.findByUsername(username).get();
+            long id = user.getId();
+            UserHandicap userHandicap;
+            Long handicapId;
+            Handicap handicap = null;
+            String handicapName = null;
+
+            if (userHandicapRepository.existsByuserId(id)) {
+                userHandicap = userHandicapRepository.findByuserId(id).get();
+                handicapId = userHandicap.getHandicapId();
+                handicap = handicapRepository.findById(handicapId).get();
+                handicapName = handicap.getName();
+            }
 
             String sensorSetPos = userSensorPos.getSensorSetPos();
-            if(sensorSetPos != null) {
+            if ((sensorSetPos != null) && (handicap != null)) {
                 SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
                 String floorName = setPos.getFloorName();
                 String zoneName = setPos.getZoneName();
+
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, sensorSetPos, localDateTime, floorName, zoneName);
+                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp, handicapName);
                 userPosRequests.add(request);
 
-            } else {
+            } else if ((sensorSetPos == null) && (handicap != null)) {
                 AllUserPosRequest request = new AllUserPosRequest(
-                        username, localDateTime);
+                        username, localDateTime, handicapName, needsHelp);
+                userPosRequests.add(request);
+            } else if ((sensorSetPos == null) && (handicap == null)) {
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, localDateTime, needsHelp);
+                userPosRequests.add(request);
+
+            } else if ((sensorSetPos != null) && (handicap == null)) {
+                SensorSetPos setPos = sensorSetPosRepository.findByPosition(sensorSetPos).get();
+                String floorName = setPos.getFloorName();
+                String zoneName = setPos.getZoneName();
+
+                AllUserPosRequest request = new AllUserPosRequest(
+                        username, sensorSetPos, localDateTime, floorName, zoneName, needsHelp);
                 userPosRequests.add(request);
             }
         }
 
         return userPosRequests;
     }
+
 
 }

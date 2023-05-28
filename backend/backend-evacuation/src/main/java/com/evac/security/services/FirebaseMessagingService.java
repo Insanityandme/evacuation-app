@@ -54,7 +54,7 @@ public class FirebaseMessagingService {
 
     public void sendToMultipleDevices(List<String> tokens) throws FirebaseMessagingException{
         Notification notification = Notification.builder()
-                .setTitle("Evacuation initiated!!!")
+                .setTitle("ALARM - EVACUATION")
                 .setBody("Are you available?")
                 .build();
 

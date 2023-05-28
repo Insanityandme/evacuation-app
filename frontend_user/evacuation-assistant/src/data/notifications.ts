@@ -38,11 +38,13 @@ const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
  * performed action
  */
 const addListeners = async () => {
+    const userData = await store.read('user');
+    // eslint-disable-next-line
+    const userDataParsed = JSON.parse(userData.value!);
+    const role = userDataParsed.roles[0];
+
     await PushNotifications.addListener('registration', async token => {
         console.info('Registration token: ', token.value);
-        const userData = await store.read('user');
-        // eslint-disable-next-line
-        const userDataParsed = JSON.parse(userData.value!);
 
         const tokenValue: TokenAndEmail = {
             token: token.value,
@@ -58,13 +60,20 @@ const addListeners = async () => {
 
     await PushNotifications.addListener('pushNotificationReceived', notification => {
         console.log('Push notification received: ', notification);
-        router.push('/tabs/home/evacleader/note');
+        if (role === 'ROLE_DEPUTYLEADER') {
+            router.push('/tabs/home/deputyleader');
+        } else if (role === 'ROLE_EVACLEADER') {
+            router.push('/tabs/home/evacleader/note');
+        }
     });
 
     await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
         console.log('Push notification action performed', notification.actionId, notification.inputValue);
+        const actionId = notification.actionId;
 
-        if (notification.actionId == "tap") {
+        if (actionId == "tap" && role === 'ROLE_DEPUTYLEADER') {
+            router.push('/tabs/home/deputyleader');
+        } else if (actionId == "tap" && role === 'ROLE_EVACLEADER') {
             router.push('/tabs/home/evacleader/note');
         }
     });
@@ -100,7 +109,7 @@ const getDeliveredNotifications = async () => {
  */
 const createNotificationChannel = async () => {
     PushNotifications.createChannel({
-        description: 'This is a test channel for custom sound for notifications',
+        description: 'Custom alarm channel for evacuations',
         id: 'custom_channel',
         importance: 5,
         lights: true,
@@ -128,7 +137,7 @@ const deleteNotificationChannel = async () => {
 
  */
 
-export const enablePushNotifications = async() => {
+export const enablePushNotifications = async () => {
     await createNotificationChannel()
     await addListeners()
     await registerNotifications()

@@ -92,6 +92,7 @@ const signIn = async (user: User) => {
         // navigate to the appropriate home page based on the user's role
         if (response.data.roles.includes('ROLE_DEPUTYLEADER')) {
             ionRouter.push("/tabs/home/deputyleader/");
+            await enablePushNotifications();
         } else if (response.data.roles.includes('ROLE_EVACLEADER')) {
             ionRouter.push("/tabs/home/evacleader/");
             // To make sure if you are logged in as an evac leader

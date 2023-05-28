@@ -1,4 +1,5 @@
 import {CapacitorHttp} from "@capacitor/core";
+import {resourceUrl} from "@/data/resourceUrl";
 
 //const resourceUrl = 'http://localhost:8081/';
 const resourceUrl = 'https://evac.al-darraji.net/';

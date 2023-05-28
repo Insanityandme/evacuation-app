@@ -1,5 +1,6 @@
 package com.evac.payload.request;
 
+import com.evac.models.Handicap;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.validation.constraints.NotBlank;
@@ -7,6 +8,8 @@ import java.time.LocalDateTime;
 
 @JsonSerialize
 public class AllUserPosRequest {
+    private  String handicap;
+    private boolean needsHelp;
     @NotBlank
     private String username;
 
@@ -21,12 +24,15 @@ public class AllUserPosRequest {
 
     private String zoneName;
 
-    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName) {
+    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName, boolean needsHelp, String handicap) {
         this.username = username;
         this.position = sensorSetPos;
         this.localDateTime = localDateTime;
         this.floorName = floorName;
         this.zoneName = zoneName;
+        this.needsHelp = needsHelp;
+        this.handicap = handicap;
+
     }
     public AllUserPosRequest() {
 
@@ -35,6 +41,34 @@ public class AllUserPosRequest {
     public AllUserPosRequest(String username, LocalDateTime localDateTime) {
         this.username = username;
         this.localDateTime = localDateTime;
+    }
+
+    public AllUserPosRequest(String username, LocalDateTime localDateTime, String handicap) {
+        this.username = username;
+        this.localDateTime = localDateTime;
+        this.handicap = handicap;
+
+    }
+
+    public AllUserPosRequest(String username, String sensorSetPos, LocalDateTime localDateTime, String floorName, String zoneName, boolean needsHelp) {
+        this.username = username;
+        this.position = sensorSetPos;
+        this.localDateTime = localDateTime;
+        this.floorName = floorName;
+        this.zoneName = zoneName;
+        this.needsHelp = needsHelp;
+    }
+
+    public AllUserPosRequest(String username, LocalDateTime localDateTime, String handicapName, boolean needsHelp) {
+        this.username = username;
+        this.localDateTime = localDateTime;
+        this.needsHelp = needsHelp;
+    }
+
+    public AllUserPosRequest(String username, LocalDateTime localDateTime, boolean needsHelp) {
+        this.username = username;
+        this.localDateTime = localDateTime;
+        this.needsHelp = needsHelp;
     }
 
     public String getUsername() {
@@ -75,5 +109,13 @@ public class AllUserPosRequest {
 
     public void setZoneName(String zoneName) {
         this.zoneName = zoneName;
+    }
+
+    public boolean isNeedsHelp() {
+        return needsHelp;
+    }
+
+    public String getHandicap() {
+        return handicap;
     }
 }

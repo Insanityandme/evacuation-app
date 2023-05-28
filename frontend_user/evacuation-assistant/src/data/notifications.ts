@@ -144,12 +144,3 @@ export const enablePushNotifications = async () => {
     await getDeliveredNotifications()
 }
 
-/**
- * Usage
- */
-/*
-addListeners()
-registerNotifications()
-getDeliveredNotifications()
-createNotificationChannel()
- */

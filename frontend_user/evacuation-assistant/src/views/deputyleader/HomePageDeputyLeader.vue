@@ -12,7 +12,7 @@
                 </ion-toolbar>
             </ion-header>
             <ion-item>
-                <ion-label>You are logged in as {{ userName }} - {{ role }}</ion-label>
+                <ion-label>Logged in as: {{ userName }} - {{ role }}</ion-label>
             </ion-item>
             <ion-button size="small" color="danger" @click="startCounter()">
                 <ion-icon :icon="warning"/>
@@ -25,7 +25,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col size="12">
-                        <ion-card color="warning">
+                        <ion-card color="">
                             <ion-card-header>
                                 <ion-card-title>Floor 6</ion-card-title>
                             </ion-card-header>

@@ -11,20 +11,6 @@
                     <ion-title size="large" email="wow">Welcome!</ion-title>
                 </ion-toolbar>
             </ion-header>
-            <ion-item>
-                <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>Assigned floor: {{ userInfo.floor }}, zone: {{ userInfo.zoneArray.toString() }}</ion-label>
-            </ion-item>
-
-       <ion-item>
-         <ion-label>Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
-       </ion-item>
-         --->
-
-
-
 
 
       <ion-item class="ion-padding">
@@ -106,12 +92,10 @@
         </ion-page>
       </template>
 
-      <script setup lang="ts">
 
 
-        </ion-content>
-    </ion-page>
-</template>
+
+
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonItem, IonPage, IonTitle, IonToolbar, IonLabel, IonCheckbox, IonAccordion, IonAccordionGroup, IonAlert } from '@ionic/vue';
@@ -119,29 +103,19 @@ import { StorageService } from '@/services/storage.service';
 import { reactive, ref } from "vue";
 import { getFloorAndZone } from "@/data/user";
 
+
+
 const store = new StorageService();
 
-// Define reactive variables
-const isUserInfoLoaded = ref(false);
-const userInfo = reactive({
-    userName: '',
-    role: '',
-    floor: '',
-    zoneArray: [] as string[]
-});
 
-getUserInfo();
-
-      const store = new StorageService();
-
-    if (userData.value !== null) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const userDataParsed = JSON.parse(userData.value!);
-        console.log(userData);
-        userInfo.userName = userDataParsed.username;
-        userInfo.role = userDataParsed.roles[0];
-        checkRole();
-
+  //  if (userData.value !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+ //     const userDataParsed = JSON.parse(userData.value!);
+ //     console.log(userData);
+  //    userInfo.userName = userDataParsed.username;
+  //    userInfo.role = userDataParsed.roles[0];
+  //    checkRole();
+  //  }
 
 
       // Define reactive variables
@@ -253,7 +227,9 @@ getUserInfo();
             break;
           default:
             floor = 'N/A';
-    }
-    return floor;
-}
+        }
+        return floor;
+      }
+
+
 </script>

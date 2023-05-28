@@ -49,6 +49,9 @@
                 <ion-item>
                     <ion-button color="success">Done</ion-button>
                 </ion-item>
+                <ion-item>
+                    <ion-button color="success" @click="testNotification()">Test Notification</ion-button>
+                </ion-item>
             </div>
 
         </ion-content>

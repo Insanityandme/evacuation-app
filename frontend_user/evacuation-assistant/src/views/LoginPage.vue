@@ -1,7 +1,12 @@
 <template>
     <ion-page>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Evacuation Assistance</ion-title>
+            </ion-toolbar>
+        </ion-header>
         <ion-content>
-            <h1 class="ion-margin">Evacuation Assistance Application</h1>
+            <!--<h1 class="ion-margin">Evacuation Assistance Application</h1>-->
             <LoginForm :sign-in-user="signIn"/>
             <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)" :is-open="isOpenServerConnection"
                        message="No connection to server"
@@ -14,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonToast, IonContent} from '@ionic/vue';
+import {IonPage, IonToast, IonContent, IonToolbar, IonHeader, IonTitle} from '@ionic/vue';
 import {useIonRouter} from '@ionic/vue';
 import {ref} from 'vue';
 import LoginForm from '@/components/LoginForm.vue';

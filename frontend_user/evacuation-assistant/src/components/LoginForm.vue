@@ -13,8 +13,8 @@
       <ion-label color="danger" v-if="v$.password.$error">Password is required</ion-label>
     </ion-item>
   </ion-list>
-  <ion-button class="ion-margin-top" color="success" expand="block" @click="submitForm()">Sign in</ion-button>
-  <ion-button class="ion-margin-top" color="danger" expand="block">Forgot your password?</ion-button>
+  <ion-button class="ion-margin-top" color="primary" expand="block" @click="submitForm()">Sign in</ion-button>
+  <ion-button class="ion-margin-top" size="small" fill="clear" expand="block">Forgot your password?</ion-button>
 </template>
 
 <script setup lang="ts">

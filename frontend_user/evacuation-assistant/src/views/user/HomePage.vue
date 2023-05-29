@@ -89,14 +89,12 @@ const presentAlert = async (subHeader: string, message: string) => {
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Adjust the margin as needed */
-  margin-bottom: 20px;
+  margin-top: 10px; /* Adjust the margin as needed */
+  margin-bottom: 10px;
 }
 
 .userinfo-container {
   display: flex;
   justify-content: center;
-  margin-top: 10px; /* Adjust the margin as needed */
-  margin-bottom: 10px;
 }
 </style>

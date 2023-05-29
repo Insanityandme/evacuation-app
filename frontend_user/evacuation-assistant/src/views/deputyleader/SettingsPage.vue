@@ -6,19 +6,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-
       <div class="content-container">
-
         <div class="userinfo-container">
-
           <ion-item>
             <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}</ion-label>
           </ion-item>
-
-
         </div>
-
-
         <ion-list>
           <ion-item>
             <ion-toggle slot="start"></ion-toggle>
@@ -32,18 +25,11 @@
             <ion-toggle slot="start"></ion-toggle>
             <ion-label>Receive Text Messages</ion-label>
           </ion-item>
-
         </ion-list>
-
-
-
         <div class="logout-container" slot="content">
-
           <div class="ion-padding" >
             <ion-button size="large" expand="block" router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
           </div>
-
-
         </div>
       </div>
     </ion-content>
@@ -54,7 +40,6 @@
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
 import {reactive, ref} from "vue";
-
 
 const store = new StorageService();
 

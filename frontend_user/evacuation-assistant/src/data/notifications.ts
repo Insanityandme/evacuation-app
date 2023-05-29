@@ -51,7 +51,8 @@ const addListeners = async () => {
             email: userDataParsed.email
         };
 
-        await sendTokenToBackend(tokenValue);
+        const response = await sendTokenToBackend(tokenValue);
+        console.log(response);
     });
 
     await PushNotifications.addListener('registrationError', err => {

@@ -3,18 +3,18 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1"  :class="{ 'is-selected': isActive('tab1') }" @click="()=> router.push('/tabs/home/' + navigation)">
+        <ion-tab-button tab="tab1" @click="()=> router.push('/tabs/home/' + navigation)">
           <ion-icon aria-hidden="true" :icon="homeOutline"/>
           <ion-label :key="tab">{{ tab.tab1 }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab2"  :class="{ 'is-selected': isActive('tab2') }" @click="()=> router.push('/tabs/tab2/' + navigation)">
+        <ion-tab-button tab="tab2"  @click="()=> router.push('/tabs/tab2/' + navigation)">
           <ion-icon aria-hidden="true" :icon="megaphoneOutline"/>
           <ion-label :key="tab">{{ tab.tab2}}</ion-label>
-          <ion-badge v-if="leader && getCounter() > 0" color="danger"> {{ getCounter() }}</ion-badge>
+          <ion-badge v-if="leader" color="danger"> {{ getCounter() }}</ion-badge>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab4"  :class="{ 'is-selected': isActive('tab4') }" @click="()=> router.push('/tabs/tab4/' + navigation)">
+        <ion-tab-button tab="tab4"  @click="()=> router.push('/tabs/tab4/' + navigation)">
           <ion-icon aria-hidden="true" :icon="settingsOutline"/>
           <ion-label>Settings</ion-label>
         </ion-tab-button>
@@ -81,10 +81,4 @@ const isActive = (tabName: string): boolean => {
   return currentPath.startsWith(tabPath);
 };
 
-
 </script>
-<style scoped>
-.is-selected {
-  background-color: #d6d4d4;
-}
-</style>

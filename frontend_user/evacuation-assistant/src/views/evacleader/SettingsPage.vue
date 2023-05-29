@@ -6,19 +6,19 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-header collapse="condense"></ion-header>
-            <ion-toolbar>
-                <ion-header>
 
-                  <ion-label class="ion-padding"></ion-label>
-                  <ion-item class="ion-padding">
-                    <ion-label class="ion-padding">Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
-                  </ion-item>
-                  <ion-label class="ion-padding"></ion-label>
+          <div class="content-container">
+
+          <div class="userinfo-container">
+
+            <ion-item>
+              <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}</ion-label>
+            </ion-item>
 
 
-                </ion-header>
-            </ion-toolbar>
+          </div>
+
+
             <ion-list>
                 <ion-item>
                     <ion-toggle slot="start"></ion-toggle>
@@ -32,10 +32,20 @@
                     <ion-toggle slot="start"></ion-toggle>
                     <ion-label>Receive Text Messages</ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-                </ion-item>
+
             </ion-list>
+
+
+
+          <div class="logout-container" slot="content">
+
+            <div class="ion-padding" >
+              <ion-button size="large" expand="block" router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+            </div>
+
+
+          </div>
+          </div>
         </ion-content>
     </ion-page>
 </template>
@@ -91,3 +101,27 @@ function checkRole() {
   }
 }
 </script>
+
+<style scoped>
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.logout-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-grow: 1;
+}
+</style>

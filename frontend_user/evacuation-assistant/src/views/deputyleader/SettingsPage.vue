@@ -1,18 +1,22 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Settings</ion-title>
-            </ion-toolbar>
-        </ion-header>
-      <ion-content :fullscreen="true">
-        <ion-header collapse="condense"></ion-header>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Settings</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
 
-        <ion-header>
-          <ion-item class="ion-padding">
-            <ion-label class="ion-padding">Logged in: {{ userInfo.userName }}, {{ userInfo.role }}</ion-label>
+      <div class="content-container">
+
+        <div class="userinfo-container">
+
+          <ion-item>
+            <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}</ion-label>
           </ion-item>
-        </ion-header>
+
+
+        </div>
 
 
         <ion-list>
@@ -28,18 +32,27 @@
             <ion-toggle slot="start"></ion-toggle>
             <ion-label>Receive Text Messages</ion-label>
           </ion-item>
-          <ion-item>
-            <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-          </ion-item>
+
         </ion-list>
-      </ion-content>
-    </ion-page>
+
+
+
+        <div class="logout-container" slot="content">
+
+          <div class="ion-padding" >
+            <ion-button size="large" expand="block" router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+          </div>
+
+
+        </div>
+      </div>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-    IonItem, IonLabel, IonList, IonToggle, IonButton } from '@ionic/vue';
-import { StorageService } from "@/services/storage.service";
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton} from '@ionic/vue';
+import {StorageService} from "@/services/storage.service";
 import {reactive, ref} from "vue";
 
 
@@ -58,7 +71,7 @@ const userInfo = reactive({
 getUserInfo();
 
 /**
- * Function that fetches the current logged in users info from the database
+ * Function that fetched the current logged in users info from the database
  * and saves it in variables for displaying in the GUI
  */
 async function getUserInfo() {
@@ -87,5 +100,28 @@ function checkRole() {
     userInfo.role = 'User'
   }
 }
-
 </script>
+
+<style scoped>
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.logout-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-grow: 1;
+}
+</style>

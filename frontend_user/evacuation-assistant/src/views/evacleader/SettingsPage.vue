@@ -35,7 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton} from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonToggle,
+        IonList} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
 import {reactive, ref} from "vue";
 

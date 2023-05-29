@@ -2,10 +2,10 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <ion-title>Evacuation Assistance</ion-title>
+                <ion-title>Home</ion-title>
             </ion-toolbar>
         </ion-header>
-        <ion-content v-if="isUserInfoLoaded">
+        <ion-content v-if="isUserInfoLoaded" :fullscreen="true">
             <ion-header collapse="condense">
                 <ion-toolbar>
                     <ion-title size="large" email="wow">Welcome!</ion-title>
@@ -14,39 +14,38 @@
 
 
       <ion-item class="ion-padding">
-        <ion-label class="ion-padding">Assigned floor: {{ userInfo.floor }} <br><br>Zone: {{ userInfo.zoneArray.toString() }}</ion-label>
+        <ion-label style="font-size: 19px">Assigned floor: {{ userInfo.floor }} <br><br>Zone: {{ userInfo.zoneArray.toString() }}</ion-label>
       </ion-item>
 
-      <ion-accordion-group :multiple="true" :value="['first', 'third']">
+      <ion-accordion-group :multiple="true" :value="[]">
         <ion-accordion value="first">
           <ion-item slot="header" color="light">
             <ion-label class="ion-padding">What to do</ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content">Notify others of ongoing fire</div>
-          <div class="ion-padding" slot="content">Put on safety vest (if in reach)</div>
-          <div class="ion-padding" slot="content">Direct individuals to the nearest available exit route</div>
-          <div class="ion-padding" slot="content">Identify any signs of fire or smoke in your area</div>
+          <div class="ion-padding" slot="content">1. Notify others of ongoing fire</div>
+          <div class="ion-padding" slot="content">2. Put on safety vest (if in reach)</div>
+          <div class="ion-padding" slot="content">3. Direct individuals to the nearest available exit route</div>
+          <div class="ion-padding" slot="content">4. Identify any signs of fire or smoke in your area</div>
         </ion-accordion>
         <ion-accordion value="second">
-          <ion-item slot="header" color="light">
-            <ion-label class="ion-padding">Report to Deputy leader</ion-label>
-          </ion-item>
+
+        </ion-accordion>
+      </ion-accordion-group>
+
+          <ion-list>
           <div class="ion-padding" slot="content">
             <ion-button id="report" color="primary" expand="block">Report hazard</ion-button>
           </div>
           <div class="ion-padding" slot="content">
-            <ion-button color="primary" expand="block">Ask for assistance</ion-button>
+            <ion-button color="primary" expand="block">Ask for help</ion-button>
           </div>
-
           <div class="ion-padding" slot="content">
-            <ion-button color="success" expand="block">Evacuation completed</ion-button>
+            <ion-button color="success" expand="block">Floor evacuation completed</ion-button>
           </div>
           <div class="ion-padding" slot="content">
             <ion-button fill="clear" expand="block">I'm no longer available</ion-button>
           </div>
-        </ion-accordion>
-      </ion-accordion-group>
-
+          </ion-list>
 
       <!--
             <ion-toolbar>

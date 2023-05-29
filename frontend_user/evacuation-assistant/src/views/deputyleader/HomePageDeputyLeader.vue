@@ -13,7 +13,7 @@
             </ion-header>
           <div class="userinfo-container">
             <ion-item>
-                <ion-label>Logged in as: {{ userName }} - {{ role }}</ion-label>
+                <ion-label style="font-size: 19px">Logged in as: {{ userName }} - {{ role }}</ion-label>
             </ion-item>
           </div>
           <div class="button-container">

@@ -19,4 +19,6 @@ public class Alarm {
     public boolean isActivated() {
         return isActivated;
     }
+
+
 }

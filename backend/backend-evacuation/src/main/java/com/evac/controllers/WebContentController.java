@@ -13,25 +13,25 @@ public class WebContentController {
 
     private Alarm alarm = new Alarm();
     @PostMapping("/activate")
-    public ResponseEntity<?> activateStatus(){
+    public Alarm activateStatus(){
         alarm.activate();
 
-        return ResponseEntity.ok().body("Alarm is activated");
+        return alarm;
     }
 
     @PostMapping("/deactivate")
-    public ResponseEntity<?> deactivateStatus(){
+    public Alarm deactivateStatus(){
         alarm.deactivate();
 
-        return ResponseEntity.ok().body("Alarm is deactivated");
+        return alarm;
     }
 
     @GetMapping(value = "/status",produces = "application/json")
-    public ResponseEntity<String> getStatus(){
+    public Alarm getStatus(){
         if (alarm.isActivated() == true) {
-            return ResponseEntity.ok().body("[{\"status\":true}]");
+            return alarm;
         } else {
-            return ResponseEntity.ok().body("[{\"status\":false}]");
+            return alarm;
             //return ResponseEntity.ok().body(alarm.isActivated());
         }
     }

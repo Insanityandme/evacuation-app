@@ -11,6 +11,7 @@ const store = new StorageService();
 
 const addListeners = async () => {
     const userData = await store.read('user');
+    await store.create('alreadyAnswered', false);
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     const role = userDataParsed.roles[0];
@@ -20,7 +21,7 @@ const addListeners = async () => {
         if (role === 'ROLE_DEPUTYLEADER') {
             router.push('/tabs/home/deputyleader');
         } else if (role === 'ROLE_EVACLEADER') {
-            router.push('/tabs/home/evacleader/note');
+            router.push('/tabs/home/evacleader/note/reroute');
         }
     });
 
@@ -29,14 +30,18 @@ const addListeners = async () => {
         const actionId = notification.actionId;
         const actionTypeId = notification.notification.actionTypeId;
         if (actionId == "tap" && role === 'ROLE_DEPUTYLEADER') {
-            router.push('/tabs/home/deputyleader');
+            router.replace('/tabs/home/deputyleader');
             console.log(actionTypeId);
         } else if (actionId == "tap" && role === 'ROLE_EVACLEADER') {
-            router.push('/tabs/home/evacleader/note');
+            router.replace('/tabs/home/evacleader/note/reroute');
             console.log(actionTypeId);
         }
         if (actionId == "yes" && role === 'ROLE_EVACLEADER') {
+            router.replace('/tabs/home/evacleader/note/yes');
             changeActiveTrue(userDataParsed.username);
+        }
+        if (actionId == "no" && role === 'ROLE_EVACLEADER') {
+            router.replace('/tabs/home/evacleader/note/no');
         }
     });
 }
@@ -61,11 +66,13 @@ const checkNotificationsPermission = async () => {
                 actions: [
                     {
                         id: 'yes',
-                        title: 'Yes'
+                        title: 'Yes, I\'m Available!',
+                        foreground: true
                     },
                     {
                         id: 'no',
-                        title: 'No',
+                        title: 'No, I\'m Not Available!',
+                        foreground: true,
                         destructive: true
                     }
                 ]
@@ -78,8 +85,8 @@ export const scheduleAdvanced = async () => {
     await LocalNotifications.schedule({
         notifications: [
             {
-                title: 'testing',
-                body: 'testing 1, 2, 3!',
+                title: 'Evacuation in Progress',
+                body: 'Are you available?',
                 id: 2,
                 sound: 'custom.mp3',
                 actionTypeId: 'areYouAvailable',

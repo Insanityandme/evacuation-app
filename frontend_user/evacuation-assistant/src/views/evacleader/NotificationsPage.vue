@@ -44,6 +44,10 @@ import {ref} from "vue";
 import {setCounter} from "@/services/notificationCounter";
 import {Alarm, getAlarmStatus, scheduleAdvanced} from "@/data/localNotification";
 import {alarm} from "ionicons/icons";
+import {StorageService} from "@/services/storage.service";
+
+// create a StorageService object
+const store = new StorageService();
 
 const userPositions: any = ref({})
 
@@ -64,23 +68,27 @@ const getUserPositionsTest = async () => {
     }, 1000);
 }
 
-getUserPositionsTest()
+//getUserPositionsTest()
 
 if (isPlatform("ios")) {
-    const alarmStatus = ref<[Alarm]>();
-    const checkIfAlarmIsActive = async () => {
-        const myInterval = setInterval(async () => {
-            const response = await getAlarmStatus();
-            alarmStatus.value = response.data;
-            if (alarmStatus.value !== undefined) {
-                if (alarmStatus.value[0].status === true) {
-                    await scheduleAdvanced();
-                    clearInterval(myInterval);
+    const alreadyAnswered = store.read('alreadyAnswered');
+    if (alreadyAnswered === false) {
+        const alarmStatus = ref<[Alarm]>();
+        const checkIfAlarmIsActive = async () => {
+            const myInterval = setInterval(async () => {
+                const response = await getAlarmStatus();
+                alarmStatus.value = response.data;
+                if (alarmStatus.value !== undefined) {
+                    if (alarmStatus.value[0].status === true) {
+                        await scheduleAdvanced();
+                        await store.create('alreadyAnswered', true);
+                        clearInterval(myInterval);
+                    }
                 }
-            }
-        }, 1000);
+            }, 1000);
+        }
+        checkIfAlarmIsActive();
     }
-    checkIfAlarmIsActive();
 }
 
 const getUserHelped = async (user: any) => {

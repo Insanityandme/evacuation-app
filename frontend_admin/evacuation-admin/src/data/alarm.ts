@@ -17,7 +17,7 @@ export const sendNotifications = async() => {
 
 export const activateAlarm = async() => {
     const options = {
-        url: `${resourceUrl + notificationUrl}/activate`,
+        url: `${resourceUrl + alarmUrl}/activate`,
         headers: {"Content-Type": "application/json"}
     }
 
@@ -26,7 +26,7 @@ export const activateAlarm = async() => {
 
 export const deActivateAlarm = async() => {
     const options = {
-        url: `${resourceUrl + notificationUrl}/deactivate`,
+        url: `${resourceUrl + alarmUrl}/deactivate`,
         headers: {"Content-Type": "application/json"}
     }
 

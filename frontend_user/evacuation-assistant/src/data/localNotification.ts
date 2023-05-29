@@ -11,7 +11,7 @@ const store = new StorageService();
 
 const addListeners = async () => {
     const userData = await store.read('user');
-    await store.create('alreadyAnswered', false);
+    await store.create('alreadyAnswered', "false");
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     const role = userDataParsed.roles[0];
@@ -19,9 +19,9 @@ const addListeners = async () => {
     await LocalNotifications.addListener('localNotificationReceived', notification => {
         console.log('Local notification received: ', notification);
         if (role === 'ROLE_DEPUTYLEADER') {
-            router.push('/tabs/home/deputyleader');
+            router.replace('/tabs/home/deputyleader');
         } else if (role === 'ROLE_EVACLEADER') {
-            router.push('/tabs/home/evacleader/note/reroute');
+            router.replace('/tabs/home/evacleader/note/reroute');
         }
     });
 

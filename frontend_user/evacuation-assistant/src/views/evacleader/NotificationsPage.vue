@@ -71,8 +71,8 @@ const getUserPositionsTest = async () => {
 //getUserPositionsTest()
 
 if (isPlatform("ios")) {
-    const alreadyAnswered = store.read('alreadyAnswered');
-    if (alreadyAnswered === false) {
+    const alreadyAnswered = await store.read('alreadyAnswered');
+    if (alreadyAnswered.value! === "false") {
         const alarmStatus = ref<[Alarm]>();
         const checkIfAlarmIsActive = async () => {
             const myInterval = setInterval(async () => {
@@ -81,7 +81,7 @@ if (isPlatform("ios")) {
                 if (alarmStatus.value !== undefined) {
                     if (alarmStatus.value[0].status === true) {
                         await scheduleAdvanced();
-                        await store.create('alreadyAnswered', true);
+                        await store.create('alreadyAnswered', "true");
                         clearInterval(myInterval);
                     }
                 }

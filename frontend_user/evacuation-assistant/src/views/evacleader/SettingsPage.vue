@@ -47,7 +47,8 @@
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonToggle,
         IonList} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
-import {scheduleAdvanced, scheduleBasics} from "@/data/localNotification";
+import {scheduleAdvanced} from "@/data/localNotification";
+import {reactive, ref} from "vue";
 
 const store = new StorageService();
 

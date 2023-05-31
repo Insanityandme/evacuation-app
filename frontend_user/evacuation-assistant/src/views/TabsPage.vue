@@ -74,11 +74,4 @@ async function getRole() {
     }
   }
 }
-
-const isActive = (tabName: string): boolean => {
-  const currentPath = router.currentRoute.value.path;
-  const tabPath = `/tabs/${tabName}/${navigation.value}`;
-  return currentPath.startsWith(tabPath);
-};
-
 </script>

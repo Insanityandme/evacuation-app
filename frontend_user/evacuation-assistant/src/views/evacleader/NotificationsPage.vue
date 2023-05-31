@@ -68,11 +68,11 @@ const getUserPositionsTest = async () => {
     }, 1000);
 }
 
-//getUserPositionsTest()
+getUserPositionsTest()
 
 if (isPlatform("ios")) {
-    const alreadyAnswered = await store.read('alreadyAnswered');
-    if (alreadyAnswered.value! === "false") {
+    //const alreadyAnswered = await store.read('alreadyAnswered');
+    //if (alreadyAnswered.value! === "false") {
         const alarmStatus = ref<[Alarm]>();
         const checkIfAlarmIsActive = async () => {
             const myInterval = setInterval(async () => {
@@ -81,14 +81,14 @@ if (isPlatform("ios")) {
                 if (alarmStatus.value !== undefined) {
                     if (alarmStatus.value[0].status === true) {
                         await scheduleAdvanced();
-                        await store.create('alreadyAnswered', "true");
+                        //await store.create('alreadyAnswered', "true");
                         clearInterval(myInterval);
                     }
                 }
             }, 1000);
         }
         checkIfAlarmIsActive();
-    }
+    //}
 }
 
 const getUserHelped = async (user: any) => {

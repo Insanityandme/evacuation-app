@@ -11,7 +11,7 @@ const store = new StorageService();
 
 const addListeners = async () => {
     const userData = await store.read('user');
-    await store.create('alreadyAnswered', "false");
+    //await store.create('alreadyAnswered', "false");
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     const role = userDataParsed.roles[0];

@@ -71,6 +71,5 @@ public class FirebaseMessagingService {
                         .build());
 
         firebaseMessaging.sendMulticast(multicastMessage.build());
-
     }
 }

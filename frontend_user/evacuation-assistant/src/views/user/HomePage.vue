@@ -2,25 +2,38 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <ion-title>Evacuation Assistance</ion-title>
+                <ion-title>Home</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content>
+          <ion-header collapse="condense">
+            <ion-toolbar>
+              <ion-title size="large" email="wow">Welcome!</ion-title>
+            </ion-toolbar>
+          </ion-header>
             <ion-item>
-                <ion-label>Welcome to your homepage - {{ username }}</ion-label>
+                <ion-label style="font-size: 19px">Logged in as: {{ username }}</ion-label>
             </ion-item>
+
+
             <ion-card>
                 <ion-img style="width:50%" src="../assets/img/holding-phone-2.jpg"></ion-img>
                 <ion-card-header>
                     <ion-card-title>How to use</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                    Hold your phone the way they do in the picture,
-                    Press the button and stand still for three seconds
-                    and wait until you have gotten an alert.
+                  Hold your phone like in the picture. <br>
+                  Press the button. <br>
+                  Stand still for 3 seconds. <br>
+                  Wait until you receive an alert.
                 </ion-card-content>
-                <ion-button @click="sendData()">Request Assistance</ion-button>
+
             </ion-card>
+
+          <div class="button-container">
+          <ion-button size="large"  @click="sendData()">Help me</ion-button>
+          </div>
+
         </ion-content>
     </ion-page>
 </template>
@@ -72,3 +85,16 @@ const presentAlert = async (subHeader: string, message: string) => {
     await alert.present();
 }
 </script>
+<style scoped>
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust the margin as needed */
+  margin-bottom: 10px;
+}
+
+.userinfo-container {
+  display: flex;
+  justify-content: center;
+}
+</style>

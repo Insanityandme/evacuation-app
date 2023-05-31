@@ -1,17 +1,15 @@
 import {ref} from "vue";
 
-export const counter1 = ref(0);
-export const counter2 = ref(0);
-export const counter3 = ref(0);
-export const counter4 = ref(0);
-export const counter5 = ref(0);
+export const counter1 = ref(40);
+export const counter2 = ref(68);
+export const counter3 = ref(95);
+export const counter4 = ref(20);
+export const counter5 = ref(25);
 export const counter6 = ref(100);
 export const floorCounters = [counter1, counter2, counter3, counter4, counter5, counter6]
 
 let interval: number | undefined;
 export const floorCounter = async () => {
-
-
     if (counter6.value > 0) {
         counter6.value--;
         counter5.value++;
@@ -32,16 +30,14 @@ export const floorCounter = async () => {
 
 export const resetCounter = async () => {
     clearInterval(interval);
-    counter6.value = 100;
-    counter5.value = 0;
-    counter4.value = 0;
-    counter3.value = 0;
-    counter2.value = 0;
-    counter1.value = 0;
+    counter6.value = 80;
+    counter5.value = 22;
+    counter4.value = 68;
+    counter3.value = 12;
+    counter2.value = 47;
+    counter1.value = 31;
 }
 
 export const startCounter = async () => {
-    interval = window.setInterval(floorCounter, 400); //Added window to solve an issue with "Type 'Timer' is not assignable to type 'number'."
+    interval = setInterval(floorCounter, 200);
 }
-
-

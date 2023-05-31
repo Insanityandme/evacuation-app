@@ -111,21 +111,6 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: 'tab3/deputyleader',
-                component: () => import('@/views/deputyleader/Tab3PageDeputyLeader.vue'),
-                meta: {role: 'ROLE_DEPUTYLEADER'},
-                beforeEnter: async (to, from, next) => {
-                    await getRole();
-                    // Check if the user is authenticated and has the required role
-                    if (role === 'ROLE_DEPUTYLEADER') {
-                        next();
-                    } else {
-                        // Redirect to login page if the user is not authenticated or does not have the required role
-                        next('/login');
-                    }
-                }
-            },
-            {
                 path: 'tab4/deputyleader',
                 component: () => import('@/views/deputyleader/SettingsPage.vue'),
                 meta: {role: 'ROLE_DEPUTYLEADER'},
@@ -145,21 +130,6 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'tab2/evacleader',
                 component: () => import('@/views/evacleader/NotificationsPage.vue'),
-                meta: {role: 'ROLE_EVACLEADER'},
-                beforeEnter: async (to, from, next) => {
-                    await getRole();
-                    // Check if the user is authenticated and has the required role
-                    if (role === 'ROLE_EVACLEADER') {
-                        next();
-                    } else {
-                        // Redirect to login page if the user is not authenticated or does not have the required role
-                        next('/login');
-                    }
-                }
-            },
-            {
-                path: 'tab3/evacleader',
-                component: () => import('@/views/evacleader/Tab3PageEvacLeader.vue'),
                 meta: {role: 'ROLE_EVACLEADER'},
                 beforeEnter: async (to, from, next) => {
                     await getRole();

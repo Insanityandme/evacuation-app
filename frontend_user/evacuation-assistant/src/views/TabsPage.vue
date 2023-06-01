@@ -41,6 +41,13 @@ leader.value = false;
 
 getRole();
 
+/**
+ *
+ */
+/**
+ * Method to fetch the role of the currently logged in user
+ * and dynamically change the routing depending on that role
+ */
 async function getRole() {
   // Call the read method to retrieve the user data
   const userData = await store.read('user');

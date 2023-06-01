@@ -109,6 +109,10 @@ async function getUserInfo() {
 
 getUserInfo();
 
+/**
+ * Function that converts the caps-text version of the role, from the database,
+ * into a nicer looking text version for the display in the GUI
+ */
 function checkRole() {
     if (role.value.includes('ROLE_DEPUTYLEADER')) {
         role.value = 'Deputy leader'

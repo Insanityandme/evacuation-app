@@ -47,45 +47,6 @@
                 </div>
             </ion-list>
 
-            <!--
-                  <ion-toolbar>
-                    <ion-header>
-                      <ion-title color="default">Checklist</ion-title>
-                    </ion-header>
-                  </ion-toolbar>
-
-
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Notify others of ongoing fire</ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Put on safety vest (if in reach)</ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Direct individuals to the nearest <br>available exit route
-                    </ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Identify any signs of fire or smoke in <br>your area
-                    </ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">In case of fire, call 112 even if the <br>alarm is already
-                      activated.<br>
-                      If deemed safe, attempt to extinguish <br>the fire
-                    </ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Confirm completed evacuation of <br>assigned floor
-                    </ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-checkbox justify="start" label-placement="end">Provide a report at the designated <br>assembly point.
-                      Include results and <br>any
-                      deviations/observations
-                    </ion-checkbox>
-                  </ion-item>
-            --->
 
         </ion-content>
     </ion-page>

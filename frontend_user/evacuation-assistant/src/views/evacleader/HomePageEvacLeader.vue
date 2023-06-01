@@ -77,7 +77,7 @@ const userInfo = reactive({
 getUserInfo();
 
 /**
- * Function that fetched the current logged in users info from the database
+ * Function that fetches the current logged in users info from the database
  * and saves it in variables for displaying in the GUI
  */
 async function getUserInfo() {

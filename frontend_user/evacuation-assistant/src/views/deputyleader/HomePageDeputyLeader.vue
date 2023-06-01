@@ -93,7 +93,10 @@ const store = new StorageService();
 const userName = ref('');
 const role = ref('');
 
-async function getUserInfo() {
+/**
+ * Function that fetches the current logged in users info from the database
+ * and saves it in variables for displaying in the GUI
+ */async function getUserInfo() {
     // Call the read method to retrieve the user data
     const userData = await store.read('user');
 
@@ -125,14 +128,14 @@ function checkRole() {
 .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* Adjust the margin as needed */
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
 .userinfo-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px; /* Adjust the margin as needed */
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 </style>

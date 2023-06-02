@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+/**
+ * This class is a request to be sent with updated information of the user and his/her position
+ */
 @JsonSerialize
 public class AllUserPosRequest {
     private  String handicap;

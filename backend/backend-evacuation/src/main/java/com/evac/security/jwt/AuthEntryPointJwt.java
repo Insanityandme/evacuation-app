@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * This class handles authorization problems like if the token is denied because of status, no permits, etc
+ */
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 

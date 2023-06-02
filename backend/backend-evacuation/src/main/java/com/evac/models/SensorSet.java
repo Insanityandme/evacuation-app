@@ -7,7 +7,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-
+/**
+ * This class is an entity that creates a table in the database to store sensors and details about them (name, position)
+ */
 @Entity
 @Table(name = "sensorset",
         uniqueConstraints = {

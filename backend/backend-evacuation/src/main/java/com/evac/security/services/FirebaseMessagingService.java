@@ -52,6 +52,12 @@ public class FirebaseMessagingService {
 
     }
 
+    /**
+     * This method send push-notifications till de olika tokens som är registrerade i databasen. This use table where all the devices
+     * are stored.
+     * @param tokens -> Tokens that Firebase service will send push-notifications to.
+     * @throws FirebaseMessagingException
+     */
     public void sendToMultipleDevices(List<String> tokens) throws FirebaseMessagingException{
         Notification notification = Notification.builder()
                 .setTitle("ALARM - EVACUATION")

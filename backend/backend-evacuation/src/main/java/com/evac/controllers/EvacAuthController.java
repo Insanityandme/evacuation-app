@@ -420,6 +420,10 @@ public class EvacAuthController {
         return ResponseEntity.ok("all active: true evacuation leaders set to false");
     }
 
+    /**
+     * This method gets all the active status available
+     * @return all the active status in the database
+     */
     @GetMapping("/getAllActiveStatus")
     public List <EvacActive> getAllActiveStatus() {
         return evacActiveRepository.findAll();

@@ -19,6 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.evac.security.services.UserDetailsServiceImpl;
 
+/**
+ * This class is to handle all the tokens that are needed while logged in.
+ */
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
   private JwtUtils jwtUtils;

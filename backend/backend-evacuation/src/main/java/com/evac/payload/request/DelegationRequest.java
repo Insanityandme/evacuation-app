@@ -4,6 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+/**
+ * This class is a request to delegate a zone and a floor to an evacuation leader
+ */
 public class DelegationRequest {
 
     private Set<String> zone;

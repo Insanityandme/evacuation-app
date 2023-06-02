@@ -31,6 +31,11 @@ public class SensorController {
     @Autowired
     private HandicapRepository handicapRepository;
 
+    /**
+     * This method adds a sensor into the database by creating a SensorRequest object with the necessary data
+     * @param sensorRequest -> Object that contains important data (sensorName, position, floorName, zoneName)
+     * @return -> ResponseEntity to check if the request was a success or not
+     */
     @PostMapping("/addSensor")
     public ResponseEntity<?> addSensor(@RequestBody SensorRequest sensorRequest) {
 
@@ -50,6 +55,10 @@ public class SensorController {
         return ResponseEntity.ok("goodie");
     }
 
+    /**
+     * This method gets all the sensors available in the database
+     * @return -> an AllSensorRequest object with all the information of the sensor to be returned
+     */
     @GetMapping("/getAllSensors")
     public List<AllSensorRequest> getAllSensors() {
         List<SensorSet> sensorSets = sensorSetRepository.findAll();
@@ -76,8 +85,8 @@ public class SensorController {
      * username, Id(of a sensor-set), and a position of the sensorset with given id.
      * Deletes previous entry in UserSensorPos table and writes new entry
      *
-     * @param userSensorPosRequest
-     * @return
+     * @param userSensorPosRequest -> object with the updated user position
+     * @return -> ResponseEntity to check if the request was successful or not
      */
 
     @PostMapping("/updateUserPos")
@@ -101,6 +110,11 @@ public class SensorController {
         return ResponseEntity.ok("users position updated");
     }
 
+    /**
+     * This method updates th default user position of a user
+     * @param userSensorPosRequest -> Object that will contain the updated default position.
+     * @return ResponseEntity to check if the request was successful or not
+     */
     @PostMapping("/updateDefaultUserPos")
     @Transactional
     public ResponseEntity<?> updateDefaultUserPos(@RequestBody UserSensorPosRequest userSensorPosRequest) {
@@ -115,6 +129,10 @@ public class SensorController {
         return ResponseEntity.ok(username + " added to userSensorPos without position");
     }
 
+    /**
+     * This method sets all the user positions to their default positions
+     * @return -> ResponseEntity to check if the request was a success or not
+     */
     @PostMapping("/allDefaultUserPos")
     @Transactional
     public ResponseEntity<?> allDefaultUserPos() {
@@ -132,6 +150,11 @@ public class SensorController {
         return ResponseEntity.ok("all users set to default position");
     }
 
+    /**
+     * This method sets the status of help of a user to false using his/her username
+     * @param username -> Username of the user to be updated
+     * @return -> A UserSensorPos object with the updated status or null in case there is not a user with given username
+     */
     @PostMapping("/updateNeedsHelpFalse/{username}")
     public UserSensorPos updateNeedsHelpFalse(@PathVariable("username") String username) {
         if (userSensorPosRepository.existsByUsername(username)) {
@@ -144,6 +167,11 @@ public class SensorController {
         return null;
     }
 
+    /**
+     * This method updates the status of help of a user to true by using his/her username
+     * @param username -> the username of the user to be updated
+     * @return -> UserSensorPos object with the updated status or null in case there is no user with given username
+     */
     @PostMapping("/updateNeedsHelpTrue/{username}")
     public UserSensorPos updateNeedsHelpTrue(@PathVariable("username") String username) {
         if (userSensorPosRepository.existsByUsername(username)) {
@@ -158,6 +186,11 @@ public class SensorController {
     }
 
 
+    /**
+     * This method gets the user position by using his/her username
+     * @param username -> Username of the user to get his/her position
+     * @return -> ResponseEntity to check if the request was successful or not
+     */
     @GetMapping("/getUserPos/{username}")
     public ResponseEntity<?> getUserPos
             (@PathVariable("username") String username) {
@@ -170,6 +203,10 @@ public class SensorController {
         return ResponseEntity.badRequest().body("username not found in userSensorPos");
     }
 
+    /**
+     * This method gets all the positions of all the users
+     * @return -> All the positions for all the users
+     */
     @GetMapping("/getAllUserPos")
     public List<AllUserPosRequest> getAllUserPos() {
         List<UserSensorPos> userSensorPosList = userSensorPosRepository.findAll();

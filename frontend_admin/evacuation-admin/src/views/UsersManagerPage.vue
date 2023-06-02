@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import {IonPage, IonHeader, IonIcon} from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
-import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
+import {add, alertOutline, layersOutline, mapOutline, person} from "ionicons/icons";
 import {activateAlarm, deActivateAlarm, sendNotifications} from "@/data/alarm";
 
 const setAlarmToActive = async () => {

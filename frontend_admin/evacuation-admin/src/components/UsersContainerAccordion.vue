@@ -119,9 +119,7 @@ import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, Ion
 import {actionSheetController} from "@ionic/vue";
 
 import {confirmDeletion, Delegation, getAllDelegations, getAllPriorities, getAllUsers, getPriorityInfo, Priority, PriorityInfo, Users} from "@/data/user";
-
-import {onMounted, ref} from "vue";
-import {Components} from "ionicons";
+import {ref} from "vue";
 
 const users = ref<[Users]>();
 const delegations = ref<[Delegation]>();
@@ -187,7 +185,7 @@ const fetchZoneName = (username: string): Array<string> => {
     //fetchDelegateInfo(user.id)[1]
     const output = Array<string>();
     if (delegations.value !== undefined && delegations.value.length > 0) {
-        delegations.value.forEach((delegate) => {
+        delegations.value.forEach((delegate: any) => {
             if (delegate.username === username) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output.push(delegate.zoneName[0]);// = delegate.zoneName[0];
@@ -202,7 +200,7 @@ const fetchFloorName = (username: string): string => {
     //fetchDelegateInfo(user.id)[1]
     let output = "";
     if (delegations.value !== undefined && delegations.value.length > 0) {
-        delegations.value.forEach((delegate) => {
+        delegations.value.forEach((delegate: any) => {
             if (delegate.username === username) {
                 //console.log(delegate.id + "===" + id + " is true");
                 output = delegate.floorName;
@@ -216,7 +214,7 @@ const fetchFloorName = (username: string): string => {
 const fetchPriority = (id: number): number => {
     let output = 0;
     if (priorities.value !== undefined && priorities.value.length > 0) {
-        priorities.value.forEach((prio) => {
+        priorities.value.forEach((prio: any) => {
             if (id === prio.id) {
                 //console.log(priority.id + "===" + id + " is true");
                 output = prio.priority;
@@ -231,7 +229,7 @@ const fetchPriority = (id: number): number => {
 const fetchPriorityName = (priorityId: number): string => {
     let output = "";
     if (priorityName.value !== undefined && priorityName.value?.length > 0) {
-        priorityName.value.forEach((prioName) => {
+        priorityName.value.forEach((prioName: any) => {
             if (priorityId === prioName.id) {
                 output = prioName.name;
                 //console.log(prioName.id);

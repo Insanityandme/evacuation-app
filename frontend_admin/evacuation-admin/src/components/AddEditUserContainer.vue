@@ -98,15 +98,8 @@
 import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {
-    addHandicap, Delegation, getAllDelegations,
-    getAllHandicaps, getAllPriorities,
-    getAllUsers, getPriorityInfo,
-    Handicap, Priority, PriorityInfo,
-    setDelegationByID, setHandicapByID,
-    setPriorityByID,
-    signUpUser,
-    User, Users
+import {addHandicap, getAllHandicaps, getAllUsers, Handicap,
+    setDelegationByID, setHandicapByID, setPriorityByID, signUpUser,
 } from "@/data/user";
 
 import {IonButton, IonList, IonItem, IonInput,} from '@ionic/vue';

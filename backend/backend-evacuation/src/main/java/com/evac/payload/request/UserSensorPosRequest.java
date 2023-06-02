@@ -2,6 +2,9 @@ package com.evac.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * This class is a request to add an updated id for the sensor-set and the username of the user.
+ */
 public class UserSensorPosRequest {
 
     @NotBlank

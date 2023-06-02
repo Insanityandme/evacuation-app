@@ -12,6 +12,9 @@ import com.evac.security.services.UserDetailsImpl;
 
 import io.jsonwebtoken.*;
 
+/**
+ * This class handles the generation of the jwt tokens and some errors that may occur with those tokens
+ */
 @Component
 public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);

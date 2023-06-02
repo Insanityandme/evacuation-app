@@ -2,6 +2,9 @@ package com.evac.payload.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/**
+ * This class is a request to be sent with updated information about the sensor
+ */
 @JsonSerialize
 public class AllSensorRequest {
 

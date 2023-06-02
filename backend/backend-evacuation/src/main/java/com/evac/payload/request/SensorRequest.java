@@ -3,6 +3,9 @@ package com.evac.payload.request;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
+/**
+ * This class is a request to add a sensor that will have a default name, position, floor and zone
+ */
 public class SensorRequest {
     @NotBlank
     private Set<String> sensorName;

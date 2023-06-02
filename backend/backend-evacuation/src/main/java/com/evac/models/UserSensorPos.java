@@ -8,6 +8,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
+/**
+ * This entity creates a table that will help us track the users and now where they need help in case they do
+ */
 @Entity
 @IdClass(UserSensorPosRepostiroyKey.class)
 @Table(name = "userSensorPos")

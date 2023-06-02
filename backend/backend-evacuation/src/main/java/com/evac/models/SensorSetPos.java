@@ -5,6 +5,9 @@ import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * This entity creates a table that will give details to the sensors (floorName, zoneName, position, id)
+ */
 @Entity
 @Table(name = "sensorSetPos")
 public class SensorSetPos implements Serializable {

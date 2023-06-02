@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.evac.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * This class is for a user to be authenticated in to the system
+ */
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 

@@ -278,6 +278,13 @@ public class AuthController {
         }
 
     }
+
+    /**
+     * This method change the email of a user by taking his/her id.
+     * @param userId -> User-id to identify the user.
+     * @param updatedUser -> a new user object that will contain the new email.
+     * @return -> ResponseEntity with a body-message in case the request went through or not.
+     */
     @PutMapping("/changeEmailById/{UserId}")
     public ResponseEntity<?> changeEmailById(@PathVariable("UserId") Long userId, @RequestBody User updatedUser) {
         User oldUserWithNewEmail;
@@ -294,6 +301,13 @@ public class AuthController {
             return ResponseEntity.badRequest().body("No user with this id ");
         }
     }
+
+    /**
+     * This method change the password of a user by using his/her id
+     * @param userId -> the user-id to identify the user
+     * @param updatedUser -> User object that will store the updated data of the user
+     * @return -> A responseEntity with a body-message to check is the request went through or not
+     */
     
     @PutMapping("/changePasswordById/{userId}")
     public ResponseEntity<?> changePasswordById(@PathVariable("userId") Long userId, @RequestBody User updatedUser) {
@@ -312,6 +326,12 @@ public class AuthController {
 
     }
 
+    /**
+     * This method change the role of a user by using his/her id
+     * @param userId -> User-id that will identify the user
+     * @param signupRequest -> SignRequest object that will have the updated data.
+     * @return ->  ResponseEntity with body-message to check if the request went through or not
+     */
     @PutMapping("/changeRoleById/{userId}")
     public ResponseEntity<?> changeRoleById(@PathVariable("userId") Long userId, @RequestBody SignupRequest signupRequest) {
         User oldUserWithNewRole;

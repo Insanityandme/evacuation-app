@@ -8,6 +8,11 @@ export interface Beacon {
     distance: number;
 }
 
+/**
+ * This function is responsible for trilateration of three beacons
+ * to be able to find your relative position to these three beacons
+ * @param beacons the beacons found when scanning
+ */
 export function trilaterate(beacons: Beacon[]): Point | null {
     if (beacons.length < 3) {
         console.error('At least three beacons are required for trilateration.');

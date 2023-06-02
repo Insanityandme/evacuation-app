@@ -5,9 +5,8 @@ import {StorageService} from "@/services/storage.service";
 
 const store = new StorageService();
 let role = "";
-
 async function getRole() {
-    // Call the read method to retrieve the user data
+    // call the read method to retrieve the user data
     const userData = await store.read('user');
 
     if (userData.value !== null) {

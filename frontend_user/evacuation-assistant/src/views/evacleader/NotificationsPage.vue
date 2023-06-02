@@ -43,10 +43,6 @@ import {getAllUserPositionData, setHelpedToTrue} from "@/data/user";
 import {ref} from "vue";
 import {setCounter} from "@/services/notificationCounter";
 import {Alarm, getAlarmStatus, scheduleAdvanced} from "@/data/localNotification";
-import {StorageService} from "@/services/storage.service";
-
-// create a StorageService object
-const store = new StorageService();
 
 const userPositions: any = ref({})
 

@@ -13,13 +13,6 @@ export interface User {
     password: string
 }
 
-export interface EvacFloorAndZone {
-    floorname: string,
-    zone: [
-        zone: string
-    ]
-}
-
 /**
  * This function is responsible for making a post request
  * to our backend and return data from our server
@@ -35,6 +28,11 @@ export const signInUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
+/**
+ * This function is responsible for sending positional data to our server
+ * @param id of the sensor you are close to
+ * @param username of the logged in user
+ */
 export const sendPositionData = async (id: number, username: string) => {
     const options = {
         url: `${urlPositions}updateUserPos`,
@@ -45,8 +43,10 @@ export const sendPositionData = async (id: number, username: string) => {
     return CapacitorHttp.post(options);
 }
 
-
-
+/**
+ * This function is responsible for retrieving
+ * Positional data of all users
+ */
 export const getAllUserPositionData = async () => {
     const options = {
         url: `${urlPositions}getAllUserPos`,
@@ -56,6 +56,10 @@ export const getAllUserPositionData = async () => {
     return CapacitorHttp.get(options);
 }
 
+/**
+ * This function is responsible for resetting a persons position
+ * @param username user currently logged in
+ */
 export const resetUserPosition = async (username: string) => {
     const options = {
         url: `${urlPositions}updateDefaultUserPos`,
@@ -66,6 +70,11 @@ export const resetUserPosition = async (username: string) => {
     return CapacitorHttp.post(options);
 }
 
+/**
+ * This function is responsible for getting floor and zone information
+ * from a logged in user
+ * @param userName of the person currently logged in
+ */
 export const getFloorAndZone = async (userName: string) => {
     const options = {
         url: `${evacUrl}${userName}`,
@@ -75,6 +84,11 @@ export const getFloorAndZone = async (userName: string) => {
     return CapacitorHttp.get(options);
 }
 
+/**
+ * This function is responsible for when a person has been helped
+ * set that value to true in the database
+ * @param username the user currently logged in
+ */
 export const setHelpedToTrue = async (username: string) => {
     const options = {
         url: `${urlPositions}updateNeedsHelpTrue/${username}`,
@@ -85,16 +99,9 @@ export const setHelpedToTrue = async (username: string) => {
     return CapacitorHttp.post(options);
 }
 
-export const setHelpedToFalse = async (username: string) => {
-    const options = {
-        url: `${urlPositions}updateNeedsHelpFalse/${username}`,
-        headers: {"Content-Type": "application/json"},
-        data: JSON.stringify(username)
-    }
-
-    return CapacitorHttp.post(options);
-}
-
+/**
+ * Gets all sensors that we have stored in our database
+ */
 export const getAllSensors = async() => {
     const options = {
         url: `${urlPositions}getAllSensors`,

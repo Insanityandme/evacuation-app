@@ -6,59 +6,63 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-          <div class="content-container">
-          <div class="userinfo-container">
-            <ion-item>
-              <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}</ion-label>
-            </ion-item>
-          </div>
-            <ion-list>
-                <ion-item>
-                    <ion-toggle slot="start"></ion-toggle>
-                    <ion-label>Receive Push Notifications</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-toggle slot="start"></ion-toggle>
-                    <ion-label>Receive Emails</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-toggle slot="start"></ion-toggle>
-                    <ion-label>Receive Text Messages</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-button @click="scheduleBasics()">Notify Me Now!</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button @click="scheduleAdvanced()">Notify Me Now, with Buttons!</ion-button>
-                </ion-item>
-                <ion-item>
-                    <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-                </ion-item>
-            </ion-list>
-          <div class="logout-container" slot="content">
-              <ion-button size="large" expand="block" router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
+            <div class="content-container">
+                <div class="userinfo-container">
+                    <ion-item>
+                        <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{
+                            userInfo.role
+                            }}
+                        </ion-label>
+                    </ion-item>
+                </div>
+                <ion-list>
+                    <ion-item>
+                        <ion-toggle slot="start"></ion-toggle>
+                        <ion-label>Receive Push Notifications</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-toggle slot="start"></ion-toggle>
+                        <ion-label>Receive Emails</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-toggle slot="start"></ion-toggle>
+                        <ion-label>Receive Text Messages</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-button @click="scheduleAdvanced()">Notify Me Now, with Buttons!</ion-button>
+                    </ion-item>
+                    <ion-item>
+                        <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout
+                        </ion-button>
+                    </ion-item>
+                </ion-list>
+                <div class="logout-container" slot="content">
+                    <ion-button size="large" expand="block" router-link="/login" router-direction="back"
+                                @click="store.clear()">Logout
+                    </ion-button>
+                </div>
             </div>
-          </div>
         </ion-content>
     </ion-page>
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonToggle,
-        IonList} from '@ionic/vue';
+import {
+    IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonToggle,
+    IonList
+} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
 import {scheduleAdvanced} from "@/data/localNotification";
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 
 const store = new StorageService();
 
 // Define reactive variables
-const isUserInfoLoaded = ref(false);
 const userInfo = reactive({
-  userName: '',
-  role: '',
-  floor: '',
-  zoneArray: [] as string[]
+    userName: '',
+    role: '',
+    floor: '',
+    zoneArray: [] as string[]
 });
 
 
@@ -69,16 +73,17 @@ getUserInfo();
  * and saves it in variables for displaying in the GUI
  */
 async function getUserInfo() {
-  // Call the read method to retrieve the user data
-  const userData = await store.read('user');
+    // Call the read method to retrieve the user data
+    const userData = await store.read('user');
 
-  if (userData !== null) {
-    const userDataParsed = JSON.parse(userData.value!);
-    console.log(userData);
-    userInfo.userName = userDataParsed.username;
-    userInfo.role = userDataParsed.roles[0];
-    checkRole();
-  }
+    if (userData.value !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const userDataParsed = JSON.parse(userData.value!);
+        console.log(userData);
+        userInfo.userName = userDataParsed.username;
+        userInfo.role = userDataParsed.roles[0];
+        checkRole();
+    }
 }
 
 /**
@@ -86,35 +91,35 @@ async function getUserInfo() {
  * into a nicer looking text version for the display in the GUI
  */
 function checkRole() {
-  if (userInfo.role.includes('ROLE_DEPUTYLEADER')) {
-    userInfo.role = 'Deputy leader'
-  } else if (userInfo.role.includes('ROLE_EVACLEADER')) {
-    userInfo.role = 'Evacuation leader'
-  } else if (userInfo.role.includes('ROLE_USER')) {
-    userInfo.role = 'User'
-  }
+    if (userInfo.role.includes('ROLE_DEPUTYLEADER')) {
+        userInfo.role = 'Deputy leader'
+    } else if (userInfo.role.includes('ROLE_EVACLEADER')) {
+        userInfo.role = 'Evacuation leader'
+    } else if (userInfo.role.includes('ROLE_USER')) {
+        userInfo.role = 'User'
+    }
 }
 </script>
 
 <style scoped>
 .content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .userinfo-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .logout-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-grow: 1;
 }
 </style>

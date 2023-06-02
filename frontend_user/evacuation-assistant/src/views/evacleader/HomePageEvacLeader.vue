@@ -61,7 +61,6 @@ import {StorageService} from '@/services/storage.service';
 import {reactive, ref} from "vue";
 import {getFloorAndZone} from "@/data/user";
 
-
 const store = new StorageService();
 
 // Define reactive variables

@@ -1,1 +1,2 @@
-export const resourceUrl = 'http://localhost:8081'; //This will be frequently changed depending on the network
+// Insert local ip address or whatever network your backend is residing.
+export const resourceUrl = 'http://localhost:8081';

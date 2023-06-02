@@ -1,3 +1,10 @@
+/**
+ * This class is responsible for calculating an average of all
+ * found signals over a period of time.
+ *
+ * It also cuts of the bottom and top 10% of all signals to get
+ * a more accurate estimated signal.
+ */
 export class MovingAverageFilter {
     private window: number[];
     private currentIndex: number;

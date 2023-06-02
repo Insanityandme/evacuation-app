@@ -30,7 +30,7 @@ const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(tokenAndEmail)
     }
-
+    console.log('token is:'+tokenAndEmail.token);
     return CapacitorHttp.post(options); //Trigger the mapping in the backend
 }
 /**
@@ -52,6 +52,7 @@ const addListeners = async () => {
         };
 
         const response = await sendTokenToBackend(tokenValue);
+        console.log(token);
         console.log(response);
     });
 

@@ -24,7 +24,6 @@ export default {
 import AddEditUserContainer from '@/components/AddEditUserContainer.vue';
 import {chevronBack} from "ionicons/icons";
 import {signUpUser, User} from "@/data/user";
-import router from "@/router";
 
 const signUp = async (user: User) => {
     // POST request to our backend API

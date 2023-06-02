@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
         },
         PushNotifications: {
             presentationOptions: ["badge", "sound", "alert"]
-        }
+        },
     },
     server: {
         "cleartext": true

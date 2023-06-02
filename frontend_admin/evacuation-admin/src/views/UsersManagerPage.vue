@@ -5,7 +5,8 @@
         <ion-title>Manage Users</ion-title>
           <ion-buttons slot="end">
               <!--<ion-button color="primary" id="open-modal"><ion-icon :icon="filterOutline" color="primary"/>&nbsp;Filter</ion-button>-->
-              <ion-button color="primary" @click="sendNotifications()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Start Evacuation Simulation</ion-button>
+              <ion-button color="primary" @click="setAlarmToActive()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Start Evacuation Simulation</ion-button>
+              <ion-button color="primary" @click="setAlarmToDeActive()"><ion-icon :icon="alertOutline" color="warning"></ion-icon>Stop Evacuation Simulation</ion-button>
               <ion-button color="primary" href="/tabs/UsersManager/add"><ion-icon :icon="add" size="large" color="primary"/></ion-button>
           </ion-buttons>
       </ion-toolbar>
@@ -68,8 +69,17 @@
 <script setup lang="ts">
 import {IonPage, IonHeader, IonIcon} from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
-import {add, alertOutline, filterOutline, layersOutline, mapOutline, person} from "ionicons/icons";
-import {sendNotifications} from "@/data/alarm";
+import {add, alertOutline, layersOutline, mapOutline, person} from "ionicons/icons";
+import {activateAlarm, deActivateAlarm, sendNotifications} from "@/data/alarm";
+
+const setAlarmToActive = async () => {
+    await sendNotifications();
+    await activateAlarm();
+}
+
+const setAlarmToDeActive = async () => {
+    await deActivateAlarm();
+}
 
 </script>
 

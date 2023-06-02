@@ -1,14 +1,14 @@
 <template>
     <ion-page>
-        <ion-header>
+        <ion-header :translucent="true">
             <ion-toolbar>
-                <ion-title>Home</ion-title>
+                <ion-title>Evacuation Assistant</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content v-if="isUserInfoLoaded" :fullscreen="true">
             <ion-header collapse="condense">
                 <ion-toolbar>
-                    <ion-title size="large" email="wow">Welcome!</ion-title>
+                    <ion-title size="large" email="wow">Evacuation Assistant</ion-title>
                 </ion-toolbar>
             </ion-header>
             <ion-item class="ion-padding">

@@ -41,5 +41,3 @@ export const resetCounter = async () => {
 export const startCounter = async () => {
     interval = setInterval(floorCounter, 200);
 }
-
-

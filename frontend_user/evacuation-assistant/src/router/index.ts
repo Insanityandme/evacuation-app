@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: 'home/evacleader/note',
+                path: 'home/evacleader/note/:answer',
                 component: () => import('@/views/evacleader/EvacAvailabilityPage.vue')
             },
             {

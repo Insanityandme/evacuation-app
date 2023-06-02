@@ -15,6 +15,7 @@
                 <ion-card-content>
                     Evacuation in progress.
                     Are you available?
+                    {{myvariables.finalAnswer}}
                 </ion-card-content>
                 <ion-button @click="answer('yes')">Yes</ion-button>
                 <ion-button @click="answer('no')">No</ion-button>
@@ -46,9 +47,11 @@ const myvariables = reactive({
         type: 1,
         required: true,
     },
+    //finalAnswer: "noAnswerYet",
     answeredYes: false,
     answeredNo: false,
 })
+
 /**
  * gets data for logged in user,
  * sends username as parameter to changeActiveTrue method
@@ -81,6 +84,7 @@ const answer = async (value: string) => {
     }
 }
 
+
 /**
  * starts the countdown on the progress bar
  * if progress < 0, redirect to /tabs/home/evacleader
@@ -91,10 +95,24 @@ const startCountdown = async () => {
     myInterval = setInterval(() => {
         myvariables.progress -= step;
         if (myvariables.progress < 0) {
-            router.push('/tabs/home/evacleader');
+            router.replace('/tabs/home/evacleader');
             myvariables.progress = 1;
         }
     }, 100);
+}
+
+const props = defineProps({
+    finalAnswer: String,
+})
+
+if (props.finalAnswer === "yes") {
+    //myvariables.finalAnswer = props.answer;
+    console.log("And now the final answer is: " + props.finalAnswer);
+    answer(props.finalAnswer);
+}
+if (props.finalAnswer === "no") {
+    console.log("And now the final answer is: " + props.finalAnswer);
+    answer(props.finalAnswer);
 }
 
 startCountdown();

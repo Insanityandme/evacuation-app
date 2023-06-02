@@ -21,6 +21,8 @@
                         interface="popover"
                         label-placement="floating"
                         @ionChange="state.role = $event.target.value"
+                        :selected-text="state.role"
+                        :value="state.role"
                 >
                     <ion-select-option v-for="role in roles" :key="role" :value="role.value">
                         {{ role.text }}
@@ -35,6 +37,8 @@
                         interface="popover"
                         label-placement="floating"
                         @ionChange="state.floorname = $event.target.value"
+                        :selected-text="state.floorname"
+                        :value="state.floorname"
                 >
                     <ion-select-option v-for="floor in floors" :key="floor" :value="floor.value">
                         {{ floor.text }}
@@ -50,6 +54,8 @@
                         label-placement="floating"
                         :multiple="true"
                         @ionChange="state.zone = $event.target.value"
+                        :selected-text="state.zone"
+                        :value="state.zone"
                 >
                     <ion-select-option v-for="zone in zones" :key="zone" :value="zone.value">
                         {{ zone.text }}
@@ -64,6 +70,8 @@
                         interface="popover"
                         label-placement="floating"
                         @ionChange="state.priority = $event.target.value"
+                        :selected-text="state.priority"
+                        :value="state.priority"
                 >
                     <ion-select-option v-for="priority in priorities" :key="priority" :value="priority.value">
                         {{ priority.text }}
@@ -77,14 +85,16 @@
             </ion-item>
             <ion-item v-if="state.role === 'special-needs-user'">
                 <ion-select
-                    aria-label="Select Handicap"
-                    label="Select Handicap"
-                    :interface-options="handicapsForUsers"
-                    interface="popover"
-                    label-placement="floating"
-                    @ionChange="state.handicap = $event.target.value"
+                        aria-label="Select Handicap"
+                        label="Select Handicap"
+                        :interface-options="handicapsForUsers"
+                        interface="popover"
+                        label-placement="floating"
+                        @ionChange="state.handicap = $event.target.value"
+                        :selected-text="state.handicap"
+                        :value="state.handicap"
                 >
-                    <ion-select-option  v-for="handicap in handicapsForUsers" :key="handicap" :value="handicap.name">
+                    <ion-select-option v-for="handicap in handicapsForUsers" :key="handicap" :value="handicap.name">
                         {{ handicap.name }}
                     </ion-select-option>
                 </ion-select>
@@ -98,8 +108,20 @@
 import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {addHandicap, getAllHandicaps, getAllUsers, Handicap,
-    setDelegationByID, setHandicapByID, setPriorityByID, signUpUser,
+import {
+    addHandicap,
+    editUserEmail,
+    editUserName,
+    editUserPassword,
+    editUserRole,
+    getAllHandicaps,
+    getAllUsers,
+    getDelegationsByUsername,
+    Handicap,
+    setDelegationByID,
+    setHandicapByID,
+    setPriorityByID,
+    signUpUser,
 } from "@/data/user";
 
 import {IonButton, IonList, IonItem, IonInput,} from '@ionic/vue';
@@ -111,7 +133,7 @@ const state = reactive({
     password: '',
     role: '',
     floorname: '',
-    zone: [],
+    zone: [] as string[],
     priority: 0,
     handicap: ''
 })
@@ -128,26 +150,10 @@ const rules = {
 }
 const v$ = useVuelidate(rules, state);
 const router = useRouter();
-
-const submitForm = async () => {
-    const isFormCorrect = await v$.value.$validate();
-
-    if (isFormCorrect) {
-        await signUpUser({username: state.username, email: state.email, password: state.password, role: [state.role]});
-
-        if (state.role === 'evac') {
-            //console.log(state.role);
-            await fetchUserId(state.username, state.email);
-        } else if (state.role === 'other') {
-            await completeOtherHandicapRegistration(state.username, state.email);
-        } else if  (state.role === 'special-needs-user') {
-            await completeOtherHandicapRegistration(state.username, state.email);
-        }
-
-        await router.push('/tabs/UsersManager');
-    }
-}
 const users = ref([]);
+const handicaps = ref<Handicap>();
+const handicapsForUsers = ref('');
+
 const fetchUserId = async (username: string, email: string) => {
     // POST request to our backend API
     const response = await getAllUsers();
@@ -161,16 +167,6 @@ const fetchUserId = async (username: string, email: string) => {
         }
     }
 }
-
-const handicaps = ref<Handicap>();
-const handicapsForUsers = ref('');
-const getAllHandicapsForUsers = async() => {
-    const response = await getAllHandicaps();
-    handicapsForUsers.value = response.data;
-    handicaps.value = response.data;
-}
-
-getAllHandicapsForUsers();
 
 const completeOtherHandicapRegistration = async (username: string, email: string) => {
     // POST request to our backend API
@@ -207,6 +203,77 @@ const completeOtherHandicapRegistration = async (username: string, email: string
             }
         }
     }
+}
+
+const submitForm = async () => {
+    const isFormCorrect = await v$.value.$validate();
+
+    if (isFormCorrect) {
+        if (props.edit) {
+            if (state.username !== currentUser.username) {
+                await editUserName(currentUser.id, {username: state.username})
+            } else {
+                console.log("username was not changed: " + state.username);
+            }
+            if (state.email !== currentUser.email) {
+                await editUserEmail(currentUser.id, {email: state.email});
+            } else {
+                console.log("email was not changed: " + state.email);
+            }
+            if (state.password !== currentUser.password) {
+                await editUserPassword(currentUser.id, {password: state.password})
+            } else {
+                console.log("password was not changed: " + state.password);
+            }
+            if (state.role !== currentUser.role) {
+                await editUserRole(currentUser.id, {role: [state.role]})
+            } else {
+                console.log("Role was not changed: " + state.role);
+            }
+            if (state.floorname !== currentUser.floorname) {
+                await setDelegationByID(currentUser.id, {floorname: state.floorname, zone: state.zone})
+            } else {
+                console.log("Floor was not changed: " + state.floorname);
+            }
+            if (state.zone !== currentUser.zone) {
+                await setDelegationByID(currentUser.id, {floorname: state.floorname, zone: state.zone})
+            } else {
+                console.log("Zone was not changed: " + state.zone);
+            }
+            if (state.priority !== currentUser.priority) {
+                await setPriorityByID(currentUser.id, {priority: state.priority})
+            } else {
+                console.log("Priority was not changed: " + state.priority);
+            }
+            await router.replace('/tabs/UsersManager');
+            window.location.reload();
+        } else {
+            await signUpUser({
+                username: state.username,
+                email: state.email,
+                password: state.password,
+                role: [state.role]
+            });
+
+            if (state.role === 'evac') {
+                //console.log(state.role);
+                await fetchUserId(state.username, state.email);
+            } else if (state.role === 'other') {
+                await completeOtherHandicapRegistration(state.username, state.email);
+            } else if (state.role === 'special-needs-user') {
+                await completeOtherHandicapRegistration(state.username, state.email);
+            }
+        }
+    }
+
+    const getAllHandicapsForUsers = async () => {
+        const response = await getAllHandicaps();
+        handicapsForUsers.value = response.data;
+        handicaps.value = response.data;
+    }
+
+    await getAllHandicapsForUsers();
+
 }
 
 const roles = [
@@ -334,38 +401,49 @@ const prioritiesOptions = {
 };
 
 const props = defineProps({
-    //state: Object,
     edit: Boolean,
-    //id: String,
-    username: String,
-    email: String,
-    password: String,
-    role: String,
-    floorName: String,
-    zones: Array<string>,
-    priority: Number,
-    handicap: String
-    //myProps: Object as PropType<UserProps>, // Define the prop type
+    id: String,
 });
 
-/*if (props.edit === true) {
-    /*state.username = username;
-    state.email = email;
-    state.role = password;
-    state.floorname = floorname;
-    state.zone = zone;
-    state.priority = priority;
-    state.handicap = handicap;*/
-/*console.log("true");
-}*/
+const currentUser = reactive({
+    id: 0,
+    username: '',
+    email: '',
+    password: '',
+    role: '',
+    floorname: '',
+    zone: [] as string[],
+    priority: 0,
+    handicap: ''
+})
+const fetchUserDetailsById = async (id: number) => {
+    const response = await getAllUsers();
 
-/*onMounted(() => {
-    if (props.id !== null){
-        //fetchAllUsers();
+    for (const user of response.data) {
+        if (user.id === id) {
+            currentUser.id = id;
+            currentUser.username = user.username;
+            currentUser.email = user.email;
+            currentUser.password = user.password;
+            currentUser.role = user.roles[0].name;
+
+            state.username = user.username;
+            state.email = user.email;
+            state.password = user.password;
+            state.role = user.roles[0].name;
+        }
     }
-})*/
 
+    const response2 = await getDelegationsByUsername(currentUser.username);
+    for (const user2 of response2.data) {
+        currentUser.floorname = user2.floorName;
+        currentUser.zone.push(user2.zoneName);
 
+        state.floorname = user2.floorName;
+        state.zone.push(user2.zoneName);
+    }
+}
+fetchUserDetailsById(Number(props.id));
 </script>
 
 <style>

@@ -1,8 +1,7 @@
 import {CapacitorHttp} from "@capacitor/core";
 import {ref} from "vue";
+import {resourceUrl} from "@/data/resourceUrl";
 
-//const resourceUrl = 'http://localhost:8081/';
-const resourceUrl = 'https://evac.al-darraji.net/';
 const authUrl = 'api/auth';
 const evacAuthUrl = 'api/evacAuth';
 const userAuth = 'api/userAuth';
@@ -30,9 +29,7 @@ export interface Users {
 
 export interface Responsibility {
     floorname: string,
-    zone: [
-        zone: string
-    ],
+    zone: string[]
 }
 
 export interface Delegation {
@@ -102,6 +99,7 @@ export const getAllHandicaps = async () => {
 export const setHandicapByID = async (userId: number, handicapId: number) => {
     const handicapData = ref<HandicapID>({id:0});
     handicapData.value.id = handicapId;
+
     const options = {
         url: `${resourceUrl + userAuth}/setHandicapToUser/${userId}`,
         headers: {"Content-Type": "application/json"},
@@ -142,6 +140,14 @@ export const setDelegationByID = async (id: number, responsibilities: Responsibi
     return CapacitorHttp.post(options);
 }
 
+export const getDelegationsByUsername = async (username: string) => {
+    const options = {
+        url: `${resourceUrl + evacAuthUrl}/getDelegationsByUsername/` + username,
+        headers: {"Content-Type": "application/json"}
+    }
+
+    return CapacitorHttp.get(options)
+}
 export const setPriorityByID = async (id:number, userPriority: UserPriority) => {
     const options = {
         url: `${resourceUrl + evacAuthUrl}/setPriorityToEvacuationLeader/${id}`,
@@ -180,6 +186,7 @@ export const signUpUser = async (user: User) => {
     return CapacitorHttp.post(options);
 }
 
+
 export const setEvacLeaderActive = async (username: string) => {
     const options = {
         url: `${resourceUrl + authUrl}/changeActiveTrue/${username}`,
@@ -187,6 +194,53 @@ export const setEvacLeaderActive = async (username: string) => {
     }
 
     return CapacitorHttp.get(options)
+}
+export interface USERNAMECONST {
+    username: string,
+}
+export interface EMAILCONST {
+    email: string,
+}
+export interface PASSWORDCONST {
+    password: string,
+}
+export interface ROLECONST {
+    role: [string],
+}
+export const editUserName = async (id: number, username: USERNAMECONST) => {
+    const options = {
+        url: `${resourceUrl + authUrl}/changeUserNameById/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(username)
+    }
+    return CapacitorHttp.put(options);
+}
+
+export const editUserEmail = async (id: number, email: EMAILCONST) => {
+    const options = {
+        url: `${resourceUrl + authUrl}/changeEmailById/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(email)
+    }
+    return CapacitorHttp.put(options);
+}
+
+export const editUserPassword = async (id: number, password: PASSWORDCONST) => {
+    const options = {
+        url: `${resourceUrl + authUrl}/changePasswordById/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(password)
+    }
+    return CapacitorHttp.put(options);
+}
+
+export const editUserRole = async (id: number, role: ROLECONST) => {
+    const options = {
+        url: `${resourceUrl + authUrl}/changeRoleById/${id}`,
+        headers: {"Content-Type": "application/json"},
+        data: JSON.stringify(role)
+    }
+    return CapacitorHttp.put(options);
 }
 
 export const confirmDeletion = async (id: number) => {

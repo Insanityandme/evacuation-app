@@ -7,8 +7,6 @@ import {StorageService} from "@/services/storage.service";
 // create a StorageService object
 const store = new StorageService();
 
-// Change this depending on what network you are on
-// const resourceUrl = 'http://192.168.10.211:8081/api/notification/saveToken'
 const url = `${resourceUrl}/api/notification/saveToken`;
 
 /**
@@ -33,6 +31,7 @@ const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
     console.log('token is:'+tokenAndEmail.token);
     return CapacitorHttp.post(options); //Trigger the mapping in the backend
 }
+
 /**
  * Listeners that are need to register a token and log it into logcat, register errors, log received notifications and their
  * performed action
@@ -126,18 +125,6 @@ const createNotificationChannel = async () => {
         console.error('push channel error: ', error);
     });
 }
-
-/**
- * Method to delete a notification channel if needed. It will only be used in case we need to change a channel's
- * attributes. According to android documentation you have to recreate the android channel in order to set new attributes.
- */
-/*
-const deleteNotificationChannel = async () => {
-    await PushNotifications.deleteChannel({id: "custom_channel"});
-    console.log('notification channel deleted')
-}
-
- */
 
 export const enablePushNotifications = async () => {
     await createNotificationChannel()

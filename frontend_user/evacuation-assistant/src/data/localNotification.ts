@@ -9,9 +9,11 @@ const url = `${resourceUrl}/api/alarm/`;
 // create a StorageService object
 const store = new StorageService();
 
+/**
+ * Add listeners to constantly listen for new notifications
+ */
 const addListeners = async () => {
     const userData = await store.read('user');
-    //await store.create('alreadyAnswered', "false");
     // eslint-disable-next-line
     const userDataParsed = JSON.parse(userData.value!);
     const role = userDataParsed.roles[0];
@@ -29,6 +31,7 @@ const addListeners = async () => {
         console.log('Local notification action performed', notification.actionId, notification.inputValue);
         const actionId = notification.actionId;
         const actionTypeId = notification.notification.actionTypeId;
+
         if (actionId == "tap" && role === 'ROLE_DEPUTYLEADER') {
             router.replace('/tabs/home/deputyleader');
             console.log(actionTypeId);

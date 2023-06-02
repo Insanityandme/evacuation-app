@@ -106,7 +106,6 @@ const props = defineProps({
 })
 
 if (props.finalAnswer === "yes") {
-    //myvariables.finalAnswer = props.answer;
     console.log("And now the final answer is: " + props.finalAnswer);
     answer(props.finalAnswer);
 }

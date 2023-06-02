@@ -1,5 +1,14 @@
 import {ref} from "vue";
 
+/**
+ * A simulated floor counter used to show
+ * how a user with the role Deputy Leader
+ * could potentially see how many people
+ * are in every floor in a building.
+ *
+ * Note: This would in the end use a hardware
+ * from Axiss that counts people with a camera.
+ */
 export const counter1 = ref(40);
 export const counter2 = ref(68);
 export const counter3 = ref(95);

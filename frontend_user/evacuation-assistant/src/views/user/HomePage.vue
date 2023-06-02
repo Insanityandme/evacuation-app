@@ -14,8 +14,6 @@
             <ion-item>
                 <ion-label style="font-size: 19px">Logged in as: {{ username }}</ion-label>
             </ion-item>
-
-
             <ion-card>
                 <ion-img style="width:50%" src="../assets/img/holding-phone-2.jpg"></ion-img>
                 <ion-card-header>
@@ -27,13 +25,10 @@
                   Stand still for 3 seconds. <br>
                   Wait until you receive an alert.
                 </ion-card-content>
-
             </ion-card>
-
           <div class="button-container">
           <ion-button size="large"  @click="sendData()">Help me</ion-button>
           </div>
-
         </ion-content>
     </ion-page>
 </template>

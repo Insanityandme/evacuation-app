@@ -6,10 +6,6 @@
             </ion-toolbar>
         </ion-header>
         <ion-content>
-
-          <!--
-          <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout</ion-button>
-          -->
             <ion-button @click="startScan()">Start scanning</ion-button>
             <ion-button @click="stopScan()">Stop scanning</ion-button>
             <ion-list v-for="device in devices" :key="device">
@@ -21,9 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { StorageService } from '@/services/storage.service';
-import { startScan, stopScan, devices } from "@/services/scanner";
-
-const store = new StorageService();
+import {IonButton, IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/vue';
+import {startScan, stopScan, devices} from "@/services/scanner";
 </script>

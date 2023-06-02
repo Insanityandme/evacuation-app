@@ -1,4 +1,5 @@
-import { ref } from "vue";
+import {ref} from "vue";
+
 const data = ref();
 data.value = 0;
 

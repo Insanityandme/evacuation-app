@@ -100,7 +100,7 @@ const role = ref('');
     // Call the read method to retrieve the user data
     const userData = await store.read('user');
 
-    if (userData !== null) {
+    if (userData.value !== null) {
         // eslint-disable-next-line
         const userDataParsed = JSON.parse(userData.value!);
         userName.value = userDataParsed.username;

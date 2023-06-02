@@ -15,7 +15,7 @@
                 <ion-card-content>
                     Evacuation in progress.
                     Are you available?
-                    {{myvariables.finalAnswer}}
+                    {{ myvariables.finalAnswer }}
                 </ion-card-content>
                 <ion-button @click="answer('yes')">Yes</ion-button>
                 <ion-button @click="answer('no')">No</ion-button>

@@ -6,12 +6,13 @@
             </ion-toolbar>
         </ion-header>
         <ion-content>
-            <!--<h1 class="ion-margin">Evacuation Assistance Application</h1>-->
             <LoginForm :sign-in-user="signIn"/>
-            <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)" :is-open="isOpenServerConnection"
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenServerConnection(false)"
+                       :is-open="isOpenServerConnection"
                        message="No connection to server"
                        :duration="2000"></ion-toast>
-            <ion-toast position="bottom" color="danger" @didDismiss="setOpenEmailOrPassword(false)" :is-open="isOpenEmailOrPassword"
+            <ion-toast position="bottom" color="danger" @didDismiss="setOpenEmailOrPassword(false)"
+                       :is-open="isOpenEmailOrPassword"
                        message="Invalid Email or Password"
                        :duration="2000"></ion-toast>
         </ion-content>
@@ -37,6 +38,7 @@ const setOpenEmailOrPassword = (state: boolean) => {
     isOpenEmailOrPassword.value = state
 };
 
+// same as above but for the server connection
 const setOpenServerConnection = (state: boolean) => {
     isOpenServerConnection.value = state
 };
@@ -56,6 +58,7 @@ const alreadySignedIn = async () => {
 
     if (userData.value !== null) {
         console.log("Successfully used stored token to redirect to home page");
+
         //Navigate to the appropriate home page based on the user's role
         if (userDataParsed.roles[0] === 'ROLE_DEPUTYLEADER') {
             ionRouter.replace("/tabs/home/deputyleader/");
@@ -75,10 +78,12 @@ const alreadySignedIn = async () => {
 
 alreadySignedIn();
 
-/* function to login into the home page of your account,
-   checks if you have an accesstoken and if that's
-   the case create a local storage object
-   that will be used to store your "login" information.
+/**
+ * function to login to the home page of your account,
+ * checks if you have an accesstoken and if that's
+ * the case create a local storage object
+ * that will be used to store your login information.
+ * @param user the one who logged in
  */
 const signIn = async (user: User) => {
     // POST request to our backend API

@@ -1,9 +1,10 @@
-import { LocalNotifications } from "@capacitor/local-notifications";
+import {LocalNotifications} from "@capacitor/local-notifications";
 import router from "@/router";
 import {StorageService} from "@/services/storage.service";
 import {changeActiveTrue} from "@/data/changeActive";
 import {CapacitorHttp} from "@capacitor/core";
 import {resourceUrl} from "@/data/resourceUrl";
+
 const url = `${resourceUrl}/api/alarm/`;
 
 // create a StorageService object
@@ -109,6 +110,7 @@ export const enableLocalNotifications = async () => {
 export interface Alarm {
     status: boolean
 }
+
 export const getAlarmStatus = async () => {
     const options = {
         url: `${url}status`,

@@ -33,7 +33,7 @@ export function trilaterate(beacons: Beacon[]): Point | null {
     const x = (W * (C.y - B.y) - Z * (B.y - A.y)) / ((B.x - A.x) * (C.y - B.y) - (C.x - B.x) * (B.y - A.y));
     const y = (W - x * (B.x - A.x)) / (B.y - A.y);
 
-    return { x, y };
+    return {x, y};
 }
 
 // Example usage

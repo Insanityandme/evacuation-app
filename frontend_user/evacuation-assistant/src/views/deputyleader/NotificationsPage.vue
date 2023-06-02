@@ -35,9 +35,10 @@ import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCardHeader,
     IonCardContent, IonCard, IonCardTitle,
 } from '@ionic/vue';
-import { getAllUserPositionData } from "@/data/user";
-import { setCounter } from "@/services/notificationCounter";
-import { ref } from "vue";
+import {getAllUserPositionData} from "@/data/user";
+import {setCounter} from "@/services/notificationCounter";
+import {ref} from "vue";
+
 const userPositions: any = ref({})
 
 /**
@@ -52,8 +53,7 @@ const getUserPositions = async () => {
         for (const userPosition of recievedUserPositions.data) {
             if (userPosition.floorName !== null && userPosition.needsHelp == true) {
                 userPositions.value[userPosition.username] = userPosition;
-            }
-            else {
+            } else {
                 delete userPositions.value[userPosition.username]
             }
         }

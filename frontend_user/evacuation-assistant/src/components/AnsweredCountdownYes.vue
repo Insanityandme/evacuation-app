@@ -2,7 +2,6 @@
 This class is responsible for showing a card with
 a message after answering yes on TimeCountdown
 -->
-
 <template>
     <ion-card>
         <ion-card-header>
@@ -10,9 +9,9 @@ a message after answering yes on TimeCountdown
         </ion-card-header>
         <ion-card-content>
             You are now active evacuation leader
-               <router-link to="/tabs/home/evacleader">
-                   <ion-button>Ok</ion-button>
-               </router-link>
+            <router-link to="/tabs/home/evacleader">
+                <ion-button>Ok</ion-button>
+            </router-link>
         </ion-card-content>
     </ion-card>
 </template>

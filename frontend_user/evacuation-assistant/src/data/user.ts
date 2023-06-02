@@ -102,7 +102,7 @@ export const setHelpedToTrue = async (username: string) => {
 /**
  * Gets all sensors that we have stored in our database
  */
-export const getAllSensors = async() => {
+export const getAllSensors = async () => {
     const options = {
         url: `${urlPositions}getAllSensors`,
         headers: {"Content-Type": "application/json"},

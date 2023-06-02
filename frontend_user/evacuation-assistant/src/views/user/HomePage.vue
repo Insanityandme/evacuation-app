@@ -46,6 +46,9 @@ import {StorageService} from "@/services/storage.service";
 const username = ref('');
 const storage = new StorageService();
 
+/**
+ * This function retrieves a users username
+ */
 const getUserName = async () => {
 
     const userData = await storage.read('user');
@@ -57,6 +60,10 @@ const getUserName = async () => {
 
 getUserName();
 
+/**
+ * This function is responsible for presenting an alert
+ * to the user depending on the status code of the startScan() function
+ */
 const sendData = async () => {
     await startScan();
 
@@ -69,6 +76,11 @@ const sendData = async () => {
     }, 3500)
 }
 
+/**
+ * This function presents modified alert to the user
+ * @param subHeader
+ * @param message
+ */
 const presentAlert = async (subHeader: string, message: string) => {
     const alert = await alertController.create({
         header: 'Alert',
@@ -79,7 +91,9 @@ const presentAlert = async (subHeader: string, message: string) => {
 
     await alert.present();
 }
+
 </script>
+
 <style scoped>
 .button-container {
   display: flex;

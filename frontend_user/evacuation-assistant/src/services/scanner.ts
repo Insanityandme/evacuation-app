@@ -74,6 +74,7 @@ export async function startScan() {
         console.log(error);
     }
 }
+
 /**
  * This function is responsible for sorting the distance
  * and to pick the one closes to our device and send this

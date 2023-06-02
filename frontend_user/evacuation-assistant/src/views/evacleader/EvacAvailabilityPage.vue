@@ -17,7 +17,7 @@ evacuation is triggered
                 </ion-toolbar>
             </ion-header>
             <div>
-                <time-countdown :duration="5000" :finalAnswer="answer" @answer="handleAnswer" />
+                <time-countdown :duration="5000" :finalAnswer="answer" @answer="handleAnswer"/>
             </div>
         </ion-content>
     </ion-page>
@@ -33,7 +33,7 @@ const handleAnswer = async (value: any) => {
 }
 
 const route = useRoute();
-const { answer } = route.params;
+const {answer} = route.params;
 console.log("the final answer tapped was: " + answer);
 </script>
 

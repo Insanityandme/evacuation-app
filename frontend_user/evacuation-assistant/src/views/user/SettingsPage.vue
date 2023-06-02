@@ -9,7 +9,7 @@
             <div class="content-container">
                 <div class="userinfo-container">
                     <ion-item>
-                        <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{userInfo.role }}
+                        <ion-label style="font-size: 19px">Logged in as: {{ userInfo.userName }} - {{ userInfo.role }}
                         </ion-label>
                     </ion-item>
                 </div>
@@ -57,20 +57,17 @@
 <script setup lang="ts">
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton} from '@ionic/vue';
 import {StorageService} from "@/services/storage.service";
-import {reactive, ref} from "vue";
-
+import {reactive} from "vue";
 
 const store = new StorageService();
 
 // Define reactive variables
-const isUserInfoLoaded = ref(false);
 const userInfo = reactive({
     userName: '',
     role: '',
     floor: '',
     zoneArray: [] as string[]
 });
-
 
 getUserInfo();
 
@@ -82,7 +79,8 @@ async function getUserInfo() {
     // Call the read method to retrieve the user data
     const userData = await store.read('user');
 
-    if (userData !== null) {
+    if (userData.value !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const userDataParsed = JSON.parse(userData.value!);
         console.log(userData);
         userInfo.userName = userDataParsed.username;
@@ -119,13 +117,6 @@ function checkRole() {
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 10px;
-}
-
-.logout-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    flex-grow: 1;
 }
 
 .changeuserinfo-container {

@@ -28,7 +28,7 @@ const sendTokenToBackend = async (tokenAndEmail: TokenAndEmail) => {
         headers: {"Content-Type": "application/json"},
         data: JSON.stringify(tokenAndEmail)
     }
-    console.log('token is:'+tokenAndEmail.token);
+    console.log('token is:' + tokenAndEmail.token);
     return CapacitorHttp.post(options); //Trigger the mapping in the backend
 }
 

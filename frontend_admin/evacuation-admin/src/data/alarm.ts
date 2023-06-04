@@ -5,7 +5,10 @@ import {CapacitorHttp} from "@capacitor/core";
 const resourceUrl = 'https://evac.al-darraji.net/';
 const notificationUrl = 'api/notification';
 const alarmUrl = 'api/alarm';
-
+/**
+ * This method makes an REST API-request to send notifications to multiple devices simultaneously,
+ * informing them about a simulated alarm.
+ */
 export const sendNotifications = async() => {
     const options = {
         url: `${resourceUrl + notificationUrl}/sendToMultipleDevices`,

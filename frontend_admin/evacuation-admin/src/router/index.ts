@@ -2,6 +2,11 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 
+/**
+ * Route helps with routing the page, where each link address points to when it comes to pages
+ * or components, and whether a link address includes a variable to be used by said page/component
+ * can also be used here.
+ */
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',

@@ -1,5 +1,10 @@
 import {Preferences} from '@capacitor/preferences';
 
+/**
+ * StorageService is used to save some user data locally on the user's phone.
+ * Some useful methods are to create a key and value, read/retrieve a key-value pair,
+ * update to update key-value, delete to delete key-value and clear to empty the entire storage.
+ */
 export class StorageService {
     async create(key: string, value: any) {
         await Preferences.set({key, value});

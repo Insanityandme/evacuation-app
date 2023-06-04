@@ -29,7 +29,7 @@
                         <ion-label>Receive Text Messages</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-button @click="scheduleAdvanced()">Notify Me Now, with Buttons!</ion-button>
+                        <ion-button @click="scheduleAdvanced()">Notify Me Now, with Buttons!</ion-button><!--When tapped, the local notification is triggered!-->
                     </ion-item>
                     <ion-item>
                         <ion-button router-link="/login" router-direction="back" @click="store.clear()">Logout

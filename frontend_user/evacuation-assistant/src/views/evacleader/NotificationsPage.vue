@@ -63,7 +63,10 @@ const getUserPositionsTest = async () => {
 }
 
 getUserPositionsTest()
-
+// Checks whether the platform is iOS, in that case checks every 1 second whether the
+// server's alarm status has changed, if it has changed then the local notification is triggered.
+// This was implemented as a workaround for push notification, since not much time was left to
+// enable push notification for iOS.
 if (isPlatform("ios")) {
     const alarmStatus = ref<[Alarm]>();
     const checkIfAlarmIsActive = async () => {

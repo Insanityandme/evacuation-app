@@ -3,8 +3,6 @@ Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
 
-LINK TO GITHUB: https://github.com/Insanityandme/evacuation-app
-
 ## Installation
 1. Clone our whole repository that consists of three applications:
 	1. backend-evacuation

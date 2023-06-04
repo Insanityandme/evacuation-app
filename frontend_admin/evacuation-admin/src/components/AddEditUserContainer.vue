@@ -108,25 +108,13 @@
 import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {
-    addHandicap,
-    editUserEmail,
-    editUserName,
-    editUserPassword,
-    editUserRole,
-    getAllHandicaps,
-    getAllUsers,
-    getDelegationsByUsername,
-    Handicap,
-    setDelegationByID,
-    setHandicapByID,
-    setPriorityByID,
-    signUpUser,
+import {addHandicap, editUserEmail, editUserName, editUserPassword, editUserRole, getAllHandicaps,
+    getAllUsers, getDelegationsByUsername, Handicap, setDelegationByID, setHandicapByID, setPriorityByID, signUpUser,
 } from "@/data/user";
 
 import {IonButton, IonList, IonItem, IonInput,} from '@ionic/vue';
 import {useRouter} from "vue-router";
-
+// Declaring a reactive "state" variable to be used for dynamically adding, editing and removing form data.
 const state = reactive({
     username: '',
     email: '',
@@ -137,7 +125,7 @@ const state = reactive({
     priority: 0,
     handicap: ''
 })
-
+// Setting the rules regarding which fields in the form are of most importance to be filled, helps with form validation feature.
 const rules = {
     username: {required},
     email: {required, email},
@@ -153,7 +141,11 @@ const router = useRouter();
 const users = ref([]);
 const handicaps = ref<Handicap>();
 const handicapsForUsers = ref('');
-
+/**
+ * This method is responsible to upload delegation and priority once the use has been uploaded and the Id is fetched.
+ * @param username – Username input
+ * @param email – Email input
+ */
 const fetchUserId = async (username: string, email: string) => {
     // POST request to our backend API
     const response = await getAllUsers();
@@ -167,7 +159,15 @@ const fetchUserId = async (username: string, email: string) => {
         }
     }
 }
-
+/**
+ * Method that fetches all users' data, as well as getting all handicap data,
+ * then gets the user id by checking if username and email are matching in the server,
+ * then checking if the chosen handicap name matches the one saved in the server,
+ * then saving the handicap to the user.
+ * However, if the handicap was not found, then add the chosen handicap to the server/database.
+ * @param username – Username input
+ * @param email – Email input
+ */
 const completeOtherHandicapRegistration = async (username: string, email: string) => {
     // POST request to our backend API
     const fetchedUsers = await getAllUsers();
@@ -204,7 +204,12 @@ const completeOtherHandicapRegistration = async (username: string, email: string
         }
     }
 }
-
+/**
+ * Method to run when save button is pressed. Checking if the current mode is "Edit" or "Add",
+ * and based on the mode be either fetching data to work on editing them or starting with empty
+ * form to upload new user respectively.
+ *
+ */
 const submitForm = async () => {
     const isFormCorrect = await v$.value.$validate();
 
@@ -255,17 +260,19 @@ const submitForm = async () => {
                 role: [state.role]
             });
 
-            if (state.role === 'evac') {
-                //console.log(state.role);
+            if (state.role === 'evac') {// Check if role is set to "evac", then call the "fetchUserId" method.
+                //
                 await fetchUserId(state.username, state.email);
-            } else if (state.role === 'other') {
+            } else if (state.role === 'other') {// Check if role is set to "other", then call the "completeOtherHandicapRegistration" method.
                 await completeOtherHandicapRegistration(state.username, state.email);
-            } else if (state.role === 'special-needs-user') {
+            } else if (state.role === 'special-needs-user') {// Check if role is set to "special-needs-user", then call the "completeOtherHandicapRegistration" method.
                 await completeOtherHandicapRegistration(state.username, state.email);
             }
         }
     }
-
+    /**
+     * Method to fetch all handicap for users from the server.
+     */
     const getAllHandicapsForUsers = async () => {
         const response = await getAllHandicaps();
         handicapsForUsers.value = response.data;
@@ -275,7 +282,7 @@ const submitForm = async () => {
     await getAllHandicapsForUsers();
 
 }
-
+// Form data for "roles" to be populated in the roles field in the form.
 const roles = [
     {
         text: 'Evacuation Leader',
@@ -294,6 +301,7 @@ const roles = [
         value: 'other',
     },
 ];
+//Options for viewing a header, subheader and message for the roles dropdown menu.
 const rolesOptions = {
     header: 'Select Role',
     mode: 'ios',
@@ -302,7 +310,7 @@ const rolesOptions = {
     subHeader: 'Select the user\'s role',
     message: 'The role of the user determines their responsibilities',
 };
-
+//Form data for "floors" to be populated in the floors field in the form.
 const floors = [
     {
         text: '1',
@@ -346,6 +354,7 @@ const floors = [
         value: 'TENTH FLOOR',
     },
 ];
+//Options for viewing a header, subheader and message for the floors dropdown menu.
 const floorsOptions = {
     header: 'Select Floor',
     mode: 'ios',
@@ -354,7 +363,7 @@ const floorsOptions = {
     subHeader: 'Select the user\'s floor responsibility',
     message: 'The floor which the user is responsible for',
 };
-
+//Form data for "zones" to be populated in the zones field in the form.
 const zones = [
     {
         text: 'A',
@@ -369,6 +378,7 @@ const zones = [
         value: 'C',
     },
 ];
+//Options for viewing a header, subheader and message for the zones dropdown menu.
 const zonesOptions = {
     header: 'Select Zones',
     mode: 'ios',
@@ -377,7 +387,7 @@ const zonesOptions = {
     subHeader: 'Select the user\'s zone responsibility',
     message: 'The zone or zones which the user is responsible for',
 };
-
+//Form data for "priorities" to be populated in the priorities field in the form.
 const priorities = [
     {
         text: 'High',
@@ -392,6 +402,7 @@ const priorities = [
         value: 3,
     },
 ];
+//Options for viewing a header, subheader and message for the priorities dropdown menu.
 const prioritiesOptions = {
     header: 'Select Priorities',
     mode: 'ios',
@@ -399,12 +410,12 @@ const prioritiesOptions = {
     subHeader: 'Select the user\'s priority',
     message: 'Determines how fast the message of availability is sent to the user. High Priority = first',
 };
-
+//variables passed from the parent page to this component/container, indicating whether to display edit mode or add mode.
 const props = defineProps({
     edit: Boolean,
     id: String,
 });
-
+//When in edit mode, the current user information is gathered based on the ID received from the parent page.
 const currentUser = reactive({
     id: 0,
     username: '',
@@ -416,6 +427,8 @@ const currentUser = reactive({
     priority: 0,
     handicap: ''
 })
+//fetch the user details from the id and populating both currentUser and stat variables,
+//in order to check for changes to the form and be able to submit the changes to the backend server.
 const fetchUserDetailsById = async (id: number) => {
     const response = await getAllUsers();
 

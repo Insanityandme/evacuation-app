@@ -14,7 +14,9 @@ export const sendNotifications = async() => {
 
     return CapacitorHttp.post(options);
 }
-
+/**
+ * API call to activate the simulation of alarm, in order for Local Notification to work.
+ */
 export const activateAlarm = async() => {
     const options = {
         url: `${resourceUrl + alarmUrl}/activate`,
@@ -23,7 +25,9 @@ export const activateAlarm = async() => {
 
     return CapacitorHttp.post(options);
 }
-
+/**
+ * API call to deactivate the simulation of alarm, in order for Local Notification to work.
+ */
 export const deActivateAlarm = async() => {
     const options = {
         url: `${resourceUrl + alarmUrl}/deactivate`,

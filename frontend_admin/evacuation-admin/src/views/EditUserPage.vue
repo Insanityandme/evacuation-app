@@ -20,6 +20,10 @@ import AddEditUserContainer from "@/components/AddEditUserContainer.vue";
 import {useRoute} from "vue-router";
 
 const route = useRoute();
+//Utilize the id varialbe that is sent from the UsersContainerAccordion
+//component and send it to the AddEditUserContainer component.
+//This variable is passed as a URL e.g. http://localhost:8100/tabs/UsersManager/edit/1
+//See router/index.ts file to see how the URL should look like.
 const { id } : any = route.params;
 </script>
 

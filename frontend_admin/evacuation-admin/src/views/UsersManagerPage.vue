@@ -14,8 +14,10 @@
     <ion-content :fullscreen="true">
 
         <UsersContainerAccordion/>
-
-        <ion-content class="ion-padding">
+        <!--This functionality was not implemented due to lack of time,
+        however, it would be cool to have the ability to filter the user
+        data in the AddEditUserContainer component.-->
+        <!--<ion-content class="ion-padding">
             <ion-modal ref="modal" trigger="open-modal">
                 <ion-content>
 
@@ -59,9 +61,7 @@
 
                 </ion-content>
             </ion-modal>
-
-        </ion-content>
-
+        </ion-content>-->
     </ion-content>
   </ion-page>
 </template>
@@ -69,38 +69,23 @@
 <script setup lang="ts">
 import {IonPage, IonHeader, IonIcon} from '@ionic/vue';
 import UsersContainerAccordion from "@/components/UsersContainerAccordion.vue";
-import {add, alertOutline, layersOutline, mapOutline, person} from "ionicons/icons";
+import {add, alertOutline} from "ionicons/icons";
 import {activateAlarm, deActivateAlarm, sendNotifications} from "@/data/alarm";
 
+/**
+ * Method to be called when "Start Evacuation Simulation" button is clicked, in which "sendNotifications" and "deActivateAlarm" method from data/user file.
+ */
 const setAlarmToActive = async () => {
     await sendNotifications();
     await activateAlarm();
 }
-
+/**
+ * Method to be called when "Stop Evacuation Simulation" button is clicked, in which deActivateAlarm method from data/user file.
+ */
 const setAlarmToDeActive = async () => {
     await deActivateAlarm();
 }
 
-</script>
-
-<script lang="ts">
-import {IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel,} from '@ionic/vue';
-import {defineComponent} from 'vue';
-import {ModalOptions} from "@ionic/vue";
-
-export default defineComponent({
-    components: {
-        IonButtons, IonButton, IonModal, IonContent, IonToolbar, IonTitle, IonItem, IonList, IonLabel//, HTMLIonModalElement
-    },
-    methods: {
-        dismiss() {
-            const test = document.querySelector('ion-modal') as ModalOptions;
-            if(test !== null) {
-                //test.dismiss();
-            }
-        },
-    },
-});
 </script>
 <style>
 ion-modal {

@@ -1,13 +1,14 @@
 <template>
     <ion-accordion-group :multiple="true">
-        <ion-accordion value="second" readonly toggle-icon="">
+        <!--This would be used for filtering purposes, this feature hasn't been fully implemented yet.-->
+        <!--<ion-accordion value="second" readonly toggle-icon="">
             <ion-item slot="header" color="success">
                 <ion-label>
                     <h2><b>High Priority</b></h2>
                 </ion-label>
             </ion-item>
-        </ion-accordion>
-        <ion-accordion toggle-icon-slot="end" v-for="user in users" :key="user.id"><!--/*, index*/-->
+        </ion-accordion>-->
+        <ion-accordion toggle-icon-slot="end" v-for="user in users" :key="user.id">
 
             <ion-item slot="header" color="light">
                 <ion-label>{{ user.username }}</ion-label>
@@ -17,7 +18,6 @@
                 </ion-chip>
                 <div v-if="user.roles[0].id === 3">
                     <ion-chip color="tertiary">
-                        <!--delegations[index].username === user.username-->
                         <ion-icon :icon="layersOutline" color="primary"></ion-icon>
                         <ion-label><b>{{ fetchFloorName(user.username) }}</b></ion-label>
                     </ion-chip>
@@ -49,13 +49,8 @@
                         </ion-label>
                         <div style="background-color: rgba(82,96,255,0.12); opacity: 90%; border-radius: 5px;">
                             <ion-buttons>
-                                <ion-button fill="clear" class="ion-float-right"> <!--href="'/tabs/UsersManager/edit/' + {{user.id}}"
-                                            router-link='/tabs/UsersManager/edit/{{user.username}}' router-direction="forward">-->
-
-                                    <!--<router-link :to="'/tabs/UsersManager/edit/'+user.id+','+user.username+','+user.email+','+user.roles+','+fetchFloorName(user.username)+','+fetchZoneName(user.username)+','+fetchPriorityName(fetchPriority(user.id))+','+''" ><ion-icon :icon="pencil"/></router-link>--><!--:username,:email,:role,:floorName,:zones,:priority,:handicap-->
+                                <ion-button fill="clear" class="ion-float-right">
                                     <router-link :to="'/tabs/UsersManager/edit/'+user.id"><ion-icon :icon="pencil"/></router-link>
-                                    <!--<router-link :to="{ name: 'editPage', params: { username: user.username, email: user.email, password: '', role: user.roles[0].name, floorName: fetchFloorName(user.username), zones: fetchZoneName(user.username), priority: fetchPriorityName(fetchPriority(user.id)) }}"/>-->
-                                    <!--<router-link :to="{ params: { id: user.id }, component: '@/views/EditUserPage.vue'}"/>-->
                                 </ion-button>
                                 <ion-button fill="clear" class="ion-float-right"
                                             @click="presentActionSheet(user.id, user.username)">
@@ -102,10 +97,6 @@
                         <ion-icon :icon="constructOutline" color="success"></ion-icon>
                         <ion-label><b>Role: {{ user.roles[0].name }}</b></ion-label>
                     </ion-chip>
-                    <!--<ion-item class="ion-align-items-center" v-if="user.roles[0].id === 3">
-                        <ion-button color="danger" style="width: 50%; height: 30px;">Activate</ion-button>
-                        <ion-button color="success" style="width: 50%; height: 30px;">Deactivate</ion-button>
-                    </ion-item>-->
                 </ion-list>
             </div>
         </ion-accordion>
@@ -115,7 +106,6 @@
 <script setup lang="ts">
 import {trash, alertOutline, mapOutline, layersOutline, person, mail, pencil, constructOutline} from "ionicons/icons";
 import {IonButtons, IonButton, IonList, IonLabel, IonItem, IonIcon, IonChip, IonAccordionGroup, IonAccordion} from '@ionic/vue';
-//import editPage from '@/components/AddEditUserContainer.vue';
 import {actionSheetController} from "@ionic/vue";
 
 import {confirmDeletion, Delegation, getAllDelegations, getAllPriorities, getAllUsers, getPriorityInfo, Priority, PriorityInfo, Users} from "@/data/user";
@@ -125,121 +115,90 @@ const users = ref<[Users]>();
 const delegations = ref<[Delegation]>();
 const priorities = ref<[Priority]>();
 const priorityName = ref<[PriorityInfo]>();
-
+//Fetch all users' information and save them into the users variable.
 const fetchAllUsers = async () => {
     // POST request to our backend API
     const response = await getAllUsers();
-    //console.log(response.data[0].username);
     users.value = response.data;
-    //console.log(users.value[0].roles[0].id);
-    //console.log(users.value[0].roles[0].name);
 }
-
+//Fetch all delegations' information and save them into the delegations variable.
 const fetchAllDelegations = async () => {
     // POST request to our backend API
     const response = await getAllDelegations();
-    //console.log(response.data[0].username);
-    //console.log(response.data[0].floorName);
-    //console.log(response.data[0].zoneName);
-    //console.log(response.data);
-    //console.log(response);
     delegations.value = response.data;
 }
-
+//Fetch all priorities information and save them into the priorities variable.
 const fetchAllPriorities = async () => {
     // POST request to our backend API
     const response = await getAllPriorities();
-    //console.log(response.data[0].id);
-    //console.log(response.data[0].priority);
-    //console.log(response.data);
-    //console.log(response);
-    //console.log(response.data);
     priorities.value = response.data;
 }
-
+//Fetch all information regarding priorities, namely the name and id of each priority, and save them into the priorities variable.
 const fetchPriorityInfo = async () => {
     // POST request to our backend API
     const response = await getPriorityInfo();
-    //console.log(response.data[0].name);
-    //console.log(response.data[0].id);
-    //console.log(response.data);
-    //console.log(response);
     priorityName.value = response.data;
 }
-
+//Perform the following asynchronous API calls when the page loads.
 fetchAllUsers();
 fetchAllDelegations();
 fetchPriorityInfo();
 fetchAllPriorities();
-
-
+//When the user presses the delete button and confirms the deletion, an API call is performed to remove the chosen user from the backend server.
 const confirmDeletionButton = async (num: number) => {
-    const response = await confirmDeletion(num);
-    //console.log(response.data[0].message);
-    //console.log(num);
+    await confirmDeletion(num);
     //Refresh the page to see the changes
     window.location.reload();
 }
-
+//Fetch the name of the zone from the previously fetched delegations from the backend into the delegations variable based on the username.
 const fetchZoneName = (username: string): Array<string> => {
-    //fetchDelegateInfo(user.id)[1]
     const output = Array<string>();
     if (delegations.value !== undefined && delegations.value.length > 0) {
         delegations.value.forEach((delegate: any) => {
             if (delegate.username === username) {
-                //console.log(delegate.id + "===" + id + " is true");
-                output.push(delegate.zoneName[0]);// = delegate.zoneName[0];
-                //console.log(delegate.zoneName[0]);
+                output.push(delegate.zoneName[0]);
             }
         });
     }
     return output;
 }
-
+//Fetch the name of the floor from the previously fetched delegations from the backend into the delegations variable based on the username.
 const fetchFloorName = (username: string): string => {
-    //fetchDelegateInfo(user.id)[1]
     let output = "";
     if (delegations.value !== undefined && delegations.value.length > 0) {
         delegations.value.forEach((delegate: any) => {
             if (delegate.username === username) {
-                //console.log(delegate.id + "===" + id + " is true");
                 output = delegate.floorName;
-                //console.log(delegate.floorName);
             }
         });
     }
     return output;
 }
-
+//Fetch the name of the priority from the previously fetched priorities from the backend into the priorities variable based on the user ID.
 const fetchPriority = (id: number): number => {
     let output = 0;
     if (priorities.value !== undefined && priorities.value.length > 0) {
         priorities.value.forEach((prio: any) => {
             if (id === prio.id) {
-                //console.log(priority.id + "===" + id + " is true");
                 output = prio.priority;
-                //console.log(prio.id);
-                //console.log(prio.priority);
             }
         });
     }
     return output;
 }
-
+//Fetch the name of the priority from the previously fetched priorities from the backend into the priorityName variable based on the priority ID.
 const fetchPriorityName = (priorityId: number): string => {
     let output = "";
     if (priorityName.value !== undefined && priorityName.value?.length > 0) {
         priorityName.value.forEach((prioName: any) => {
             if (priorityId === prioName.id) {
                 output = prioName.name;
-                //console.log(prioName.id);
-                //console.log(prioName.name);
             }
         })
     }
     return output;
 }
-//console.log("name: " + fetchPriorityName(1));
+//Present Action Sheet when pressed on the delete button (trash can icon), and present the user with two options and a header asking for deletion confirmation.
 const presentActionSheet = async (num: number, name: string) => {
     const actionSheet = await actionSheetController.create({
         header: 'Are you sure you want to delete the user: ' + name,

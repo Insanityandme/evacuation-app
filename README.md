@@ -239,7 +239,7 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
   </tr>
 </table>
 
-## Deputy Leader View &emsp;&emsp;&emsp; User View
+## Deputy Leader View &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; User View
 <table>
   <tr>
     <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/508a406c-abce-41a6-b19f-da0f15c82a00"  alt="Deputy" width=250px height=500px ></td> 

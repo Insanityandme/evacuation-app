@@ -53,20 +53,20 @@ bezkoder.app.jwtSecret = evacSecretKey
 bezkoder.app.jwtExpirationMs = 86400000
 ```
 
-#### Enable firebase push notifications (backend)
+### Enable firebase push notifications (backend)
 1. Create an account at https://firebase.google.com/
 2. Register an android project into your firebase account
 3. Download the google-services.json file and then rename the config file privateKey.json 
 4. Put it in the directory: backend-evacuation/src/main/resources
 
-#### Running the server
+### Running the server
 1. Download maven CLl: https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
 2. cd into root folder backend-evacuation
 3. Start the server by typing: 
 	``mvn spring-boot:run`` 
 3. If everything has gone well the server should be running on port 8081.
 
-### Frontend user instructions
+## Front-end User
 1. Start by cd into frontend_user/evacuation-assistant
 2. run ``npm install`` if you don't have npm: https://nodejs.org/en/download
 3. create a file called resourceUrl.ts in frontend_user/evacuation-assistant/src/data and include this:
@@ -81,8 +81,8 @@ npm i -D @capacitor/cli
 7.  run ``ionic serve`` to see it live hosted locally in your browser of choice
 8.  NOTE:  it should primarily be used on smartphones and developed there (instructions below)
 
-#### For android devices
-##### Prerequisites: https://developer.android.com/studio
+### For android devices
+#### Prerequisites: https://developer.android.com/studio
 1. start by running ``ionic cap add android`` in frontend_user/evacuation-assistant
 2. run ``ionic build`` (builds the whole application to android)
 3. run ``ionic cap copy``  (ensure local web assets gets into the android folder)
@@ -154,13 +154,13 @@ try {
 }
 ```
 
-### Frontend admin instructions
+## Front-end Admin
 1. cd into evacuation-assistant/frontend_admin
 2. run:  ``npm run install``
 3. create a file called resourceUrl.ts in frontend_admin/evacuation-assistant/src/data and include this: ``export const resourceUrl = 'http://localhost:8081'`` 
 4. run ionic serve and you're good to go!
 
-### For iOS devices
+## For iOS devices
 1. npm install
 2. ionic build
 3. ionic capacitor add ios

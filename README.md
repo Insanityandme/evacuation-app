@@ -25,11 +25,20 @@ Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
 
+Note that this is a student project and was used as a learning exercise (at least the first three months of this project was!).
+
+A bunch of new technologies were used such as: Postgres, Vue, Ionic, Java Spring and many more!
+
 # Install
-1. Clone our whole repository that consists of three applications:
-	1. backend-evacuation
-	2. frontend-user
-	3. frontend-admin
+```git clone https://github.com/Insanityandme/evacuation-app.git```
+
+Our application is divided into three seperate parts:
+
++ backend-evacuation
++ frontend-user
++ frontend-admin
+
+Read our installation guides below to be walked through installing and configuring Evacuation Assistance. 
 
 ---
 ## Back-end

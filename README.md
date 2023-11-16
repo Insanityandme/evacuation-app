@@ -13,7 +13,7 @@
 ### Table of Contents
 - [Introduction](#introduction)
 - [Installation](#install)
-	- [Back-end](#backend)
+	- [Back-end](#back-end)
 	- [Front-end User](#frontend-user)
 	- [Front-end Admin](#frontend-admin)
 - [Getting help](#getting-help)

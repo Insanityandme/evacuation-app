@@ -18,7 +18,8 @@
 	- [Front-end Admin](#front-end-admin)
 - [Android](#android)
 - [iOS](#ios)
-- [Getting help](#getting-help)
+- [Animations & Screenshots](#animations-screenshots)
+- [Contact](#contact)
 
 # Introduction
 Evacuation assistance is a product designed to make evacuations easier by
@@ -232,6 +233,6 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 # Animations & Screenshots
 
 ---
-# Getting Help
+# Contact
 You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
 There might be some mistakes in our installation guide and I apologize for that if that's the case.

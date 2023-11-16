@@ -18,7 +18,6 @@
 	- [Front-end Admin](#front-end-admin)
 - [Android](#android)
 - [iOS](#ios)
-- [Animations & Screenshots](#animations-screenshots)
 - [Contact](#contact)
 
 # Introduction

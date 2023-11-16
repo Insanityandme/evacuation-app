@@ -4,9 +4,9 @@
 
 [Install](#install) • [Animations & Screenshots](#animations-screenshots)
 
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/9a86799e-c340-4dd5-a801-df85c15e177f" width="200" height="400"/> 
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2523238d-edfa-4ee5-8e60-05545d99b775" width="200" height="400"/>
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/529eeff8-8714-4af3-aa88-d681341d0fd0" width="200" height="400"/>
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/9a86799e-c340-4dd5-a801-df85c15e177f" width="250" height="500"/> 
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2523238d-edfa-4ee5-8e60-05545d99b775" width="250" height="500"/>
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/529eeff8-8714-4af3-aa88-d681341d0fd0" width="250" height="500"/>
 </div>
 
 ---

@@ -2,7 +2,7 @@
 	
 # Evacuation Assistance
 
-[Install](#install) • [Animations](#screenshots) • [More screenshots](#screenshots)
+[Install](#install) • [Animations & Screenshots](#animations-screenshots)
 
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/9a86799e-c340-4dd5-a801-df85c15e177f" width="200" height="400"/> 
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2523238d-edfa-4ee5-8e60-05545d99b775" width="200" height="400"/>

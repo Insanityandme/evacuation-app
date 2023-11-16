@@ -230,7 +230,7 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 13. Don't forget to add the Sound file to the App's main directory for the custom notification sound to work properly.
 
 # Animations
-## When an alarm goes off in a building &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Evacuation Leader View
+## When an alarm goes off in a building &emsp;&emsp;&emsp; Evacuation Leader View
 <table style="border-spacing: 50px">
   <tr>
     <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8352bbed-7954-43fb-8a35-171e37705cec"  alt="Alert" width=250px height=500px ></td> 

@@ -12,7 +12,6 @@
 ---
 ### Table of Contents
 - [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
 - [Installation](#install)
 	- [Back-end](#backend)
 	- [Front-end User](#frontend-user)
@@ -24,28 +23,13 @@ Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
 
-
-### Views
-https://github.com/Insanityandme/evacuation-app/assets/1380257/c397e29f-71b3-47a4-beaa-53de1f3bda01
-
-
-
-https://github.com/Insanityandme/evacuation-app/assets/1380257/fe3dcb30-401c-4b27-a565-f50453dc6b01
-
-
-
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/608d0d90-0199-4786-b111-b8475b5f33aa" width="200" height="400" />
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/71ae5b29-811e-4c9f-9ac5-74bc70e5c779" width="200" height="400" />
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/325681af-e201-4ec3-aecf-1b0b2a6fe3b7" width="200" height="400" />
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8f4ed1f5-f267-4fe8-98cb-28d0954ac6a1" width="200" height="400" />
-
-## Install
+# Install
 1. Clone our whole repository that consists of three applications:
 	1. backend-evacuation
 	2. frontend-user
 	3. frontend-admin
 
-### Backend instructions
+## Back-end
 1. Download postgresql server: https://www.postgresql.org/download/
 2. Run the postgresql server
 3. Open pgadmin and create a database with the name evacdb
@@ -227,3 +211,8 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 11. Now with every code change, re-run ionic build followed by ionic capacitor sync ios, then in Xcode build and run the project on your device.
 12. Don't forget to add the App Icon to the Assets folder.
 13. Don't forget to add the Sound file to the App's main directory for the custom notification sound to work properly.
+
+
+# Getting Help
+You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
+There might be some mistakes in our installation guide and I apologize for that if that's the case.

@@ -220,7 +220,9 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 12. Don't forget to add the App Icon to the Assets folder.
 13. Don't forget to add the Sound file to the App's main directory for the custom notification sound to work properly.
 
+# Animations & Screenshots
 
+---
 # Getting Help
 You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
 There might be some mistakes in our installation guide and I apologize for that if that's the case.

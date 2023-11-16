@@ -16,6 +16,8 @@
 	- [Back-end](#back-end)
 	- [Front-end User](#front-end-user)
 	- [Front-end Admin](#front-end-admin)
+- [Android](#android)
+- [iOS](#ios)
 - [Getting help](#getting-help)
 
 # Introduction
@@ -29,6 +31,7 @@ communicate better and faster.
 	2. frontend-user
 	3. frontend-admin
 
+---
 ## Back-end
 1. Download postgresql server: https://www.postgresql.org/download/
 2. Run the postgresql server
@@ -66,6 +69,7 @@ bezkoder.app.jwtExpirationMs = 86400000
 	``mvn spring-boot:run`` 
 3. If everything has gone well the server should be running on port 8081.
 
+---
 ## Front-end User
 1. Start by cd into frontend_user/evacuation-assistant
 2. run ``npm install`` if you don't have npm: https://nodejs.org/en/download
@@ -81,8 +85,18 @@ npm i -D @capacitor/cli
 7.  run ``ionic serve`` to see it live hosted locally in your browser of choice
 8.  NOTE:  it should primarily be used on smartphones and developed there (instructions below)
 
-### For android devices
-#### Prerequisites: https://developer.android.com/studio
+
+
+---
+## Front-end-Admin
+1. cd into evacuation-assistant/frontend_admin
+2. run:  ``npm run install``
+3. create a file called resourceUrl.ts in frontend_admin/evacuation-assistant/src/data and include this: ``export const resourceUrl = 'http://localhost:8081'`` 
+4. run ionic serve and you're good to go!
+---
+
+## Android
+### Prerequisites: https://developer.android.com/studio
 1. start by running ``ionic cap add android`` in frontend_user/evacuation-assistant
 2. run ``ionic build`` (builds the whole application to android)
 3. run ``ionic cap copy``  (ensure local web assets gets into the android folder)
@@ -91,7 +105,7 @@ npm i -D @capacitor/cli
 6. Connect smartphone of choice and install on your phone
 7. If everything has been correctly installed you should have a device running on your phone!
 
-#### Firebase push notifications with custom sound (android)
+### Firebase push notifications with custom sound (android)
 1. when you have built your android application in ionic
 2. download the google-services.json file again from your firebase android project
 3. put it in the directory evacuation-assistant/android/app
@@ -153,14 +167,8 @@ try {
     logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")  
 }
 ```
-
-## Front-end-Admin
-1. cd into evacuation-assistant/frontend_admin
-2. run:  ``npm run install``
-3. create a file called resourceUrl.ts in frontend_admin/evacuation-assistant/src/data and include this: ``export const resourceUrl = 'http://localhost:8081'`` 
-4. run ionic serve and you're good to go!
-
-## For iOS devices
+---
+## iOS
 1. npm install
 2. ionic build
 3. ionic capacitor add ios

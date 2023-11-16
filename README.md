@@ -14,8 +14,8 @@
 - [Introduction](#introduction)
 - [Installation](#install)
 	- [Back-end](#back-end)
-	- [Front-end User](#frontend-user)
-	- [Front-end Admin](#frontend-admin)
+	- [Front-end User](#front-end-user)
+	- [Front-end Admin](#front-end-admin)
 - [Getting help](#getting-help)
 
 # Introduction
@@ -154,7 +154,7 @@ try {
 }
 ```
 
-## Front-end Admin
+## Front-end-Admin
 1. cd into evacuation-assistant/frontend_admin
 2. run:  ``npm run install``
 3. create a file called resourceUrl.ts in frontend_admin/evacuation-assistant/src/data and include this: ``export const resourceUrl = 'http://localhost:8081'`` 

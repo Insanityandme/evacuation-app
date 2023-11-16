@@ -249,9 +249,9 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 </table>
 
 ---
+# Screenshots
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/6a88b7c0-5684-4f6e-bada-822122da5751" width="250px" height="500px"/>
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/bcd74ea8-c594-46b7-999e-db4822cce344" width="250px" height="500px"/>
-
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/e9fa19a2-12e8-4eda-9c10-9d1f84772384" width="250px" height="500px"/>
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/ee28b4f3-852a-457e-95f3-629e7b7d5370" width="250px" height="500px"/>
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/bc83d1a7-c934-4ef5-89a6-599e6d7cf26f" width="250px" height="500px"/>
@@ -268,10 +268,6 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/f8443f18-c833-4ca1-975b-3e7a45cea87e" width="250px" height="500px"/>
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/912d9fd5-3e6d-4eaa-b822-e25b8dcd6649" width="250px" height="500px"/>
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/d71630eb-ad0e-4d23-8e28-59d4f7620550" width="250px" height="500px"/>
-
-
-# Screenshots
-
 
 ---
 # Contact

@@ -39,7 +39,7 @@ https://github.com/Insanityandme/evacuation-app/assets/1380257/fe3dcb30-401c-4b2
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/325681af-e201-4ec3-aecf-1b0b2a6fe3b7" width="200" height="400" />
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8f4ed1f5-f267-4fe8-98cb-28d0954ac6a1" width="200" height="400" />
 
-## Installation
+## Install
 1. Clone our whole repository that consists of three applications:
 	1. backend-evacuation
 	2. frontend-user

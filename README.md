@@ -235,17 +235,19 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
   <tr>
     <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8352bbed-7954-43fb-8a35-171e37705cec"  alt="Alert" width=250px height=500px ></td> 
 	<td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
-    <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/88f31aea-0521-4bd8-bd7c-322b9b71ff96" alt="3" width=250px height=500px></td>
+    <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/88f31aea-0521-4bd8-bd7c-322b9b71ff96" alt="Evac" width=250px height=500px></td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td><img src="deputy_gif.gif" align="right" alt="2" width=250px height=500px></td>
-    <td><img src="./Scshot/trip_end.png" align="right" alt="4" width =  279px height = 496px></td>
+    <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1278435a-c257-48f4-946f-7f65008f1869"  alt="Deputy" width=250px height=500px ></td> 
+	<td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
+    <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2e15666a-9210-445f-a7f7-7c457f519388" alt="User" width=250px height=500px></td>
   </tr>
 </table>
 
+---
 # Screenshots
 
 

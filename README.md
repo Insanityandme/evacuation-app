@@ -5,11 +5,12 @@ communicate better and faster.
 
 ### Evacuation Leader View           - Responding to an alarm
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/608d0d90-0199-4786-b111-b8475b5f33aa" width="300" height="600" />
--------------
+<------------->
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/71ae5b29-811e-4c9f-9ac5-74bc70e5c779" width="300" height="600" />
 
 ### User & Deputy Leader View
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/325681af-e201-4ec3-aecf-1b0b2a6fe3b7" width="300" height="600" />
+<------------->
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8f4ed1f5-f267-4fe8-98cb-28d0954ac6a1" width="300" height="600" />
 
 ## Installation

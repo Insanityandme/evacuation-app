@@ -4,7 +4,8 @@ creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
 
 ### Evacuation Leader View           - Responding to an alarm
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/608d0d90-0199-4786-b111-b8475b5f33aa" width="300" height="600" />       
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/608d0d90-0199-4786-b111-b8475b5f33aa" width="300" height="600" />
+-------------
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/71ae5b29-811e-4c9f-9ac5-74bc70e5c779" width="300" height="600" />
 
 ### User & Deputy Leader View

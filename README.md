@@ -1,13 +1,15 @@
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/19d34da9-7c4b-42a0-9726-aa46a50baf2d" width="200" height="400" />
-
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/c23fec92-ab48-44ca-8f69-d4083cf84d6b" width="200" height="400" />
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/6432a3a9-1127-4d24-ace0-dc8596aa3ad2" width="200" height="400" />
-<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/b15558b6-48d9-47d1-afcd-0525b2345aa8" width="200" height="400" />
-
 ## Evacuation assistance
 Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
+
+### Evacuation Leader View           - Responding to an alarm
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/608d0d90-0199-4786-b111-b8475b5f33aa" width="300" height="600" />       
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/71ae5b29-811e-4c9f-9ac5-74bc70e5c779" width="300" height="600" />
+
+### User & Deputy Leader View
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/325681af-e201-4ec3-aecf-1b0b2a6fe3b7" width="300" height="600" />
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8f4ed1f5-f267-4fe8-98cb-28d0954ac6a1" width="300" height="600" />
 
 ## Installation
 1. Clone our whole repository that consists of three applications:

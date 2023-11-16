@@ -231,7 +231,7 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 
 # Animations
 ## When an alarm goes off in a building &emsp;&emsp;&emsp; Evacuation Leader View
-<table style="border-spacing: 50px">
+<table>
   <tr>
     <td><img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/8352bbed-7954-43fb-8a35-171e37705cec"  alt="Alert" width=250px height=500px ></td> 
 	<td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>

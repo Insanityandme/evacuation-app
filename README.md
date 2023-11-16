@@ -1,7 +1,29 @@
-## Evacuation assistance
+<div align="center">
+	
+# Evacuation Assistance
+
+[Install](#install) • [Animations](#screenshots) • [More screenshots](#screenshots)
+
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/9a86799e-c340-4dd5-a801-df85c15e177f" width="300" height="600"/> 
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2523238d-edfa-4ee5-8e60-05545d99b775" width="300" height="600"/>
+<img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/529eeff8-8714-4af3-aa88-d681341d0fd0" width="300" height="600"/>
+</div>
+
+---
+### Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Installation](#install)
+	- [Back-end](#backend)
+	- [Front-end User](#frontend-user)
+	- [Front-end Admin](#frontend-admin)
+- [Getting help](#getting-help)
+
+# Introduction
 Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
+
 
 ### Views
 https://github.com/Insanityandme/evacuation-app/assets/1380257/c397e29f-71b3-47a4-beaa-53de1f3bda01

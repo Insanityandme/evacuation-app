@@ -231,6 +231,23 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 13. Don't forget to add the Sound file to the App's main directory for the custom notification sound to work properly.
 
 # Animations & Screenshots
+## When an alarm goes off in a building
+<table style="padding: 10px">
+  <tr>
+    <td><img src="alert_gif.gif"  alt="1" width=250px height=500px ></td> 
+    <!-- <td><img src="deputy_gif.gif" align="right" alt="2" width=250px height=500px></td> -->
+    <td><img src="evac_gif.gif" alt="3" width=250px height=500px></td>
+   <!--<td><img src="./Scshot/trip_end.png" align="right" alt="4" width =  279px height = 496px></td>-->
+  </tr>
+</table>
+
+## Deputy Leader View
+## Evacuation Leader View
+
+## User View
+<img src="user_gif.gif" width="250" height="500" />
+
+# Screenshots
 
 ---
 # Contact

@@ -2,7 +2,7 @@
 	
 # Evacuation Assistance
 
-[Install](#install) • [Animations & Screenshots](#animations-screenshots)
+[Install](#install) • [Animations and Screenshots](#animations-screenshots)
 
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/9a86799e-c340-4dd5-a801-df85c15e177f" width="250" height="500"/> 
 <img src="https://github.com/Insanityandme/evacuation-app/assets/1380257/2523238d-edfa-4ee5-8e60-05545d99b775" width="250" height="500"/>
@@ -229,7 +229,7 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
 12. Don't forget to add the App Icon to the Assets folder.
 13. Don't forget to add the Sound file to the App's main directory for the custom notification sound to work properly.
 
-# Animations & Screenshots
+# Animations and Screenshots
 ## When an alarm goes off in a building
 <table style="border-spacing: 50px">
   <tr>

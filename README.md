@@ -83,18 +83,17 @@ bezkoder.app.jwtExpirationMs = 86400000
 1. Start by cd into frontend_user/evacuation-assistant
 2. run ``npm install`` if you don't have npm: https://nodejs.org/en/download
 3. create a file called resourceUrl.ts in frontend_user/evacuation-assistant/src/data and include this:
+
 ``export const resourceUrl = 'http://localhost:8081'`` 
-4. install ionic: 
+5. install ionic: 
     ``npm install -g @ionic/cli``
-5. install capacitor in the root of your app
+6. install capacitor in the root of your app
 ```
 npm i @capacitor/core
 npm i -D @capacitor/cli
 ```
 7.  run ``ionic serve`` to see it live hosted locally in your browser of choice
 8.  NOTE:  it should primarily be used on smartphones and developed there (instructions below)
-
-
 
 ---
 ## Front-end Admin

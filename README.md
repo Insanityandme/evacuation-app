@@ -25,6 +25,8 @@ Evacuation assistance is a product designed to make evacuations easier by
 creating a smartphone application that can help users involved in an evacuation
 communicate better and faster. 
 
+We used bluetooth positioning sensors for indoor positioning.
+
 Note that this is a student project and was used as a learning exercise (at least the first three months of this project was!).
 
 A bunch of new technologies were used such as: Postgres, Vue, Ionic, Java Spring and many more!
